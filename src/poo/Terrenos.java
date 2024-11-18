@@ -9,6 +9,23 @@ package poo;
  *
  * @author joaot
  */
-public class Terrenos {
+public abstract class Terrenos {
+    private String letra;
+
+   
+    public Terrenos(String letra) {
+        this.letra = letra;
+    }
+
     
+    public String getLetra() {
+        return letra;
+    }
+
+    public void setLetra(String letra) {
+        this.letra = letra;
+    }
+
+    
+    public abstract String toString();
 }

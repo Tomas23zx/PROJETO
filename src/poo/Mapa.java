@@ -8,61 +8,48 @@ package poo;
  *
  * @author joaot
  */
+import java.util.Random;
+
 public class Mapa {
+
     private int tamanhoX;
     private int tamanhoY;
 
-   
-    public Mapa() {
-        this.tamanhoX = 0;
-        this.tamanhoY = 0;
-    }
-
-    // Construtor com parâmetros
     public Mapa(int tamanhoX, int tamanhoY) {
-        this.tamanhoX = tamanhoX;
-        this.tamanhoY = tamanhoY;
-    }
-
-    // Getters e Setters
-    public int getTamanhoX() {
-        return tamanhoX;
-    }
-
-    public void setTamanhoX(int tamanhoX) {
-        this.tamanhoX = tamanhoX;
-    }
-
-    public int getTamanhoY() {
-        return tamanhoY;
-    }
-
-    public void setTamanhoY(int tamanhoY) {
-        this.tamanhoY = tamanhoY;
-    }
-
-    // Método para criar a matriz
-    public char[][] criarMatriz() {
         if (tamanhoX <= 0 || tamanhoY <= 0) {
             throw new IllegalArgumentException("As dimensões da matriz devem ser maiores que zero.");
         }
+        this.tamanhoX = tamanhoX;
+        this.tamanhoY = tamanhoY;
+    }
 
-        char[][] matriz = new char[tamanhoX][tamanhoY];
+    public Terrenos[][] criarMatriz() {
+        Terrenos[][] matriz = new Terrenos[tamanhoX][tamanhoY];
 
+        
         for (int i = 0; i < tamanhoX; i++) {
             for (int j = 0; j < tamanhoY; j++) {
-                matriz[i][j] = 'X';
+                matriz[i][j] = new Acessivel("X");
             }
         }
+        Random random = new Random();
+        int numero_de_aguas=random.nextInt(tamanhoX);
+        for(int i=0;i<=numero_de_aguas;i++){
+            int posX = random.nextInt(tamanhoX);
+        int posY = random.nextInt(tamanhoY);
+        matriz[posX][posY] = new Agua();
+        }
+        
+
         return matriz;
     }
-        
-    public void imprimirMatriz(char[][] matriz) {
-        for (char[] linha : matriz) {
-            for (char elemento : linha) {
-                System.out.print(elemento + " ");
+
+    public void imprimirMatriz(Terrenos[][] matriz) {
+        for (Terrenos[] linha : matriz) {
+            for (Terrenos terreno : linha) {
+                System.out.print(terreno.getLetra() + " "); 
             }
-            System.out.println(); 
+            System.out.println();
         }
     }
 }

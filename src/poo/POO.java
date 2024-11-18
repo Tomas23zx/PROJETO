@@ -34,9 +34,9 @@ public class POO{
                     break;
 
                 case 4:
-                    Mapa a = new Mapa(25, 25);
-                    char[][] matriz = a.criarMatriz(); 
-                    a.imprimirMatriz(matriz);       
+                    Mapa matrizTerrenos = new Mapa(50, 50); 
+                    Terrenos[][] matriz = matrizTerrenos.criarMatriz();
+                       matrizTerrenos.imprimirMatriz(matriz);       
 
                     
                     break;
