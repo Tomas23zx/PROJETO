@@ -12,9 +12,9 @@ public class Mapa {
     private int tamanhoX;
     private int tamanhoY;
 
-    // Construtor padrão
+   
     public Mapa() {
-        this.tamanhoX = 0; // Inicializar com valores padrão
+        this.tamanhoX = 0;
         this.tamanhoY = 0;
     }
 
@@ -56,14 +56,13 @@ public class Mapa {
         }
         return matriz;
     }
-
-    // Método para imprimir a matriz
+        
     public void imprimirMatriz(char[][] matriz) {
         for (char[] linha : matriz) {
             for (char elemento : linha) {
                 System.out.print(elemento + " ");
             }
-            System.out.println(); // Nova linha após cada linha da matriz
+            System.out.println(); 
         }
     }
 }
