@@ -15,8 +15,15 @@ public class Inacessivel extends Terrenos {
         super(letra);
     }
 
-  @Override
-    public String toString() {
-        return "" + getLetra();
+   
+
+    @Override
+    public char[] criarArray(int tamanho) {
+        char[] array = new char[tamanho];
+        char letraChar = getLetra().charAt(0); 
+        for (int i = 0; i < tamanho; i++) {
+            array[i] = letraChar; 
+        }
+        return array;
     }
 }
