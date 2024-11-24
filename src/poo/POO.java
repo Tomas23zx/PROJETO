@@ -1,31 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package poo;
-
 
 public class POO {
     public static void main(String[] args) {
-        Mapa matrizTerrenos = new Mapa(25, 25);  
-        Terrenos[][] matriz = matrizTerrenos.criarMatriz();  
-        
+        Mapa mapa = new Mapa(25, 25); // Cria o mapa
+        String[][] matriz = mapa.getMapa(); // Obtém a matriz do mapa
 
-        Menu menu = new Menu(matriz, matrizTerrenos);  
+        Menu menu = new Menu(matriz, mapa); // Passa a matriz e o mapa para o menu
 
-        boolean isFirstTime = true; 
+        boolean isFirstTime = true;
 
-        
         if (isFirstTime) {
-            menu.menCiv();  
-            isFirstTime = false;  
+            menu.menCiv(); // Exibe menu de civilizações
+            isFirstTime = false;
         }
+
         menu.Interface();
-        menu.menus();  
+        menu.menus();
     }
 }
-
-
-
-
-

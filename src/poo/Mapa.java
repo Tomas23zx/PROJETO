@@ -1,20 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package poo;
 
-/**
- *
- * @author joaot
- */
 import java.util.Random;
 
 public class Mapa {
 
     private int tamanhoX;
     private int tamanhoY;
-    private Cidade cidade;
+    private String[][] mapa; // Adicionando o mapa como um atributo da classe
 
     public Mapa(int tamanhoX, int tamanhoY) {
         if (tamanhoX <= 0 || tamanhoY <= 0) {
@@ -22,84 +14,84 @@ public class Mapa {
         }
         this.tamanhoX = tamanhoX;
         this.tamanhoY = tamanhoY;
+        this.mapa = criarMapa(); // Gera o mapa ao inicializar
     }
 
-    public Terrenos[][] criarMatriz() {
-        Terrenos[][] matriz = new Terrenos[tamanhoX][tamanhoY];
+    // Método para criar o mapa
+    private String[][] criarMapa() {
+        String[][] mapa = new String[tamanhoX][tamanhoY];
 
         for (int i = 0; i < tamanhoX; i++) {
             for (int j = 0; j < tamanhoY; j++) {
-                matriz[i][j] = new Acessivel("X");
+                mapa[i][j] = "X"; // Inicializa como terreno acessível
             }
         }
 
         Random random = new Random();
 
+        // Adiciona terrenos específicos
         Agua agua = new Agua();
-        int tamanhoAgua = random.nextInt(25) + 20; 
-        char[] arrayAgua = agua.criarArray(tamanhoAgua);
-        preencherTerrenos(matriz, new Agua(), arrayAgua);
+        int tamanhoAgua = random.nextInt(25) + 20;
+        preencherTerrenos(mapa, agua, tamanhoAgua);
 
         Arvore arvore = new Arvore();
-        int tamanhoFloresta = random.nextInt(50) + 30; 
-        char[] arrayFloresta = arvore.criarArray(tamanhoFloresta); 
-        preencherTerrenos(matriz, new Arvore(), arrayFloresta);
-        
-       
-        
-        
+        int tamanhoFloresta = random.nextInt(50) + 30;
+        preencherTerrenos(mapa, arvore, tamanhoFloresta);
 
-        return matriz;
+        Cidade city = new Cidade("C", 15, 15);
+        mapa[15][15] = city.getLetra();
+
+        return mapa;
     }
 
-    private void preencherTerrenos(Terrenos[][] matriz, Terrenos tipo, char[] array) {
+    // Método para preencher terrenos específicos
+    private void preencherTerrenos(String[][] mapa, Terrenos tipo, int quantidade) {
         Random random = new Random();
-
-        
         int posX = random.nextInt(tamanhoX);
         int posY = random.nextInt(tamanhoY);
 
-        matriz[posX][posY] = tipo;
+        mapa[posX][posY] = tipo.getLetra();
 
-        
-        for (int i = 1; i < array.length; i++) {
+        for (int i = 1; i < quantidade; i++) {
             int novaPosX = posX;
             int novaPosY = posY;
 
-            
             switch (random.nextInt(4)) {
-                case 0: 
-                    novaPosX = posX - 1;
-                    break;
-                case 1: 
-                    novaPosX = posX + 1;
-                    break;
-                case 2: 
-                    novaPosY = posY - 1;
-                    break;
-                case 3: 
-                    novaPosY = posY + 1;
-                    break;
+                case 0 -> novaPosX = posX - 1; // Cima
+                case 1 -> novaPosX = posX + 1; // Baixo
+                case 2 -> novaPosY = posY - 1; // Esquerda
+                case 3 -> novaPosY = posY + 1; // Direita
             }
 
-            
-            if (novaPosX >= 0 && novaPosX < tamanhoX && novaPosY >= 0 && novaPosY < tamanhoY
-                    && matriz[novaPosX][novaPosY] instanceof Acessivel) {
-                matriz[novaPosX][novaPosY] = tipo;
-                posX = novaPosX; 
+            if (novaPosX >= 0 && novaPosX < tamanhoX && novaPosY >= 0 && novaPosY < tamanhoY) {
+                mapa[novaPosX][novaPosY] = tipo.getLetra();
+                posX = novaPosX;
                 posY = novaPosY;
             }
         }
     }
 
-    public void imprimirMatriz(Terrenos[][] matriz) {
-        for (Terrenos[] linha : matriz) {
-            for (Terrenos terreno : linha) {
-                System.out.print(terreno.getLetra() + " "); 
+    // Método para obter o mapa gerado
+    public String[][] getMapa() {
+        return this.mapa;
+    }
+
+    // Método para imprimir o mapa
+    public void imprimirMapa() {
+        for (String[] linha : mapa) {
+            for (String celula : linha) {
+                System.out.print(celula + " ");
             }
             System.out.println();
         }
     }
-   
-}
 
+    // Método main - ponto de entrada do programa
+    public static void main(String[] args) {
+        // Criação de um mapa com dimensões 10x10
+        Mapa mapa = new Mapa(10, 10);
+
+        // Imprimir o mapa gerado
+        mapa.imprimirMapa();
+    }
+}

@@ -1,95 +1,65 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package poo;
 
-
-
-/**
- *
- * @author joaot
- */
 import java.util.Scanner;
 
 public class Menu {
-    Scanner scanner = new Scanner(System.in);
-    
-    private Terrenos[][] matriz;  
-    private Mapa matrizTerrenos;  
-    
-    
-    public Menu(Terrenos[][] matriz, Mapa matrizTerrenos) {
-        this.matriz = matriz;
-        this.matrizTerrenos = matrizTerrenos;
-    }
-    
+    private Scanner scanner = new Scanner(System.in);
+    private String[][] matriz; // Matriz como String[][]
+    private Mapa mapa; // Objeto do tipo Mapa
 
-public void menCiv(){
-       
-       boolean continuar = true;
-       
+    // Construtor ajustado
+    public Menu(String[][] matriz, Mapa mapa) {
+        if (matriz == null) {
+            throw new IllegalArgumentException("A matriz do mapa não pode ser nula.");
+        }
+        this.matriz = matriz;
+        this.mapa = mapa;
+    }
+
+    public void menCiv() {
+        boolean continuar = true;
+
         while (continuar) {
-            
-            
-            System.out.println("Escolha uma opção:");
-            System.out.println("1. Barbaros");
+            System.out.println("Escolha uma civilização:");
+            System.out.println("1. Bárbaros");
             System.out.println("2. Romanos");
             System.out.println("3. Persas");
             System.out.println("4. Espartanos");
             System.out.println("5. Sair");
 
-            
             int opcao = scanner.nextInt();
 
-            
             switch (opcao) {
-                case 1:
-                    System.out.println("Você escolheu Barbaros .");
+                case 1 -> {
+                    System.out.println("Você escolheu Bárbaros.");
                     continuar = false;
-                    break;
-
-                case 2:
+                }
+                case 2 -> {
                     System.out.println("Você escolheu Romanos.");
                     continuar = false;
-                    break;
-
-                case 3:
-                     System.out.println("Você escolheu Persas.");
-                     continuar = false;
-                    break;
-
-                case 4:
-                    
+                }
+                case 3 -> {
+                    System.out.println("Você escolheu Persas.");
+                    continuar = false;
+                }
+                case 4 -> {
                     System.out.println("Você escolheu Espartanos.");
                     continuar = false;
-                    break;
-
-                case 5:
+                }
+                case 5 -> {
                     System.out.println("Saindo do programa. Até mais!");
-                    continuar = false; 
-                    break;
-
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                    continuar = false;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
-
-            System.out.println(); 
+            System.out.println();
         }
-
-        
     }
 
-    
-
-    
     public void menus() {
-       
         boolean continuar = true;
 
         while (continuar) {
-            
-            
             System.out.println("Escolha uma opção:");
             System.out.println("1. Mover uma unidade");
             System.out.println("2. Atacar com uma unidade");
@@ -97,45 +67,25 @@ public void menCiv(){
             System.out.println("4. Ver o mapa");
             System.out.println("5. Sair");
 
-            
             int opcao = scanner.nextInt();
 
-            
             switch (opcao) {
-                case 1:
-                    System.out.println("Você escolheu mover uma unidade.");
-                    break;
-
-                case 2:
-                    System.out.println("Você escolheu atacar com uma unidade.");
-                    break;
-
-                case 3:
-                    System.out.println("Você escolheu construir ou melhorar um edifício na cidade.");
-                    break;
-
-                case 4:
-                    
-                    matrizTerrenos.imprimirMatriz(matriz); 
-                    break;
-
-                case 5:
+                case 1 -> System.out.println("Você escolheu mover uma unidade.");
+                case 2 -> System.out.println("Você escolheu atacar com uma unidade.");
+                case 3 -> System.out.println("Você escolheu construir ou melhorar um edifício na cidade.");
+                case 4 -> mapa.imprimirMapa(); // Corrige chamada para imprimir o mapa
+                case 5 -> {
                     System.out.println("Saindo do programa. Até mais!");
-                    continuar = false; 
-                    break;
-
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+                    continuar = false;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
-
-            System.out.println(); 
+            System.out.println();
         }
-
-        
     }
-    
-    public void Interface(){
-     int comida = 0;
+
+    public void Interface() {
+        int comida = 0;
         int comidaMax = 0;
         int populacao = 0;
         int gemas = 0;
@@ -146,16 +96,14 @@ public void menCiv(){
         System.out.println("Comida: " + comida + " / " + comidaMax);
         System.out.println("População: " + populacao);
         System.out.println("Gemas: " + gemas);
-        System.out.println("Tesouro: " + tesouros + "(cada 5 gemas 1 tesouro)");
+        System.out.println("Tesouro: " + tesouros + " (cada 5 gemas 1 tesouro)");
 
-        
         System.out.println("   N");
         System.out.println("  //\\");
         System.out.println(" E< >W");
         System.out.println(" \\//");
         System.out.println("  S");
 
-        
         System.out.println("DIA " + dia + " (turno)");
         System.out.print("Energia: [");
         for (int i = 0; i < energia; i++) {
@@ -167,5 +115,3 @@ public void menCiv(){
         System.out.println("]");
     }
 }
-
-
