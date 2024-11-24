@@ -11,7 +11,11 @@ package poo;
 import java.util.Random;
 
 public class Mapa {
-
+    public static final String BLUE = "\u001B[34m";
+    public static final String RED = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
+    public static final String GREEN = "\u001B[32m";
+    
     private int tamanhoX;
     private int tamanhoY;
     private Cidade cidade;
@@ -95,7 +99,15 @@ public class Mapa {
     public void imprimirMatriz(Terrenos[][] matriz) {
         for (Terrenos[] linha : matriz) {
             for (Terrenos terreno : linha) {
-                System.out.print(terreno.getLetra() + " "); 
+                if(terreno.getLetra()=="~"){
+                    System.out.print(BLUE+terreno.getLetra() + " "+RESET); 
+                }
+                else if(terreno.getLetra()=="F"){
+                    System.out.print(GREEN+terreno.getLetra() + " "+RESET); 
+                }
+                else{
+                    System.out.print(terreno.getLetra() + " "); 
+                }
             }
             System.out.println();
         }

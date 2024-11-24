@@ -9,7 +9,7 @@ package poo;
  * @author joaot
  */
 public class Agua extends Inacessivel {
-
+    
     
     public Agua() {
         super("~"); 

@@ -7,7 +7,7 @@ package poo;
 
 public class POO {
     public static void main(String[] args) {
-        Mapa matrizTerrenos = new Mapa(25, 25);  
+        Mapa matrizTerrenos = new Mapa(20, 70);  
         Terrenos[][] matriz = matrizTerrenos.criarMatriz();  
         
 

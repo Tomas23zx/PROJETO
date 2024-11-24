@@ -13,6 +13,9 @@ package poo;
 import java.util.Scanner;
 
 public class Menu {
+    public static final String BLUE = "\u001B[34m";
+    public static final String RED = "\u001B[31m";
+    public static final String RESET = "\u001B[0m";
     Scanner scanner = new Scanner(System.in);
     
     private Terrenos[][] matriz;  
@@ -31,9 +34,9 @@ public void menCiv(){
        
         while (continuar) {
             
-            
-            System.out.println("Escolha uma opção:");
-            System.out.println("1. Barbaros");
+            System.out.println(" ");
+            System.out.println(BLUE+"Escolha uma opção:");
+            System.out.println(RED+"1. Barbaros"+RESET);
             System.out.println("2. Romanos");
             System.out.println("3. Persas");
             System.out.println("4. Espartanos");
@@ -149,11 +152,11 @@ public void menCiv(){
         System.out.println("Tesouro: " + tesouros + "(cada 5 gemas 1 tesouro)");
 
         
-        System.out.println("   N");
-        System.out.println("  //\\");
-        System.out.println(" E< >W");
-        System.out.println(" \\//");
-        System.out.println("  S");
+        System.out.println("     NN");
+        System.out.println("    //\\\\ ");
+        System.out.println(" EE<    >WW");
+        System.out.println("    \\\\//");
+        System.out.println("     SS ");
 
         
         System.out.println("DIA " + dia + " (turno)");
