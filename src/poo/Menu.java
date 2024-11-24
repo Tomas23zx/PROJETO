@@ -39,7 +39,7 @@ public void menCiv(){
             System.out.println("4. Espartanos");
             System.out.println("5. Sair");
 
-            
+            System.out.println("Escolhe a tua opcao:");
             int opcao = scanner.nextInt();
 
             
@@ -97,7 +97,7 @@ public void menCiv(){
             System.out.println("4. Ver o mapa");
             System.out.println("5. Sair");
 
-            
+            System.out.println("Escolhe a tua opcao:");
             int opcao = scanner.nextInt();
 
             
