@@ -1,3 +1,6 @@
+package poo;
+
+
 public abstract class Recursos{
     private int comida;
     private int producao;
