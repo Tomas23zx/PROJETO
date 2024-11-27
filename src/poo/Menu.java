@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
-    private String[][] matriz; // Matriz como String[][]
-    private Mapa mapa; // Objeto do tipo Mapa
+    private String[][] matriz; 
+    private Mapa mapa; 
 
-    // Construtor ajustado
+    
     public Menu(String[][] matriz, Mapa mapa) {
         if (matriz == null) {
             throw new IllegalArgumentException("A matriz do mapa não pode ser nula.");
