@@ -20,6 +20,12 @@ public class Cidade {
         this.posY = posY;
     }
 
+    public Cidade(String letra) {
+        this.letra = letra;
+        this.posX = 0;
+        this.posY = 0;
+    }
+
     public String getLetra() {
         return letra;
     }
@@ -31,6 +37,10 @@ public class Cidade {
     public int getPosY() {
         return posY;
     }
+
+    public void setColuna(int y){this.posY=y;}
+    public void setLinha(int x){this.posX=x;}
+
     
    
 }

@@ -3,33 +3,31 @@ package poo;
 import java.util.Random;
 
 public class Mapa {
-
     private int tamanhoX;
     private int tamanhoY;
-    private String[][] mapa; // Adicionando o mapa como um atributo da classe
+    private Cidade city;
+    private String[][] mapa;
 
-    public Mapa(int tamanhoX, int tamanhoY) {
+    public Mapa(int tamanhoX, int tamanhoY,Cidade city) {
         if (tamanhoX <= 0 || tamanhoY <= 0) {
             throw new IllegalArgumentException("As dimensões da matriz devem ser maiores que zero.");
         }
         this.tamanhoX = tamanhoX;
         this.tamanhoY = tamanhoY;
-        this.mapa = criarMapa(); // Gera o mapa ao inicializar
+        this.city=city;
+        this.mapa = criarMapa();
     }
 
-    // Método para criar o mapa
     private String[][] criarMapa() {
         String[][] mapa = new String[tamanhoX][tamanhoY];
 
         for (int i = 0; i < tamanhoX; i++) {
             for (int j = 0; j < tamanhoY; j++) {
-                mapa[i][j] = "X"; // Inicializa como terreno acessível
+                mapa[i][j] = "X";
             }
         }
 
         Random random = new Random();
-
-        // Adiciona terrenos específicos
         Agua agua = new Agua();
         int tamanhoAgua = random.nextInt(25) + 20;
         preencherTerrenos(mapa, agua, tamanhoAgua);
@@ -39,20 +37,17 @@ public class Mapa {
         preencherTerrenos(mapa, arvore, tamanhoFloresta);
 
         Cidade city = new Cidade("C", 15, 15);
-        mapa[15][15] = city.getLetra();
-
-        Militares militar= new Militares("M",5,5,mapa);
-        mapa[5][5]=militar.getLetra();
+        mapa[15][15] = city.getLetra(); 
+    
+        
 
         return mapa;
     }
 
-    // Método para preencher terrenos específicos
     private void preencherTerrenos(String[][] mapa, Terrenos tipo, int quantidade) {
         Random random = new Random();
         int posX = random.nextInt(tamanhoX);
         int posY = random.nextInt(tamanhoY);
-
         mapa[posX][posY] = tipo.getLetra();
 
         for (int i = 1; i < quantidade; i++) {
@@ -60,10 +55,10 @@ public class Mapa {
             int novaPosY = posY;
 
             switch (random.nextInt(4)) {
-                case 0 -> novaPosX = posX - 1; // Cima
-                case 1 -> novaPosX = posX + 1; // Baixo
-                case 2 -> novaPosY = posY - 1; // Esquerda
-                case 3 -> novaPosY = posY + 1; // Direita
+                case 0 -> novaPosX = posX - 1;
+                case 1 -> novaPosX = posX + 1;
+                case 2 -> novaPosY = posY - 1;
+                case 3 -> novaPosY = posY + 1;
             }
 
             if (novaPosX >= 0 && novaPosX < tamanhoX && novaPosY >= 0 && novaPosY < tamanhoY) {
@@ -74,12 +69,10 @@ public class Mapa {
         }
     }
 
-    // Método para obter o mapa gerado
     public String[][] getMapa() {
         return this.mapa;
     }
 
-    // Método para imprimir o mapa
     public void imprimirMapa() {
         for (String[] linha : mapa) {
             for (String celula : linha) {
@@ -89,12 +82,21 @@ public class Mapa {
         }
     }
 
-    // Método main - ponto de entrada do programa
-    public static void main(String[] args) {
-        // Criação de um mapa com dimensões 10x10
-        Mapa mapa = new Mapa(10, 10);
-
-        // Imprimir o mapa gerado
-        mapa.imprimirMapa();
+    public void meterUnidade(Unidades un, int x, int y) {
+        un.setColuna(y);
+        un.setLinha(x);
+        mapa[x][y] = un.getLetra();
     }
+
+    public void meterCidade(Cidade city, int x, int y) {
+        city.setColuna(y);
+        city.setLinha(x);
+        mapa[x][y] = city.getLetra();
+    }
+
+    public int retornarPosi(){
+        return city.getPosX();
+        
+    }
+    
 }

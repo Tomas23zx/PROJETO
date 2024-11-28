@@ -38,3 +38,4 @@ public class Comida extends Recursos {
     public void atualizar() { //ainda falta
        
 }
+}

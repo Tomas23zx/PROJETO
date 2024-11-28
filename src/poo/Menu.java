@@ -5,15 +5,18 @@ import java.util.Scanner;
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private String[][] matriz; 
+    private Unidades un;
+    private Cidade city;
     private Mapa mapa; 
 
     
-    public Menu(String[][] matriz, Mapa mapa) {
+    public Menu(String[][] matriz, Mapa mapa,Cidade city) {
         if (matriz == null) {
             throw new IllegalArgumentException("A matriz do mapa não pode ser nula.");
         }
         this.matriz = matriz;
         this.mapa = mapa;
+        this.city=city;
     }
 
     public void menCiv() {
@@ -56,7 +59,7 @@ public class Menu {
         }
     }
 
-    public void menus() {
+    public void menus(Cidade city) {
         boolean continuar = true;
 
         while (continuar) {
@@ -65,16 +68,18 @@ public class Menu {
             System.out.println("2. Atacar com uma unidade");
             System.out.println("3. Construir ou melhorar um edifício na cidade");
             System.out.println("4. Ver o mapa");
-            System.out.println("5. Sair");
+            System.out.println("5.Criar unidades");
+            System.out.println("6. Sair");
 
             int opcao = scanner.nextInt();
 
             switch (opcao) {
                 case 1 -> System.out.println("Você escolheu mover uma unidade.");
-                case 2 -> System.out.println("Você escolheu atacar com uma unidade.");
+                case 2 -> un.mover('O');
                 case 3 -> System.out.println("Você escolheu construir ou melhorar um edifício na cidade.");
-                case 4 -> mapa.imprimirMapa(); // Corrige chamada para imprimir o mapa
-                case 5 -> {
+                case 4 -> mapa.imprimirMapa(); 
+                case 5 -> menuUnidades();
+                case 6 -> {
                     System.out.println("Saindo do programa. Até mais!");
                     continuar = false;
                 }
@@ -114,4 +119,21 @@ public class Menu {
         }
         System.out.println("]");
     }
+
+    public void menuUnidades() {
+        System.out.println("1-Criar militares");
+        int opcao = scanner.nextInt();
+    
+        un = new Militares("M");  
+        int x = city.getPosX();
+        int y = city.getPosY();
+    
+        
+         
+            switch (opcao) {
+                case 1 -> mapa.meterUnidade(un, x+1, y+1);  
+            }
+       
+    
+        }
 }

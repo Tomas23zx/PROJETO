@@ -15,6 +15,12 @@ public abstract class Unidades {
     private int coluna;
 
    
+    public Unidades(String letra) {  
+        this.letra = letra;
+        this.linha = 0;
+        this.coluna = 0;
+    }
+
     public Unidades(String letra, int linha, int coluna) {
         this.letra = letra;
         this.linha = linha;

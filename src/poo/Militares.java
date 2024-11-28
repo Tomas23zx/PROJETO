@@ -16,9 +16,15 @@ public class Militares extends Unidades {
     private String [][] mapa;
 
     
-    public Militares(String letra, int linha, int coluna,String [][] mapa) {
-        super(letra, linha, coluna);
-        this.mapa=mapa;
+    public Militares(String letra) {
+        super(letra, 0, 0); 
+        
+    }
+
+    
+    public Militares(String letra, int linha, int coluna) {
+        super(letra, linha, coluna); 
+        this.mapa = mapa;
     }
 
     
