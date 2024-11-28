@@ -1,18 +1,23 @@
 package poo;
 
+public abstract class Recursos {
+    private int quantidade;
 
-public abstract class Recursos{
-    private int comida;
-    private int producao;
-    private int ouro;
-
-    public Recursos(int comidaInicial, int producaoInicial, int ouroInicial) {
-        this.comida = comidaInicial;
-        this.producao = producaoInicial;
-        this.ouro = ouroInicial;
+    public Recursos(int quantidadeInicial) {
+        this.quantidade = quantidadeInicial;
     }
 
-    public void addComida(int pomba){
-        comida += pomba;
+    public int getQuantidade() {
+        return quantidade;
     }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public abstract void adicionar(int quantidade);
+
+    public abstract void consumir(int quantidade);
+
+    public abstract void atualizar();
 }
