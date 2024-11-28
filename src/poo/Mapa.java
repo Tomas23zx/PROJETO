@@ -41,6 +41,9 @@ public class Mapa {
         Cidade city = new Cidade("C", 15, 15);
         mapa[15][15] = city.getLetra();
 
+        Militares militar= new Militares("M",5,5,mapa);
+        mapa[5][5]=militar.getLetra();
+
         return mapa;
     }
 
