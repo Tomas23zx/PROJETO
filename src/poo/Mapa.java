@@ -85,13 +85,14 @@ public class Mapa {
     public void meterUnidade(Unidades un, int x, int y) {
         un.setColuna(y);
         un.setLinha(x);
-        mapa[x][y] = un.getLetra();
+        mapa[x][y] = un.getLetra() + un.getConta();
     }
 
     public void meterCidade(Cidade city, int x, int y) {
         city.setColuna(y);
         city.setLinha(x);
         mapa[x][y] = city.getLetra();
+        
     }
 
     public int retornarPosi(){

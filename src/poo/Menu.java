@@ -74,8 +74,11 @@ public class Menu {
             int opcao = scanner.nextInt();
 
             switch (opcao) {
-                case 1 -> System.out.println("Você escolheu mover uma unidade.");
-                case 2 -> un.mover('O');
+                case 1 -> {
+                    un.mover('O');
+                    mapa.meterUnidade(un, un.getLinha(), un.getColuna());
+                }
+                case 2 ->  System.out.println("Você escolheu Atacar");
                 case 3 -> System.out.println("Você escolheu construir ou melhorar um edifício na cidade.");
                 case 4 -> mapa.imprimirMapa(); 
                 case 5 -> menuUnidades();

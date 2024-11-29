@@ -14,10 +14,12 @@ package poo;
  */
 public class Militares extends Unidades {
     private String [][] mapa;
+    private static int conta;
 
     
     public Militares(String letra) {
-        super(letra, 0, 0); 
+        super(letra, 0, 0);
+        conta=1; 
         
     }
 
@@ -25,42 +27,38 @@ public class Militares extends Unidades {
     public Militares(String letra, int linha, int coluna) {
         super(letra, linha, coluna); 
         this.mapa = mapa;
+        conta++;
     }
 
+    public static int getConta(){return conta;}
+
+    
     
     @Override
     public void mover(char direcao) {
-        int novaLinha = getLinha();
-        int novaColuna = getColuna();
-
-      
+        int novaLinha = getLinha(); // Supondo que existam métodos getLinha() e getColuna()
+        int novaColuna = getColuna(); // para obter as posições atuais.
+    
         switch (direcao) {
             case 'N': 
-                novaLinha--;
+                novaLinha--; // Movendo para o norte.
                 break;
             case 'S': 
-                novaLinha++;
+                novaLinha++; // Movendo para o sul.
                 break;
             case 'E': 
-                novaColuna--;
+                novaColuna++; // Movendo para o leste.
                 break;
             case 'O': 
-                novaColuna++;
+                novaColuna--; // Movendo para o oeste.
                 break;
             default:
                 System.out.println("Direção inválida! Use N, E, S ou O.");
-                return;
+                return; // Sai do método se a direção for inválida.
         }
-
-        if (novaLinha >= 0 && novaLinha < mapa.length && novaColuna >= 0 && novaColuna < mapa[0].length) {
-            // Atualiza o mapa
-            mapa[getLinha()][getColuna()] = " "; 
-            mapa[novaLinha][novaColuna] = getLetra(); 
-            
-            setLinha(novaLinha);
-            setColuna(novaColuna);
-        } else {
-            System.out.println("Movimento inválido! Fora dos limites do mapa.");
-        }
+    
+        setLinha(novaLinha); // Atualiza a nova linha.
+        setColuna(novaColuna); // Atualiza a nova coluna.
     }
+    
 }

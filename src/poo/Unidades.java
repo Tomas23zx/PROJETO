@@ -13,19 +13,24 @@ public abstract class Unidades {
     private String letra;
     private int linha;
     private int coluna;
+    private static int conta;
 
    
     public Unidades(String letra) {  
         this.letra = letra;
         this.linha = 0;
         this.coluna = 0;
+        conta=1;
     }
 
     public Unidades(String letra, int linha, int coluna) {
         this.letra = letra;
         this.linha = linha;
         this.coluna = coluna;
+        conta++;
     }
+
+    public static int getConta(){return conta;}
 
     
     public String getLetra() {
