@@ -75,8 +75,8 @@ public class Menu {
 
             switch (opcao) {
                 case 1 -> {
-                    un.mover('O');
-                    mapa.meterUnidade(un, un.getLinha(), un.getColuna());
+                    mapa.moverUnidade(un,'O');
+
                 }
                 case 2 ->  System.out.println("Você escolheu Atacar");
                 case 3 -> System.out.println("Você escolheu construir ou melhorar um edifício na cidade.");

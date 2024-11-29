@@ -36,29 +36,29 @@ public class Militares extends Unidades {
     
     @Override
     public void mover(char direcao) {
-        int novaLinha = getLinha(); // Supondo que existam métodos getLinha() e getColuna()
-        int novaColuna = getColuna(); // para obter as posições atuais.
+        int novaLinha = getLinha(); 
+        int novaColuna = getColuna(); 
     
         switch (direcao) {
             case 'N': 
-                novaLinha--; // Movendo para o norte.
+                novaLinha--; 
                 break;
             case 'S': 
-                novaLinha++; // Movendo para o sul.
+                novaLinha++;
                 break;
             case 'E': 
-                novaColuna++; // Movendo para o leste.
+                novaColuna++; 
                 break;
             case 'O': 
-                novaColuna--; // Movendo para o oeste.
+                novaColuna--; 
                 break;
             default:
                 System.out.println("Direção inválida! Use N, E, S ou O.");
-                return; // Sai do método se a direção for inválida.
+                return; 
         }
     
-        setLinha(novaLinha); // Atualiza a nova linha.
-        setColuna(novaColuna); // Atualiza a nova coluna.
+        setLinha(novaLinha); 
+        setColuna(novaColuna); 
     }
     
 }

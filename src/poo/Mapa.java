@@ -99,5 +99,39 @@ public class Mapa {
         return city.getPosX();
         
     }
+    public void moverUnidade(Unidades un, char direcao) {
+        int linhaAtual = un.getLinha();
+        int colunaAtual = un.getColuna();
+        
+        
+        mapa[linhaAtual][colunaAtual] = "X";  
+        
+        
+        un.mover(direcao);
+        
+        int novaLinha = un.getLinha();
+        int novaColuna = un.getColuna();
+        
+       
+        if (novaLinha < 0) {
+            novaLinha = tamanhoX - 1; 
+        } else if (novaLinha >= tamanhoX) {
+            novaLinha = 0; 
+        }
+        
+        if (novaColuna < 0) {
+            novaColuna = tamanhoY - 1;
+        } else if (novaColuna >= tamanhoY) {
+            novaColuna = 0; 
+        }
+        
+       
+        un.setLinha(novaLinha);
+        un.setColuna(novaColuna);
+        
+        
+        mapa[novaLinha][novaColuna] = un.getLetra() + un.getConta();
+    }
+    
     
 }
