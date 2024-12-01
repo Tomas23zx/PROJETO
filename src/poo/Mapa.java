@@ -28,11 +28,11 @@ public class Mapa {
         }
 
         Random random = new Random();
-        Agua agua = new Agua();
+        Terrenos agua = new Agua();
         int tamanhoAgua = random.nextInt(25) + 20;
         preencherTerrenos(mapa, agua, tamanhoAgua);
 
-        Arvore arvore = new Arvore();
+        Terrenos arvore = new Arvore();
         int tamanhoFloresta = random.nextInt(50) + 30;
         preencherTerrenos(mapa, arvore, tamanhoFloresta);
 
@@ -85,7 +85,7 @@ public class Mapa {
     public void meterUnidade(Unidades un, int x, int y) {
         un.setColuna(y);
         un.setLinha(x);
-        mapa[x][y] = un.getLetra() + un.getConta();
+        mapa[x][y] = un.getCodigo();
     }
 
     public void meterCidade(Cidade city, int x, int y) {
@@ -102,36 +102,39 @@ public class Mapa {
     public void moverUnidade(Unidades un, char direcao) {
         int linhaAtual = un.getLinha();
         int colunaAtual = un.getColuna();
+    
         
+        mapa[linhaAtual][colunaAtual] = "X";
+    
         
-        mapa[linhaAtual][colunaAtual] = "X";  
-        
-        
-        un.mover(direcao);
-        
-        int novaLinha = un.getLinha();
-        int novaColuna = un.getColuna();
-        
-       
-        if (novaLinha < 0) {
-            novaLinha = tamanhoX - 1; 
-        } else if (novaLinha >= tamanhoX) {
-            novaLinha = 0; 
+        int novaLinha = linhaAtual;
+        int novaColuna = colunaAtual;
+    
+        switch (direcao) {
+            case 'N' -> novaLinha--;
+            case 'S' -> novaLinha++;
+            case 'E' -> novaColuna++;
+            case 'O' -> novaColuna--;
+            default -> {
+                System.out.println("Direção inválida! Use N, S, E ou O.");
+                return;
+            }
         }
+    
         
-        if (novaColuna < 0) {
-            novaColuna = tamanhoY - 1;
-        } else if (novaColuna >= tamanhoY) {
-            novaColuna = 0; 
-        }
+        if (novaLinha < 0) novaLinha = tamanhoX - 1;
+        if (novaLinha >= tamanhoX) novaLinha = 0;
+        if (novaColuna < 0) novaColuna = tamanhoY - 1;
+        if (novaColuna >= tamanhoY) novaColuna = 0;
+    
         
-       
         un.setLinha(novaLinha);
         un.setColuna(novaColuna);
+    
         
-        
-        mapa[novaLinha][novaColuna] = un.getLetra() + un.getConta();
+        mapa[novaLinha][novaColuna] = un.getCodigo();
     }
+    
     
     
 }

@@ -32,6 +32,8 @@ public abstract class Unidades {
 
     public static int getConta(){return conta;}
 
+   
+
     
     public String getLetra() {
         return letra;
@@ -44,6 +46,11 @@ public abstract class Unidades {
     public int getColuna() {
         return coluna;
     }
+
+    public String getCodigo(){
+        return getLetra()+getConta();
+    }
+    
 
     
     public void setLinha(int linha) {

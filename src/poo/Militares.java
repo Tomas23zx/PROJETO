@@ -19,7 +19,7 @@ public class Militares extends Unidades {
     
     public Militares(String letra) {
         super(letra, 0, 0);
-        conta=1; 
+        conta++; 
         
     }
 
@@ -31,6 +31,10 @@ public class Militares extends Unidades {
     }
 
     public static int getConta(){return conta;}
+
+    public String getCodigo(){
+        return getLetra()+getConta();
+    }
 
     
     
