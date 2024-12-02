@@ -11,20 +11,24 @@ public class Cidade {
     private int posX;
     private int posY;
     private TreeMap<String, Unidades> un;
+     private int nivel; 
 
     public Cidade(String letra, int posX, int posY) {
         this.letra = letra;
         this.posX = posX;
         this.posY = posY;
         un = new TreeMap<>();
+        this.nivel=1;
     }
 
     public Cidade(String letra) {
         this(letra, 0, 0);
+        this.nivel=1;
     }
 
     public String getLetra() {
         return letra;
+        
     }
 
     public int getPosX() {
@@ -80,6 +84,8 @@ public class Cidade {
     public TreeMap<String, Unidades> unidadesOrdenadas() {
         return new TreeMap<>(un);
     }
+    
+  
 
    
     public Unidades buscarUnidadePorCodigo(String codigo) {
@@ -100,7 +106,25 @@ public class Cidade {
     }
 
     
-    public String unidadeComCodigoMax() {
+public String unidadeComCodigoMax() {
         return un.lastKey();
     }
+    public List<String> listarLetrasUnidades() {
+    List<String> letras = new ArrayList<>();
+    
+    
+    for (Unidades unidade : un.values()) {
+        letras.add(unidade.getLetra());  
+    }
+    
+    return letras;
+}
+    
+    
+public void upgrade() {
+        
+        this.nivel++;
+        System.out.println("A cidade " + letra + " foi atualizada para o nível " + nivel);
+    }
+
 }

@@ -20,7 +20,7 @@ public class Menu {
         this.city=city;
     }
 
-    public void menCiv() {
+public void menCiv() {
         boolean continuar = true;
 
         while (continuar) {
@@ -59,15 +59,14 @@ public class Menu {
             System.out.println();
         }
     }
-
-    public void menus(Cidade city) {
+public void menus(Cidade city) {
         boolean continuar = true;
     
         while (continuar) {
             System.out.println("Escolha uma opção:");
             System.out.println("1. Mover uma unidade");
-            System.out.println("2. Atacar com uma unidade");
-            System.out.println("3. Construir ou melhorar um edifício na cidade");
+            System.out.println("2. Ainda não sei: ");
+            System.out.println("3. Funcionalidades");
             System.out.println("4. Ver o mapa");
             System.out.println("5. Criar unidades");
             System.out.println("6. Exibir informações da cidade"); 
@@ -78,7 +77,17 @@ public class Menu {
             switch (opcao) {
                 case 1 -> moverUnidade(city);
                 case 2 -> System.out.println("Você escolheu Atacar");
-                case 3 -> System.out.println("Você escolheu construir ou melhorar um edifício na cidade.");
+                case 3 -> {
+                     List<String> letrasUnidades = city.listarLetrasUnidades();
+                System.out.println("Unidades disponíveis:");
+                for (int i = 0; i < letrasUnidades.size(); i++) {
+                    System.out.println((i + 1) + ". " + letrasUnidades.get(i));
+                }
+                System.out.println("Escolha a unidade que deseja usar (digite o número correspondente):");
+                String escolha = scanner.next();
+                funciunalidades(escolha);
+
+                }
                 case 4 -> mapa.imprimirMapa();
                 case 5 -> menuUnidades();
                 case 6 -> exibirInformacoesCidade(city); 
@@ -93,7 +102,7 @@ public class Menu {
     }
     
 
-    public void Interface() {
+public void Interface() {
         int comida = 0;
         int comidaMax = 0;
         int populacao = 0;
@@ -124,8 +133,10 @@ public class Menu {
         System.out.println("]");
     }
 
-    public void menuUnidades() {
+public void menuUnidades() {
         System.out.println("1-Criar militares");
+        System.out.println("2-Criar Colonos");
+        System.out.println("3-Criar Construtores");
         int opcao = scanner.nextInt();
     
         if (opcao == 1) {
@@ -135,9 +146,32 @@ public class Menu {
     
             city.insereUnidade(novaUnidade);  
             mapa.meterUnidade(novaUnidade, x, y);  
-    
             System.out.println("Unidade " + novaUnidade.getCodigo() + " criada em (" + x + ", " + y + ").");
-        } else {
+        }
+        if(opcao == 2){
+            Unidades novoColon= new Colono("C",mapa);
+            int x = city.getPosX() + 1;  
+            int y = city.getPosY() + 1;
+            city.insereUnidade(novoColon);
+            mapa.meterUnidade(novoColon, x, y);  
+            System.out.println("Unidade " + novoColon.getCodigo() + " criada em (" + x + ", " + y + ").");
+            
+            
+        }
+        if(opcao == 3){
+            Unidades novaUnidade = new Construtor("H",mapa);  
+            int x = city.getPosX() + 1;  
+            int y = city.getPosY() + 1;
+    
+            city.insereUnidade(novaUnidade);  
+            mapa.meterUnidade(novaUnidade, x, y);  
+            System.out.println("Unidade " + novaUnidade.getCodigo() + " criada em (" + x + ", " + y + ").");
+            
+            
+        }
+        
+        
+        else {
             System.out.println("Opção inválida.");
         }
     }
@@ -153,8 +187,7 @@ public class Menu {
         }
         
 
-
-        private void moverUnidade(Cidade city) {
+private void moverUnidade(Cidade city) {
             List<String> codigosUnidades = city.listarCodigosUnidades(); 
         
             if (codigosUnidades.isEmpty()) {
@@ -163,27 +196,19 @@ public class Menu {
             }
         
             System.out.println("Escolha a unidade que deseja mover:");
-        
-           
             for (int i = 0; i < codigosUnidades.size(); i++) {
                 System.out.println((i + 1) + ". " + codigosUnidades.get(i));
-            }
-        
+            }      
             int escolha = scanner.nextInt();
-        
             if (escolha < 1 || escolha > codigosUnidades.size()) {
                 System.out.println("Escolha inválida. Tente novamente.");
                 return;
             }
-        
-            
             String codigoEscolhido = codigosUnidades.get(escolha - 1);
             Unidades unidadeEscolhida = city.getUnidades().get(codigoEscolhido);
         
             System.out.println("Escolha a direção para mover (N, S, E, O):");
-            char direcao = scanner.next().toUpperCase().charAt(0);
-        
-            
+            char direcao = scanner.next().toUpperCase().charAt(0); 
             mapa.moverUnidade(unidadeEscolhida, direcao);
         
             System.out.println("Unidade " + codigoEscolhido + " movida para a nova posição: (" +
@@ -192,5 +217,41 @@ public class Menu {
         
         
         
+        
+        
+public void funciunalidades(String escolha) {
+    System.out.println("Escolha o código da unidade que você quer usar:");
+
+   
+    for (Unidades un : city.getUnidades().values()) {
+        System.out.println("Código: " + un.getCodigo() + " - Letra: " + un.getLetra());
+    }
+    String codigoEscolhido = scanner.next();
+    codigoEscolhido = codigoEscolhido.toUpperCase();
+    boolean unidadeEncontrada = false;
+    try {
+        
+        for (Unidades un : city.getUnidades().values()) {
+            if (un.getCodigo().equals(codigoEscolhido)) {
+                unidadeEncontrada = true;
+                System.out.println("Executando funcionalidade para a unidade: " + un.getCodigo());
+                un.funcionalidade();  
+                break;
+            }
+        }
+        if (!unidadeEncontrada) {
+            throw new Exception("Unidade com o código " + codigoEscolhido + " não encontrada.");
+        }
+    } catch (Exception e) {
+        System.out.println("Erro: " + e.getMessage());
+    }
+}
+
 
 }
+
+        
+        
+        
+
+

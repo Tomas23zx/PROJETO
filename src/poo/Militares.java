@@ -64,5 +64,9 @@ public class Militares extends Unidades {
         setLinha(novaLinha); 
         setColuna(novaColuna); 
     }
+    @Override
+    public void funcionalidade(){
+        
+    }
     
 }

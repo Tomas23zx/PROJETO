@@ -88,10 +88,10 @@ public class Mapa {
         mapa[x][y] = un.getCodigo();
     }
 
-    public void meterCidade(Cidade city, int x, int y) {
-        city.setColuna(y);
-        city.setLinha(x);
-        mapa[x][y] = city.getLetra();
+    public void meterCidade( int x, int y) {
+        Cidade citys= new Cidade("C",x,y);
+        
+        mapa[x][y] = citys.getLetra();
         
     }
 
@@ -134,6 +134,9 @@ public class Mapa {
         
         mapa[novaLinha][novaColuna] = un.getCodigo();
     }
+    
+    
+    
     
     
     
