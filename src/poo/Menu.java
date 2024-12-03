@@ -103,24 +103,25 @@ public void menus(Cidade city) {
     
 
 public void Interface() {
-        int comida = 0;
-        int comidaMax = 0;
+        int comidaInicial = 50;
+        int comidaMax = 150;
         int populacao = 0;
         int gemas = 0;
         int tesouros = 0;
         int dia = 0;
         int energia = 0;
 
-        System.out.println("Comida: " + comida + " / " + comidaMax);
-        System.out.println("População: " + populacao);
-        System.out.println("Gemas: " + gemas);
-        System.out.println("Tesouro: " + tesouros + " (cada 5 gemas 1 tesouro)");
+        System.out.println("Total das civilizações: ");
+        System.out.println("    Comida: " + comidaInicial + " / " + comidaMax);
+        System.out.println("    População: " + populacao);
+        System.out.println("    Gemas: " + gemas);
+        System.out.println("    Tesouro: " + tesouros + " (cada 5 gemas 1 tesouro)");
 
-        System.out.println("   N");
-        System.out.println("  //\\");
-        System.out.println(" E< >W");
-        System.out.println(" \\//");
-        System.out.println("  S");
+        System.out.println("                               N");
+        System.out.println("                             //\\");
+        System.out.println("                            E< >W");
+        System.out.println("                             \\//");
+        System.out.println("                               S");
 
         System.out.println("DIA " + dia + " (turno)");
         System.out.print("Energia: [");
@@ -249,9 +250,3 @@ public void funciunalidades(String escolha) {
 
 
 }
-
-        
-        
-        
-
-

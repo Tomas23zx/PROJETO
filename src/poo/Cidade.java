@@ -1,9 +1,7 @@
 package poo;
 
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 public class Cidade {
@@ -11,24 +9,32 @@ public class Cidade {
     private int posX;
     private int posY;
     private TreeMap<String, Unidades> un;
-     private int nivel; 
+    private ArrayList<Recursos> re;
+    private int nivel;
 
-    public Cidade(String letra, int posX, int posY) {
+    public Cidade(String letra, int posX, int posY, int comidaInicial, int limiteReserva, int populacaoInicial, int producaoInicial, int ouroInicial) {
         this.letra = letra;
         this.posX = posX;
         this.posY = posY;
-        un = new TreeMap<>();
-        this.nivel=1;
+        this.un = new TreeMap<>();
+        this.re = new ArrayList<>();
+        this.nivel = 1;
+
+        re.add(new Comida(comidaInicial, limiteReserva, populacaoInicial));
+        re.add(new Producao(producaoInicial));
+        re.add(new Ouro(ouroInicial));
+    }
+
+     public Cidade(String letra, int posX, int posY) {
+        this(letra, posX, posY, 100, 200, 1, 50, 100); // Valores padrão
     }
 
     public Cidade(String letra) {
-        this(letra, 0, 0);
-        this.nivel=1;
+        this(letra, 0, 0, 100, 200, 1, 50, 100);
     }
 
     public String getLetra() {
         return letra;
-        
     }
 
     public int getPosX() {
@@ -75,56 +81,76 @@ public class Cidade {
         return un.containsKey(letra);
     }
 
-   
     public List<String> listarCodigosUnidades() {
         return new ArrayList<>(un.keySet());
     }
 
-   
     public TreeMap<String, Unidades> unidadesOrdenadas() {
         return new TreeMap<>(un);
     }
-    
-  
 
-   
     public Unidades buscarUnidadePorCodigo(String codigo) {
         return un.getOrDefault(codigo, null);
     }
 
-    
     public void listarDetalhesUnidades() {
-        for (Map.Entry<String, Unidades> entry : un.entrySet()) {
-            System.out.println("Código: " + entry.getKey() + " - Unidade: " + entry.getValue().getLetra() + 
-                               " (Posição: " + entry.getValue().getLinha() + ", " + entry.getValue().getColuna() + ")");
+        for (var entry : un.entrySet()) {
+            System.out.println("Código: " + entry.getKey() + " - Unidade: " + entry.getValue().getLetra() +
+                    " (Posição: " + entry.getValue().getLinha() + ", " + entry.getValue().getColuna() + ")");
         }
     }
 
-   
     public String unidadeComCodigoMin() {
         return un.firstKey();
     }
 
-    
-public String unidadeComCodigoMax() {
+    public String unidadeComCodigoMax() {
         return un.lastKey();
     }
+
     public List<String> listarLetrasUnidades() {
-    List<String> letras = new ArrayList<>();
-    
-    
-    for (Unidades unidade : un.values()) {
-        letras.add(unidade.getLetra());  
+        List<String> letras = new ArrayList<>();
+        for (Unidades unidade : un.values()) {
+            letras.add(unidade.getLetra());
+        }
+        return letras;
     }
-    
-    return letras;
-}
-    
-    
-public void upgrade() {
-        
+
+    public void upgrade() {
         this.nivel++;
         System.out.println("A cidade " + letra + " foi atualizada para o nível " + nivel);
     }
 
+    public Recursos getRecurso(Recursos recurso) {
+        for (Recursos r : re) {
+            if (r.getClass().equals(recurso.getClass())) {
+                return r;
+            }
+        }
+        return null; // Retorna null se o recurso não for encontrado
+    }
+
+    public void adicionarRecurso(Recursos recurso, int quantidade) {
+    Recursos r = getRecurso(recurso); // Busca o recurso correspondente na lista
+        if (r != null) {
+            r.adicionar(quantidade); // Adiciona a quantidade ao recurso encontrado
+        } else {
+            System.out.println("Recurso não encontrado!");
+        }
+    }
+
+    public void consumirRecurso(Recursos recurso, int quantidade) {
+        Recursos r = getRecurso(recurso); // Busca o recurso correspondente na lista
+        if (r != null) {
+            r.consumir(quantidade); // Consome a quantidade do recurso encontrado
+        } else {
+            System.out.println("Recurso não encontrado ou insuficiente!");
+        }
+    }
+
+    public void atualizarRecursos() {
+        for (Recursos recurso : re) {
+            recurso.atualizar();
+        }
+    }
 }
