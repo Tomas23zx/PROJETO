@@ -1,61 +1,41 @@
 package poo;
 
-
 import java.util.ArrayList;
 
 public class Civilizacao {
-private ArrayList<Cidade> citys;
-private String nome;
-public Civilizacao(String nome){
+    private ArrayList<Cidade> citys;
+    private String nome;
+    private int idCivilizacao; 
 
+    public Civilizacao(String nome, int idCivilizacao) {
+        this.nome = nome;
+        this.idCivilizacao = idCivilizacao;
+        citys = new ArrayList<>();
+    }
 
+    public String getNome() {
+        return nome;
+    }
 
-this.nome=nome;
-citys=new ArrayList<>();
+    public void adicionaCidade(Cidade c) {
+        
+        citys.add(c);
+    }
 
-}
+    public int getId(){
+        return idCivilizacao;
+    }
 
+    public void removerCidade(Cidade c) {
+        citys.remove(c);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        StringBuilder texto = new StringBuilder("Civilização: " + nome + "\nCidades:\n");
+        for (Cidade c : citys) {
+            texto.append(c.toString()).append("\n");
+        }
+        return texto.toString();
+    }
 }

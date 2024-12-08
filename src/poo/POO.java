@@ -1,33 +1,57 @@
 package poo;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class POO {
     public static void main(String[] args) {
-        int comidaInicial = 100;
-        int limiteReserva = 200;
-        int populacaoInicial = 1;
-        int producaoInicial = 50;
-        int ouroInicial = 100;
+        
+        Civilizacao civi1 = new Civilizacao("Espartanos", 1);
+        Civilizacao civi2 = new Civilizacao("Romanos", 2);
+       
 
-        Cidade city = new Cidade("C", 15, 15, comidaInicial, limiteReserva, populacaoInicial, producaoInicial, ouroInicial);
-        city.adicionarRecurso(new Comida(0, limiteReserva, populacaoInicial), 50);
-        city.consumirRecurso(new Producao(0), 30);
-        city.atualizarRecursos();
 
-        Mapa mapa = new Mapa(25, 25, city);
+       
+        Mapa mapa = new Mapa(25, 25);
+        mapa.meterCidade(civi1, 15, 15);
+        mapa.meterCidade(civi2, 10, 10); 
 
+       
+        List<Civilizacao> civilizacoes = new ArrayList<>();
+        civilizacoes.add(civi1);
+        civilizacoes.add(civi2);
+
+    
         String[][] matriz = mapa.getMapa();
+        Menu menu = new Menu(matriz, mapa, civi1);
+        Scanner scanner = new Scanner(System.in);
 
-        // Menu de interação
-        Menu menu = new Menu(matriz, mapa, city);
+        int turnoAtual = 0;
+        boolean continuarJogo = true;
 
-        boolean isFirstTime = true;
+        
+        while (continuarJogo) {
+            Civilizacao civilizacaoAtual = civilizacoes.get(turnoAtual);
+            System.out.println("É o turno de: " + civilizacaoAtual.getNome());
 
-        if (isFirstTime) {
-            menu.menCiv();
-            isFirstTime = false;
+           
+            menu.Interface();
+            menu.menus(civilizacaoAtual);
+
+            
+            System.out.println("Deseja continuar o jogo? (s/n): ");
+            String resposta = scanner.nextLine().trim().toLowerCase();
+
+            if (resposta.equals("n")) {
+                System.out.println("Saindo do jogo. Até a próxima!");
+                continuarJogo = false;
+            } else {
+               
+                turnoAtual = (turnoAtual + 1) % civilizacoes.size();
+            }
         }
 
-        menu.Interface();
-        menu.menus(city);
+        scanner.close();
     }
 }

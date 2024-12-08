@@ -5,16 +5,17 @@ import java.util.Random;
 public class Mapa {
     private int tamanhoX;
     private int tamanhoY;
-    private Cidade city;
+    
+    
     private String[][] mapa;
 
-    public Mapa(int tamanhoX, int tamanhoY,Cidade city) {
+    public Mapa(int tamanhoX, int tamanhoY) {
         if (tamanhoX <= 0 || tamanhoY <= 0) {
             throw new IllegalArgumentException("As dimensões da matriz devem ser maiores que zero.");
         }
         this.tamanhoX = tamanhoX;
         this.tamanhoY = tamanhoY;
-        this.city=city;
+       
         this.mapa = criarMapa();
     }
 
@@ -36,8 +37,7 @@ public class Mapa {
         int tamanhoFloresta = random.nextInt(50) + 30;
         preencherTerrenos(mapa, arvore, tamanhoFloresta);
 
-        Cidade city = new Cidade("C", 15, 15);
-        mapa[15][15] = city.getLetra(); 
+        
     
         
 
@@ -88,17 +88,14 @@ public class Mapa {
         mapa[x][y] = un.getCodigo();
     }
 
-    public void meterCidade( int x, int y) {
-        Cidade citys= new Cidade("C",x,y);
-        
-        mapa[x][y] = citys.getLetra();
+    public void meterCidade( Civilizacao civi,int x, int y) {
+        Cidade citys= new Cidade("C",x,y,civi.getId());
+        civi.adicionaCidade(citys);
+        mapa[x][y] = citys.getCodigo();
         
     }
 
-    public int retornarPosi(){
-        return city.getPosX();
-        
-    }
+    
     public void moverUnidade(Unidades un, char direcao) {
         int linhaAtual = un.getLinha();
         int colunaAtual = un.getColuna();

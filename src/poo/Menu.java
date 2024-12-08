@@ -1,23 +1,22 @@
 package poo;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private String[][] matriz; 
     private Unidades un;
-    private Cidade city;
+    private Civilizacao civi;
     private Mapa mapa; 
 
     
-    public Menu(String[][] matriz, Mapa mapa,Cidade city) {
+    public Menu(String[][] matriz, Mapa mapa,Civilizacao civi) {
         if (matriz == null) {
             throw new IllegalArgumentException("A matriz do mapa não pode ser nula.");
         }
         this.matriz = matriz;
         this.mapa = mapa;
-        this.city=city;
+        this.civi=civi;
     }
 
 public void menCiv() {
@@ -59,7 +58,7 @@ public void menCiv() {
             System.out.println();
         }
     }
-public void menus(Cidade city) {
+    public void menus(Civilizacao civi) {
         boolean continuar = true;
     
         while (continuar) {
@@ -69,29 +68,24 @@ public void menus(Cidade city) {
             System.out.println("3. Funcionalidades");
             System.out.println("4. Ver o mapa");
             System.out.println("5. Criar unidades");
-            System.out.println("6. Exibir informações da cidade"); 
-            System.out.println("7. Sair");
+            System.out.println("6. Exibir informações da cidade");
+            System.out.println("7. Exibir informações da civilização");
+            System.out.println("8. Sair");
     
             int opcao = scanner.nextInt();
     
             switch (opcao) {
-                case 1 -> moverUnidade(city);
-                case 2 -> System.out.println("Você escolheu Atacar");
-                case 3 -> {
-                     List<String> letrasUnidades = city.listarLetrasUnidades();
-                System.out.println("Unidades disponíveis:");
-                for (int i = 0; i < letrasUnidades.size(); i++) {
-                    System.out.println((i + 1) + ". " + letrasUnidades.get(i));
-                }
-                System.out.println("Escolha a unidade que deseja usar (digite o número correspondente):");
-                String escolha = scanner.next();
-                funciunalidades(escolha);
-
-                }
+                case 1 -> System.out.println("Você escolheu Mover uma unidade");
+                case 2 -> System.out.println("Você escolheu Ainda não sei");
+                case 3 -> System.out.println("Você escolheu Funcionalidades");
                 case 4 -> mapa.imprimirMapa();
-                case 5 -> menuUnidades();
-                case 6 -> exibirInformacoesCidade(city); 
+                case 5 -> System.out.println("Você escolheu Criar unidades");
+                case 6 -> System.out.println("Você escolheu Exibir informações da cidade");
                 case 7 -> {
+                    System.out.println("Informações da Civilização:");
+                    System.out.println(civi.toString()); 
+                }
+                case 8 -> {
                     System.out.println("Saindo do programa. Até mais!");
                     continuar = false;
                 }
@@ -100,6 +94,7 @@ public void menus(Cidade city) {
             System.out.println();
         }
     }
+    
     
 
 public void Interface() {
@@ -134,119 +129,7 @@ public void Interface() {
         System.out.println("]");
     }
 
-public void menuUnidades() {
-        System.out.println("1-Criar militares");
-        System.out.println("2-Criar Colonos");
-        System.out.println("3-Criar Construtores");
-        int opcao = scanner.nextInt();
-    
-        if (opcao == 1) {
-            Unidades novaUnidade = new Militares("M");  
-            int x = city.getPosX() + 1;  
-            int y = city.getPosY() + 1;
-    
-            city.insereUnidade(novaUnidade);  
-            mapa.meterUnidade(novaUnidade, x, y);  
-            System.out.println("Unidade " + novaUnidade.getCodigo() + " criada em (" + x + ", " + y + ").");
-        }
-        if(opcao == 2){
-            Unidades novoColon= new Colono("C",mapa);
-            int x = city.getPosX() + 1;  
-            int y = city.getPosY() + 1;
-            city.insereUnidade(novoColon);
-            mapa.meterUnidade(novoColon, x, y);  
-            System.out.println("Unidade " + novoColon.getCodigo() + " criada em (" + x + ", " + y + ").");
-            
-            
-        }
-        if(opcao == 3){
-            Unidades novaUnidade = new Construtor("H",mapa);  
-            int x = city.getPosX() + 1;  
-            int y = city.getPosY() + 1;
-    
-            city.insereUnidade(novaUnidade);  
-            mapa.meterUnidade(novaUnidade, x, y);  
-            System.out.println("Unidade " + novaUnidade.getCodigo() + " criada em (" + x + ", " + y + ").");
-            
-            
-        }
-        
-        
-        else {
-            System.out.println("Opção inválida.");
-        }
-    }
-    
 
-        private void exibirInformacoesCidade(Cidade city) {
-            System.out.println("Informações da Cidade:");
-            System.out.println("Letra identificadora: " + city.getLetra());
-            System.out.println("Posição X: " + city.getPosX());
-            System.out.println("Posição Y: " + city.getPosY());
-            System.out.println("Número de unidades na cidade: " + city.numdeUnid());
-            System.out.println("Quantidade total de tropas: " + city.quantidade_por_unidade());
-        }
-        
-
-private void moverUnidade(Cidade city) {
-            List<String> codigosUnidades = city.listarCodigosUnidades(); 
-        
-            if (codigosUnidades.isEmpty()) {
-                System.out.println("Não há unidades disponíveis para mover.");
-                return;
-            }
-        
-            System.out.println("Escolha a unidade que deseja mover:");
-            for (int i = 0; i < codigosUnidades.size(); i++) {
-                System.out.println((i + 1) + ". " + codigosUnidades.get(i));
-            }      
-            int escolha = scanner.nextInt();
-            if (escolha < 1 || escolha > codigosUnidades.size()) {
-                System.out.println("Escolha inválida. Tente novamente.");
-                return;
-            }
-            String codigoEscolhido = codigosUnidades.get(escolha - 1);
-            Unidades unidadeEscolhida = city.getUnidades().get(codigoEscolhido);
-        
-            System.out.println("Escolha a direção para mover (N, S, E, O):");
-            char direcao = scanner.next().toUpperCase().charAt(0); 
-            mapa.moverUnidade(unidadeEscolhida, direcao);
-        
-            System.out.println("Unidade " + codigoEscolhido + " movida para a nova posição: (" +
-                               unidadeEscolhida.getLinha() + ", " + unidadeEscolhida.getColuna() + ").");
-        }
-        
-        
-        
-        
-        
-public void funciunalidades(String escolha) {
-    System.out.println("Escolha o código da unidade que você quer usar:");
-
-   
-    for (Unidades un : city.getUnidades().values()) {
-        System.out.println("Código: " + un.getCodigo() + " - Letra: " + un.getLetra());
-    }
-    String codigoEscolhido = scanner.next();
-    codigoEscolhido = codigoEscolhido.toUpperCase();
-    boolean unidadeEncontrada = false;
-    try {
-        
-        for (Unidades un : city.getUnidades().values()) {
-            if (un.getCodigo().equals(codigoEscolhido)) {
-                unidadeEncontrada = true;
-                System.out.println("Executando funcionalidade para a unidade: " + un.getCodigo());
-                un.funcionalidade();  
-                break;
-            }
-        }
-        if (!unidadeEncontrada) {
-            throw new Exception("Unidade com o código " + codigoEscolhido + " não encontrada.");
-        }
-    } catch (Exception e) {
-        System.out.println("Erro: " + e.getMessage());
-    }
-}
 
 
 }

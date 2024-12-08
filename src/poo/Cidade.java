@@ -1,3 +1,4 @@
+
 package poo;
 
 import java.util.ArrayList;
@@ -11,26 +12,29 @@ public class Cidade {
     private TreeMap<String, Unidades> un;
     private ArrayList<Recursos> re;
     private int nivel;
+    private int idCivilizacao; 
 
-    public Cidade(String letra, int posX, int posY, int comidaInicial, int limiteReserva, int populacaoInicial, int producaoInicial, int ouroInicial) {
+    public Cidade(String letra, int posX, int posY, int idCivilizacao, int comidaInicial, int limiteReserva, int populacaoInicial, int producaoInicial, int ouroInicial) {
         this.letra = letra;
         this.posX = posX;
         this.posY = posY;
+        this.idCivilizacao = idCivilizacao; 
         this.un = new TreeMap<>();
         this.re = new ArrayList<>();
         this.nivel = 1;
 
+        // Inicializa os recursos.
         re.add(new Comida(comidaInicial, limiteReserva, populacaoInicial));
         re.add(new Producao(producaoInicial));
         re.add(new Ouro(ouroInicial));
     }
 
-     public Cidade(String letra, int posX, int posY) {
-        this(letra, posX, posY, 100, 200, 1, 50, 100); // Valores padrão
+    public Cidade(String letra, int posX, int posY, int idCivilizacao) {
+        this(letra, posX, posY, idCivilizacao, 100, 200, 1, 50, 100); 
     }
 
-    public Cidade(String letra) {
-        this(letra, 0, 0, 100, 200, 1, 50, 100);
+    public Cidade(String letra, int idCivilizacao) {
+        this(letra, 0, 0, idCivilizacao, 100, 200, 1, 50, 100);
     }
 
     public String getLetra() {
@@ -67,6 +71,11 @@ public class Cidade {
 
     public int numdeUnid() {
         return un.size();
+    }
+
+    public String getCodigo() {
+        
+        return  getLetra() + idCivilizacao;
     }
 
     public int quantidade_por_unidade() {
@@ -127,22 +136,22 @@ public class Cidade {
                 return r;
             }
         }
-        return null; // Retorna null se o recurso não for encontrado
+        return null; 
     }
 
     public void adicionarRecurso(Recursos recurso, int quantidade) {
-    Recursos r = getRecurso(recurso); // Busca o recurso correspondente na lista
+    Recursos r = getRecurso(recurso);
         if (r != null) {
-            r.adicionar(quantidade); // Adiciona a quantidade ao recurso encontrado
+            r.adicionar(quantidade); 
         } else {
             System.out.println("Recurso não encontrado!");
         }
     }
 
     public void consumirRecurso(Recursos recurso, int quantidade) {
-        Recursos r = getRecurso(recurso); // Busca o recurso correspondente na lista
+        Recursos r = getRecurso(recurso); 
         if (r != null) {
-            r.consumir(quantidade); // Consome a quantidade do recurso encontrado
+            r.consumir(quantidade); 
         } else {
             System.out.println("Recurso não encontrado ou insuficiente!");
         }
@@ -152,5 +161,10 @@ public class Cidade {
         for (Recursos recurso : re) {
             recurso.atualizar();
         }
+    }
+
+    public String toString(){
+
+        return "Cidades: " + getCodigo();
     }
 }
