@@ -15,7 +15,7 @@ public class Arvore extends Acessivel {
     }
     
    
-    
+    //
      @Override
     public char[] criarArray(int tamanho) {
         char[] array = new char[tamanho];
