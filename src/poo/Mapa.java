@@ -18,7 +18,7 @@ public class Mapa {
        
         this.mapa = criarMapa();
     }
-
+//
     private String[][] criarMapa() {
         String[][] mapa = new String[tamanhoX][tamanhoY];
 
