@@ -19,7 +19,7 @@ public class Menu {
         this.mapa = mapa;
         this.civi=civi;
     }
-
+//
 public void menCiv() {
         boolean continuar = true;
 
