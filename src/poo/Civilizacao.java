@@ -12,7 +12,7 @@ public class Civilizacao {
         this.idCivilizacao = idCivilizacao;
         citys = new ArrayList<>();
     }
-
+//
     public String getNome() {
         return nome;
     }
