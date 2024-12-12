@@ -20,4 +20,6 @@ public abstract class Recursos {
     public abstract void consumir(int quantidade);
 
     public abstract void atualizar();
+    
+  //
 }
