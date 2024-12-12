@@ -20,7 +20,7 @@ public class Construtor extends Unidades {
         conta++; 
         
     }
-
+//
     
     public Construtor(String letra, int linha, int coluna,Mapa mapa) {
         super(letra, linha, coluna); 
@@ -61,7 +61,7 @@ public class Construtor extends Unidades {
         setColuna(novaColuna); 
     }
 @Override
-public void funcionalidade() {
+public void funcionalidade(Civilizacao civi) {
     /*
             
         
