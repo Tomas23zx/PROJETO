@@ -9,9 +9,11 @@ package poo;
  * @author joaot
  */
 public class Colono extends Unidades {
-     private Mapa mapa;
+    private Mapa mapa;
+    private Civilizacao civi;
+    
     private static int conta;
-
+//
     
     public Colono(String letra,Mapa mapa) {
         super(letra, 0, 0);
@@ -60,9 +62,9 @@ public class Colono extends Unidades {
         setColuna(novaColuna); 
     }
      @Override
-    public  void funcionalidade()
+    public  void funcionalidade(Civilizacao civi)
     {
-        mapa.meterCidade(getLinha(),getColuna());
+        mapa.meterCidade(civi,getLinha(),getColuna());
         
         
     }
