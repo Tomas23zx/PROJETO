@@ -1,6 +1,7 @@
 package poo;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
@@ -75,11 +76,11 @@ public void menCiv() {
             int opcao = scanner.nextInt();
     
             switch (opcao) {
-                case 1 -> System.out.println("Você escolheu Mover uma unidade");
+                case 1 -> menuMover(civi);
                 case 2 -> System.out.println("Você escolheu Ainda não sei");
                 case 3 -> System.out.println("Você escolheu Funcionalidades");
                 case 4 -> mapa.imprimirMapa();
-                case 5 -> System.out.println("Você escolheu Criar unidades");
+                case 5 -> menuUnidades(civi);
                 case 6 -> System.out.println("Você escolheu Exibir informações da cidade");
                 case 7 -> {
                     System.out.println("Informações da Civilização:");
@@ -130,6 +131,75 @@ public void Interface() {
     }
 
 
+public void menuMover(Civilizacao civi){
+    
+    
+}
+
+  public void menuUnidades(Civilizacao civi) {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("===== Menu de Unidades =====");
+    System.out.println("Civilização: " + civi.getNome());
+    System.out.println("Cidades disponíveis:");
+
+    // Listar cidades disponíveis
+    ArrayList<Cidade> cidades = civi.getCidades();
+    for (int i = 0; i < cidades.size(); i++) {
+        System.out.println(i + " - " + cidades.get(i).getCodigo());
+    }
+
+    if (cidades.isEmpty()) {
+        System.out.println("Nenhuma cidade disponível.");
+        return;
+    }
+
+    
+    System.out.print("Escolha o índice da cidade onde deseja criar unidades: ");
+    int indiceCidade;
+    try {
+        indiceCidade = Integer.parseInt(scanner.nextLine());
+    } catch (NumberFormatException e) {
+        System.out.println("Entrada inválida! Por favor, insira um número.");
+        return;
+    }
+
+    if (indiceCidade < 0 || indiceCidade >= cidades.size()) {
+        System.out.println("Índice inválido.");
+        return;
+    }
+
+    Cidade cidadeEscolhida = cidades.get(indiceCidade);
+    System.out.println("Você escolheu a cidade: " + cidadeEscolhida.getCodigo());
+
+  
+    System.out.println("Escolha uma unidade para criar:");
+    System.out.println("1. Militar");
+    System.out.println("2. Construtor");
+    System.out.println("3. Colono");
+    int tipoUnidade = scanner.nextInt();
+
+    Unidades unidadeCriada;
+    switch (tipoUnidade) {
+        case 1 -> unidadeCriada = new Militares("M");
+        case 2 -> unidadeCriada = new Construtor("H",mapa);
+        case 3 -> unidadeCriada = new Colono("E",mapa);
+        default -> {
+            System.out.println("Tipo de unidade inválido!");
+            return;
+        }
+    }
+
+    
+    cidadeEscolhida.insereUnidade(unidadeCriada);
+
+    
+    int posX = cidadeEscolhida.getPosX();
+    int posY = cidadeEscolhida.getPosY();
+
+    mapa.meterUnidade(unidadeCriada, posX+1, posY+1);
+    System.out.println("Unidade criada e posicionada no mapa na cidade " + cidadeEscolhida.getCodigo());
+}
 
 
 }
