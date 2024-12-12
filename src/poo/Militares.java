@@ -22,7 +22,7 @@ public class Militares extends Unidades {
         conta++; 
         
     }
-
+//
     
     public Militares(String letra, int linha, int coluna) {
         super(letra, linha, coluna); 
@@ -65,7 +65,7 @@ public class Militares extends Unidades {
         setColuna(novaColuna); 
     }
     @Override
-    public void funcionalidade(){
+    public void funcionalidade(Civilizacao civi){
         
     }
     
