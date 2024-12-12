@@ -29,7 +29,14 @@ public class Civilizacao {
     public void removerCidade(Cidade c) {
         citys.remove(c);
     }
-
+    
+    public ArrayList<Cidade> getCidades(){
+        return new ArrayList<Cidade>(citys);
+    }
+   public Cidade getCidade(int i) {
+    return citys.get(i); 
+}
+    ///
     @Override
     public String toString() {
         StringBuilder texto = new StringBuilder("Civilização: " + nome + "\nCidades:\n");
