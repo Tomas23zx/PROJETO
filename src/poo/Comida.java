@@ -15,7 +15,7 @@ public class Comida extends Recursos {
     public int getReserva() {
         return reserva;
     }
-
+//
     public int getPopulacao() {
         return populacao;
     }
