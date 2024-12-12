@@ -19,9 +19,14 @@ public class Ouro extends Recursos {
             System.out.println("Ouro insuficiente!");
         }
     }
-
+//
     @Override
     public void atualizar() {
         //ouro não precisa atualizar por turno
     }
+    
+    @Override
+      public String toString(){
+          return "Quantidade de outo: "+getQuantidade();
+      }
 }
