@@ -9,7 +9,7 @@ package poo;
  * @author joaot
  */
 public class Acessivel extends Terrenos {
-
+//
     
     public Acessivel(String letra) {
         super(letra);
