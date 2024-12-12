@@ -14,7 +14,7 @@ public abstract class Unidades {
     private int linha;
     private int coluna;
     private static int conta;
-
+//
    
     public Unidades(String letra) {  
         this.letra = letra;
@@ -65,7 +65,7 @@ public abstract class Unidades {
     public abstract void mover(char direcao);
     //public abstract void perderVida(); // ainda ns como vai ficar
    // public abstract void recuperarVida();// ainda ns tbm
-    public abstract void funcionalidade();// militar atacar,construtor construir,coluno construir cidade, --
+    public abstract void funcionalidade(Civilizacao civi);// militar atacar,construtor construir,coluno construir cidade, --
    // public abstract void renascer();// provavemente nao será preciso
 
 }
