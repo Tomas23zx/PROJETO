@@ -15,7 +15,7 @@ public class Inacessivel extends Terrenos {
         super(letra);
     }
 
-   
+   //
 
     @Override
     public char[] criarArray(int tamanho) {
