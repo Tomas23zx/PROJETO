@@ -143,7 +143,7 @@ public void menuMover(Civilizacao civi){
     System.out.println("Civilização: " + civi.getNome());
     System.out.println("Cidades disponíveis:");
 
-    // Listar cidades disponíveis
+    
     ArrayList<Cidade> cidades = civi.getCidades();
     for (int i = 0; i < cidades.size(); i++) {
         System.out.println(i + " - " + cidades.get(i).getCodigo());
@@ -192,6 +192,12 @@ public void menuMover(Civilizacao civi){
 
     
     cidadeEscolhida.insereUnidade(unidadeCriada);
+    Recursos ouro= new Ouro(1);
+    Recursos ouro1= new Ouro(2);
+    cidadeEscolhida.adicionarRecurso(ouro,ouro.getQuantidade());
+    cidadeEscolhida.adicionarRecurso(ouro1,ouro1.getQuantidade());
+    System.out.println(cidadeEscolhida.getRecurso(ouro));
+    
 
     
     int posX = cidadeEscolhida.getPosX();
