@@ -96,39 +96,20 @@ public class Mapa {
     }
 
     
-    public void moverUnidade(Unidades un, char direcao) {
+    public void moverUnidade(Unidades un, int novaLinha, int novaColuna) {
         int linhaAtual = un.getLinha();
         int colunaAtual = un.getColuna();
-    
-        
+
         mapa[linhaAtual][colunaAtual] = "X";
-    
-        
-        int novaLinha = linhaAtual;
-        int novaColuna = colunaAtual;
-    
-        switch (direcao) {
-            case 'N' -> novaLinha--;
-            case 'S' -> novaLinha++;
-            case 'E' -> novaColuna++;
-            case 'O' -> novaColuna--;
-            default -> {
-                System.out.println("Direção inválida! Use N, S, E ou O.");
-                return;
-            }
-        }
-    
-        
+
         if (novaLinha < 0) novaLinha = tamanhoX - 1;
         if (novaLinha >= tamanhoX) novaLinha = 0;
         if (novaColuna < 0) novaColuna = tamanhoY - 1;
         if (novaColuna >= tamanhoY) novaColuna = 0;
-    
-        
+
         un.setLinha(novaLinha);
         un.setColuna(novaColuna);
-    
-        
+
         mapa[novaLinha][novaColuna] = un.getCodigo();
     }
     

@@ -1,7 +1,7 @@
 package poo;
 
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
@@ -59,7 +59,7 @@ public void menCiv() {
             System.out.println();
         }
     }
-    public void menus(Civilizacao civi) {
+    public void menus(Civilizacao civi,Mapa map) {
         boolean continuar = true;
     
         while (continuar) {
@@ -78,7 +78,7 @@ public void menCiv() {
             switch (opcao) {
                 case 1 -> menuMover(civi);
                 case 2 -> System.out.println("Voce escolheu Ainda nao sei");
-                case 3 -> System.out.println("Voce escolheu Funcionalidades");
+                case 3 -> menuFunciunalidades(civi);
                 case 4 -> mapa.imprimirMapa();
                 case 5 -> menuUnidades(civi);
                 case 6 -> exibircidade(civi);
@@ -131,10 +131,58 @@ public void Interface() {
     }
 
 
-public void menuMover(Civilizacao civi){
+    public void menuMover(Civilizacao civi) {
     
+        Cidade cidadeEscolhida = selecionarCidade(civi);
+        if (cidadeEscolhida == null) {
+            System.out.println("Operação cancelada. Nenhuma cidade foi selecionada.");
+            return;
+        }
     
-}
+       
+        Unidades unidadeEscolhida = selecionarUnidade(cidadeEscolhida);
+        if (unidadeEscolhida == null) {
+            System.out.println("Operação cancelada ou unidade não encontrada.");
+            return;
+        }
+    
+     
+        System.out.print("Digite a direção para mover a unidade (N, S, E, O): ");
+        char direcao = scanner.next().toUpperCase().charAt(0);
+    
+       
+        int linhaAnterior = unidadeEscolhida.getLinha();
+        int colunaAnterior = unidadeEscolhida.getColuna();
+        unidadeEscolhida.mover(direcao, mapa);
+    
+      
+        int novaLinha = unidadeEscolhida.getLinha();
+        int novaColuna = unidadeEscolhida.getColuna();
+    
+        if (novaLinha != linhaAnterior || novaColuna != colunaAnterior) {
+            System.out.println("Unidade movida com sucesso para a posição: (" + novaLinha + ", " + novaColuna + ").");
+            mapa.moverUnidade(unidadeEscolhida, novaLinha, novaColuna);
+        } else {
+            System.out.println("Movimento inválido. A unidade permaneceu na posição original.");
+        }
+    }
+    
+    private Unidades selecionarUnidade(Cidade cidade) {
+        System.out.println("Unidades disponíveis na cidade:");
+        cidade.listarDetalhesUnidades(); 
+    
+        System.out.print("Digite o código da unidade que deseja selecionar: ");
+        String codigoUnidade = scanner.next();
+    
+        Unidades unidadeEscolhida = cidade.buscarUnidadePorCodigo(codigoUnidade);
+        if (unidadeEscolhida == null) {
+            System.out.println("Unidade com o código especificado não foi encontrada na cidade.");
+            return null;
+        }
+    
+        return unidadeEscolhida;
+    }
+    
   public void exibircidade(Civilizacao civi){
     Cidade c = selecionarCidade(civi);
     c.getRecursos();
@@ -150,7 +198,7 @@ public Cidade selecionarCidade(Civilizacao civi){
     
     ArrayList<Cidade> cidades = civi.getCidades();
     for (int i = 0; i < cidades.size(); i++) {
-        System.out.println(i + " - " + cidades.get(i).getCodigo());
+        System.out.println(i + " - " + cidades.get(i).getCodigo() + "(" + cidades.get(i).getPosX() + "," + cidades.get(i).getPosY() + ")" );
     }
 
     if (cidades.isEmpty()) {
@@ -204,9 +252,16 @@ public Cidade selecionarCidade(Civilizacao civi){
     
     int posX = cidadeEscolhida.getPosX();
     int posY = cidadeEscolhida.getPosY();
-
+    cidadeEscolhida.insereUnidade(unidadeCriada);
     mapa.meterUnidade(unidadeCriada, posX+1, posY+1);
     System.out.println("Unidade criada e posicionada no mapa na cidade " + cidadeEscolhida.getCodigo());
+}
+
+public void menuFunciunalidades(Civilizacao civi){
+    Cidade cidadeEscolhida=selecionarCidade(civi);
+    Unidades un=selecionarUnidade( cidadeEscolhida);
+    un.funcionalidade(civi);
+
 }
 
 

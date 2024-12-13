@@ -62,7 +62,7 @@ public abstract class Unidades {
     }
 
     
-    public abstract void mover(char direcao);
+    public abstract  void mover(char direcao, Mapa mapa);
     //public abstract void perderVida(); // ainda ns como vai ficar
    // public abstract void recuperarVida();// ainda ns tbm
     public abstract void funcionalidade(Civilizacao civi);// militar atacar,construtor construir,coluno construir cidade, --

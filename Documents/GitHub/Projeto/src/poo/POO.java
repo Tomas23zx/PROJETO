@@ -37,7 +37,7 @@ public class POO {
 
            
             menu.Interface();
-            menu.menus(civilizacaoAtual);
+            menu.menus(civilizacaoAtual,mapa);
 
             
             System.out.println("Deseja continuar o jogo? (s/n): ");

@@ -39,34 +39,27 @@ public class Militares extends Unidades {
     
     
     @Override
-    public void mover(char direcao) {
-        int novaLinha = getLinha(); 
-        int novaColuna = getColuna(); 
-    
+    public void mover(char direcao, Mapa map) {
+        int novaLinha = getLinha();
+        int novaColuna = getColuna();
+
         switch (direcao) {
-            case 'N': 
-                novaLinha--; 
-                break;
-            case 'S': 
-                novaLinha++;
-                break;
-            case 'E': 
-                novaColuna++; 
-                break;
-            case 'O': 
-                novaColuna--; 
-                break;
-            default:
+            case 'N' -> novaLinha--;
+            case 'S' -> novaLinha++;
+            case 'E' -> novaColuna++;
+            case 'O' -> novaColuna--;
+            default -> {
                 System.out.println("Direção inválida! Use N, E, S ou O.");
-                return; 
+                return;
+            }
         }
-    
-        setLinha(novaLinha); 
-        setColuna(novaColuna); 
+
+        map.moverUnidade(this, novaLinha, novaColuna);
     }
+
     @Override
-    public void funcionalidade(Civilizacao civi){
-        
+    public void funcionalidade(Civilizacao civi) {
+        // Implementar funcionalidade específica para Militares, se necessário
     }
-    
+ 
 }
