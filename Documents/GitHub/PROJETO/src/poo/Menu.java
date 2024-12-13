@@ -2,6 +2,7 @@ package poo;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
@@ -74,7 +75,8 @@ public void menCiv() {
             System.out.println("8. Sair");
     
             int opcao = scanner.nextInt();
-    
+            //Atualizar recuros
+            
             switch (opcao) {
                 case 1 -> menuMover(civi);
                 case 2 -> System.out.println("Voce escolheu Ainda nao sei");
@@ -92,6 +94,7 @@ public void menCiv() {
                 }
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
+            atualizarCidades(civi);
             System.out.println();
         }
     }
@@ -127,6 +130,7 @@ public void Interface() {
         for (int i = energia; i < 5; i++) {
             System.out.print("\\");
         }
+        
         System.out.println("]");
     }
 
@@ -188,6 +192,56 @@ public void Interface() {
     c.getRecursos();
     
   }
+  
+public void atualizarCidades(Civilizacao civi){
+ArrayList<Cidade> cidades = civi.getCidades();
+    for (int i = 0; i < cidades.size(); i++) {
+        Recursos ouro = cidades.get(i).findRecurso(new Ouro(0));
+        Recursos comida = cidades.get(i).findRecurso(new Comida(0,0,0));
+        Recursos producao = cidades.get(i).findRecurso(new Producao(0));
+        Random random = new Random();
+        
+        //Atualizar Ouro
+        int somaousub = random.nextInt(2);
+        int qnt=ouro.getQuantidade();
+        int novoouro = random.nextInt(50);
+        if(somaousub==1){
+            ouro.adicionar(novoouro);
+        }
+        else{ if(ouro.getQuantidade()>50){
+            ouro.consumir(novoouro);
+        }}
+        
+        
+        //Atualizar Comida
+        int somaousub1 = random.nextInt(2);
+        int qntC=comida.getQuantidade();
+        int novacomida = random.nextInt(50);
+        if(somaousub1==1){
+            comida.adicionar(novacomida);
+        }
+        else{ if(comida.getQuantidade()>50){
+            comida.consumir(novacomida);
+        }}
+        
+        
+        //Atualizar Producao
+        int somaousub2 = random.nextInt(2);
+        System.out.println(somaousub2+"jfjdjnfjvdnfjfj");
+        int qntP=producao.getQuantidade();
+        int novaproducao = random.nextInt(50);
+        if(somaousub2==1){
+            producao.adicionar(novaproducao);
+        }
+        else {
+            if(producao.getQuantidade()>50){
+                producao.consumir(novaproducao);
+            }
+        }
+        
+    }
+}
+
 public Cidade selecionarCidade(Civilizacao civi){
     Scanner scanner = new Scanner(System.in);
 
