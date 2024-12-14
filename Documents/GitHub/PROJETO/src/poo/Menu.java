@@ -1,8 +1,8 @@
 package poo;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
