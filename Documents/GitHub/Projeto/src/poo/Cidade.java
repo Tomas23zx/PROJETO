@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.TreeMap;
 //
 public class Cidade {
+    Random random = new Random();
     private String letra;
     private int posX;
     private int posY;
@@ -14,6 +15,7 @@ public class Cidade {
     private ArrayList<Recursos> re;
     private int nivel;
     private int idCivilizacao; 
+    private int populacaoInicial= random.nextInt(5)+2;
 
     public Cidade(String letra, int posX, int posY, int idCivilizacao) {
         this.letra = letra;
@@ -24,11 +26,11 @@ public class Cidade {
         this.re = new ArrayList<>();
         this.nivel = 1;
         int limiteReserva=200;
-        Random random = new Random();
+        
         int randomInt = random.nextInt(1000);
         int qntComida = random.nextInt(1000);
         int qntProducao = random.nextInt(1000);
-        int populacaoInicial = random.nextInt(1000);
+        
         // Inicializa os recursos.
         re.add(new Comida(qntComida, limiteReserva, populacaoInicial));
         re.add(new Producao(qntProducao));
@@ -58,7 +60,9 @@ public class Cidade {
     public void setLinha(int x) {
         this.posX = x;
     }
-
+    public int getPopulacao(){
+        return populacaoInicial;
+    }
     public TreeMap<String, Unidades> getUnidades() {
         return new TreeMap<>(un);
     }

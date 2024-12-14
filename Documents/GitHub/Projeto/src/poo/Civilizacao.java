@@ -45,4 +45,16 @@ public class Civilizacao {
         }
         return texto.toString();
     }
+
+    public Cidade buscarCidadePorCoordenada(int x, int y) {
+        for (Cidade cidade : citys) {
+            if (cidade.getPosX() == x && cidade.getPosY() == y) {
+                return cidade;
+            }
+        }
+        return null;
+    }
+    public boolean existeCidadeNaCoordenada(int x, int y) {
+        return buscarCidadePorCoordenada(x, y) != null;
+    }
 }
