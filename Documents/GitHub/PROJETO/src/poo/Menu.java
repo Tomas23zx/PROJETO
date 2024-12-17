@@ -228,7 +228,6 @@ ArrayList<Cidade> cidades = civi.getCidades();
         
         //Atualizar Producao
         int somaousub2 = random.nextInt(2);
-        System.out.println(somaousub2+"jfjdjnfjvdnfjfj");
         int qntP=producao.getQuantidade();
         int novaproducao = random.nextInt(50);
         if(somaousub2==1){
