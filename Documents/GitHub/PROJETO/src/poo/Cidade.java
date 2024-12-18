@@ -44,7 +44,39 @@ public class Cidade {
     public String getLetra() {
         return letra;
     }
-
+    
+    public void Atacar(Cidade c){
+        int probGanhar = random.nextInt(3);
+        System.out.println(" ");
+        switch(probGanhar){
+            case 0: 
+                System.out.println("Ganhaste esta batalha!");
+                
+                break;
+            case 1:
+                Recursos o =c.findRecurso(new Ouro(0));
+                int qnt=o.getQuantidade()/2;
+                c.consumirRecurso(new Ouro(0),qnt);
+                
+                Recursos producao =c.findRecurso(new Producao(0));
+                int qnt1=producao.getQuantidade()/2;
+                c.consumirRecurso(new Producao(0),qnt1);
+                
+                Recursos comida =c.findRecurso(new Comida(0,0,0));
+                int qnt2=comida.getQuantidade()/2;
+                c.consumirRecurso(new Comida(0,0,0),qnt2);
+                
+                System.out.println("Conseguiste escapar a tempo!");
+                
+                break;
+            case 2:
+                System.out.println("Perdeste esta batalha!");
+                
+                break;
+        } 
+    }
+    
+    
     public int getPosX() {
         return posX;
     }
