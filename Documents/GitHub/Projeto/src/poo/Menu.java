@@ -71,9 +71,10 @@ public void menCiv() {
             System.out.println("3. Funcionalidades");
             System.out.println("4. Ver o mapa");
             System.out.println("5. Criar unidades");
-            System.out.println("6. Exibir informacoes da cidade");
-            System.out.println("7. Exibir informacoes da civilizacao");
-            System.out.println("8. Sair");
+            System.out.println("6. Atacar uma cidade");
+            System.out.println("7. Exibir informacoes da cidade");
+            System.out.println("8. Exibir informacoes da civilizacao");
+            System.out.println("9. Sair");
     
             int opcao = scanner.nextInt();
             //Atualizar recuros
@@ -84,12 +85,13 @@ public void menCiv() {
                 case 3 -> menuFunciunalidades(civi);
                 case 4 -> mapa.imprimirMapa();
                 case 5 -> menuUnidades(civi);
-                case 6 -> exibircidade(civi);
-                case 7 -> {
+                case 6 -> Atacar();
+                case 7 -> exibircidade(civi);
+                case 8 -> {
                     System.out.println("Informacoes da Civilizacao:");
                     System.out.println(civi.toString()); 
                 }
-                case 8 -> {
+                case 9 -> {
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
                 }
@@ -101,7 +103,12 @@ public void menCiv() {
     }
     
     
-
+public void Atacar(){
+        Cidade c = selecionarCidade(civi);
+        Cidade atacada = selecionarCidade(civi);
+        c.Atacar(atacada);
+        exibircidade(civi);
+}
 public void Interface() {
         int comidaInicial = 50;
         int comidaMax = 150;
@@ -228,7 +235,6 @@ ArrayList<Cidade> cidades = civi.getCidades();
         
         //Atualizar Producao
         int somaousub2 = random.nextInt(2);
-        System.out.println(somaousub2+"jfjdjnfjvdnfjfj");
         int qntP=producao.getQuantidade();
         int novaproducao = random.nextInt(50);
         if(somaousub2==1){
