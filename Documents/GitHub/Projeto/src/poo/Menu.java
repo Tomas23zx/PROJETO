@@ -1,6 +1,7 @@
 package poo;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,45 +23,53 @@ public class Menu {
         this.civi=civi;
     }
 //
-public void menCiv() {
-        boolean continuar = true;
+public String menCiv() {
+    boolean continuar = true;
+    String escolha = "";
 
-        while (continuar) {
-            System.out.println("Escolha uma civilização:");
-            System.out.println("1. Bárbaros");
-            System.out.println("2. Romanos");
-            System.out.println("3. Persas");
-            System.out.println("4. Espartanos");
-            System.out.println("5. Sair");
+    while (continuar) {
+        System.out.println("Escolha uma civilização:");
+        System.out.println("1. Bárbaros");
+        System.out.println("2. Romanos");
+        System.out.println("3. Persas");
+        System.out.println("4. Espartanos");
+        System.out.println("5. Sair");
 
-            int opcao = scanner.nextInt();
+        int opcao = scanner.nextInt();
 
-            switch (opcao) {
-                case 1 -> {
-                    System.out.println("Voce escolheu Bárbaros.");
-                    continuar = false;
-                }
-                case 2 -> {
-                    System.out.println("Voce escolheu Romanos.");
-                    continuar = false;
-                }
-                case 3 -> {
-                    System.out.println("Voce escolheu Persas.");
-                    continuar = false;
-                }
-                case 4 -> {
-                    System.out.println("Voce escolheu Espartanos.");
-                    continuar = false;
-                }
-                case 5 -> {
-                    System.out.println("Saindo do programa. Ate mais!");
-                    continuar = false;
-                }
-                default -> System.out.println("Opção invalida. Tente novamente.");
+        switch (opcao) {
+            case 1 -> {
+                escolha = "Bárbaros";
+                System.out.println("Você escolheu Bárbaros.");
+                continuar = false;
             }
-            System.out.println();
+            case 2 -> {
+                escolha = "Romanos";
+                System.out.println("Você escolheu Romanos.");
+                continuar = false;
+            }
+            case 3 -> {
+                escolha = "Persas";
+                System.out.println("Você escolheu Persas.");
+                continuar = false;
+            }
+            case 4 -> {
+                escolha = "Espartanos";
+                System.out.println("Você escolheu Espartanos.");
+                continuar = false;
+            }
+            case 5 -> {
+                System.out.println("Saindo do programa. Até mais!");
+                escolha = "Sair";
+                continuar = false;
+            }
+            default -> System.out.println("Opção inválida. Tente novamente.");
         }
+        System.out.println();
     }
+
+    return escolha;
+}
     public void menus(Civilizacao civi,Mapa map) {
         boolean continuar = true;
     
@@ -82,7 +91,7 @@ public void menCiv() {
             switch (opcao) {
                 case 1 -> menuMover(civi);
                 case 2 -> escolherProducao( civi,map) ;
-                case 3 -> menuFunciunalidades(civi);
+                case 3 -> menuFunciunalidades(civi,map);
                 case 4 -> mapa.imprimirMapa();
                 case 5 -> menuUnidades(civi);
                 case 6 -> Atacar();
@@ -125,10 +134,14 @@ public void Interface() {
         System.out.println("    Tesouro: " + tesouros + " (cada 5 gemas 1 tesouro)");
         
         System.out.println("                               N");
-        System.out.println("                             //\\");
-        System.out.println("                            E< >W");
-        System.out.println("                             \\//");
-        System.out.println("                               S");
+        System.out.println("                              /|\\");
+        System.out.println("                             / | \\");
+        System.out.println("                            /  |  \\");
+        System.out.println("                           W---+---E");
+        System.out.println("                            \\  |  /");
+        System.out.println("                             \\ | /");
+        System.out.println("                               \\|/");
+        System.out.println("                                S");
 
         System.out.println("DIA " + dia + " (turno)");
         System.out.print("Energia: [");
@@ -144,30 +157,43 @@ public void Interface() {
 
 
     public void menuMover(Civilizacao civi) {
-    
+
         Cidade cidadeEscolhida = selecionarCidade(civi);
         if (cidadeEscolhida == null) {
             System.out.println("Operação cancelada. Nenhuma cidade foi selecionada.");
             return;
         }
     
-       
         Unidades unidadeEscolhida = selecionarUnidade(cidadeEscolhida);
         if (unidadeEscolhida == null) {
             System.out.println("Operação cancelada ou unidade não encontrada.");
             return;
         }
     
-     
         System.out.print("Digite a direção para mover a unidade (N, S, E, O): ");
         char direcao = scanner.next().toUpperCase().charAt(0);
     
-       
+        System.out.print("Digite o número de casas que deseja mover: ");
+        int numCasas;
+        try {
+            numCasas = scanner.nextInt();
+            if (numCasas <= 0) {
+                System.out.println("O número de casas deve ser maior que zero.");
+                return;
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Certifique-se de digitar um número inteiro.");
+            scanner.next(); // Limpa a entrada inválida
+            return;
+        }
+    
         int linhaAnterior = unidadeEscolhida.getLinha();
         int colunaAnterior = unidadeEscolhida.getColuna();
-        unidadeEscolhida.mover(direcao, mapa);
     
-      
+        for (int i = 0; i < numCasas; i++) {
+            unidadeEscolhida.mover(direcao, mapa);
+        }
+    
         int novaLinha = unidadeEscolhida.getLinha();
         int novaColuna = unidadeEscolhida.getColuna();
     
@@ -178,6 +204,7 @@ public void Interface() {
             System.out.println("Movimento inválido. A unidade permaneceu na posição original.");
         }
     }
+    
     
     private Unidades selecionarUnidade(Cidade cidade) {
         System.out.println("Unidades disponíveis na cidade:");
@@ -318,11 +345,11 @@ public Cidade selecionarCidade(Civilizacao civi){
     System.out.println("Unidade criada e posicionada no mapa na cidade " + cidadeEscolhida.getCodigo());
 }
 
-public void menuFunciunalidades(Civilizacao civi){
+public void menuFunciunalidades(Civilizacao civi,Mapa map){
     Cidade cidadeEscolhida=selecionarCidade(civi);
     Unidades un=selecionarUnidade( cidadeEscolhida);
     un.funcionalidade(civi);
-    if(un instanceof Colono){
+    if(un instanceof Colono && map.podeConstruirCidade(civi,un.getLinha(),un.getColuna())){
         cidadeEscolhida.removerUnidade(un);
     }
 

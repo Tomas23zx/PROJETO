@@ -88,11 +88,40 @@ public class Mapa {
         mapa[x][y] = un.getCodigo();
     }
 
-    public void meterCidade( Civilizacao civi,int x, int y) {
-        Cidade citys= new Cidade("C",x,y,civi.getId());
+    public void meterCidade(Civilizacao civi, int x, int y) {
+        if (!podeConstruirCidade(civi,x, y)) {
+            System.out.println("Não é possível construir uma cidade aqui. Existe outra cidade próxima.");
+            return;
+        }
+
+        Cidade citys = new Cidade("C", x, y, civi.getId());
         civi.adicionaCidade(citys);
         mapa[x][y] = citys.getCodigo();
-        
+    }
+
+    public boolean podeConstruirCidade(Civilizacao civi, int x, int y) {
+        int[][] direcoes = {
+            {-1, -1}, {-1, 0}, {-1, 1},
+            {0, -1},          {0, 1},
+            {1, -1}, {1, 0}, {1, 1}
+        };
+    
+        for (int[] dir : direcoes) {
+            int novoX = x + dir[0];
+            int novoY = y + dir[1];
+    
+            if (novoX >= 0 && novoX < tamanhoX && novoY >= 0 && novoY < tamanhoY) {
+                for (Cidade cidade : civi.getCidades()) {
+                    if (cidade.getPosX() == novoX && cidade.getPosY() == novoY) {
+                        if ("C".equals(cidade.getLetra())) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+    
+        return true;
     }
 
     
