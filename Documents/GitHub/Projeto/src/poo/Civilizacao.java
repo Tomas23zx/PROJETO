@@ -36,6 +36,19 @@ public class Civilizacao {
    public Cidade getCidade(int i) {
     return citys.get(i); 
 }
+
+
+public int Total_Recurssos(Recursos tipoRecurso, Civilizacao civ) { 
+    int totalRecursos = 0;
+    for (Cidade cidade : civ.getCidades()) {
+        Recursos recurso = cidade.findRecurso(tipoRecurso);
+        if (recurso != null) {
+            totalRecursos += recurso.getQuantidade();
+        }
+    }
+    return totalRecursos;
+}
+
     ///
     @Override
     public String toString() {

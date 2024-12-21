@@ -6,9 +6,11 @@ import java.util.Scanner;
 
 public class POO {
     public static void main(String[] args) {
-        
-        Civilizacao civi1 = new Civilizacao("Espartanos", 1);
-        Civilizacao civi2 = new Civilizacao("Romanos", 2);
+        Menuinicial men= new Menuinicial();
+        String x = men.menCiv();
+        Civilizacao civi1 = new Civilizacao(x, 1);
+        String y = men.menCiv();
+        Civilizacao civi2 = new Civilizacao(y, 2);
        
 
 //
@@ -36,7 +38,7 @@ public class POO {
             System.out.println("É o turno de: " + civilizacaoAtual.getNome());
 
            
-            menu.Interface();
+            menu.Interface(civilizacaoAtual);
             menu.menus(civilizacaoAtual,mapa);
 
             
