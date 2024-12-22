@@ -13,11 +13,10 @@ public class POO {
         Civilizacao civi2 = new Civilizacao(y, 2);
        
 
-//
        
         Mapa mapa = new Mapa(25, 25);
         mapa.meterCidade(civi1, 15, 15);
-        mapa.meterCidade(civi2, 10, 10); 
+        //mapa.meterCidade(civi2, 10, 10); 
 
        
         List<Civilizacao> civilizacoes = new ArrayList<>();
@@ -41,6 +40,8 @@ public class POO {
            
             menu.Interface(civilizacaoAtual);
             menu.menus(civilizacaoAtual,mapa, controla);
+
+            Vitoria.verificarCondicoesDeVitoria(mapa, civilizacaoAtual.getId());;
 
             
             System.out.println("Deseja continuar o jogo? (s/n): ");

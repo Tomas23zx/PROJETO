@@ -1,13 +1,14 @@
 package poo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Mapa {
     private int tamanhoX;
     private int tamanhoY;
-    
-    
     private String[][] mapa;
+    private List<Cidade> cidades; // Lista para armazenar as cidades
 
     public Mapa(int tamanhoX, int tamanhoY) {
         if (tamanhoX <= 0 || tamanhoY <= 0) {
@@ -15,10 +16,10 @@ public class Mapa {
         }
         this.tamanhoX = tamanhoX;
         this.tamanhoY = tamanhoY;
-       
         this.mapa = criarMapa();
+        this.cidades = new ArrayList<>(); // Inicializa a lista de cidades
     }
-//
+
     private String[][] criarMapa() {
         String[][] mapa = new String[tamanhoX][tamanhoY];
 
@@ -36,10 +37,6 @@ public class Mapa {
         Terrenos arvore = new Arvore();
         int tamanhoFloresta = random.nextInt(50) + 30;
         preencherTerrenos(mapa, arvore, tamanhoFloresta);
-
-        
-    
-        
 
         return mapa;
     }
@@ -89,13 +86,14 @@ public class Mapa {
     }
 
     public void meterCidade(Civilizacao civi, int x, int y) {
-        if (!podeConstruirCidade(civi,x, y)) {
+        if (!podeConstruirCidade(civi, x, y)) {
             System.out.println("Não é possível construir uma cidade aqui. Existe outra cidade próxima.");
             return;
         }
 
-        Cidade citys = new Cidade("C", x, y, civi.getId(),4);
-        civi.adicionaCidade(citys);
+        Cidade citys = new Cidade("C", x, y, civi.getId(), 4);
+        //civi.adicionaCidade(citys); // Adiciona cidade à civilização
+        cidades.add(citys); // Adiciona cidade ao mapa
         mapa[x][y] = citys.getCodigo();
     }
 
@@ -105,11 +103,11 @@ public class Mapa {
             {0, -1},          {0, 1},
             {1, -1}, {1, 0}, {1, 1}
         };
-    
+
         for (int[] dir : direcoes) {
             int novoX = x + dir[0];
             int novoY = y + dir[1];
-    
+
             if (novoX >= 0 && novoX < tamanhoX && novoY >= 0 && novoY < tamanhoY) {
                 for (Cidade cidade : civi.getCidades()) {
                     if (cidade.getPosX() == novoX && cidade.getPosY() == novoY) {
@@ -120,11 +118,14 @@ public class Mapa {
                 }
             }
         }
-    
+
         return true;
     }
 
-    
+    public List<Cidade> getCidades() {
+        return cidades; // Retorna a lista de cidades
+    }
+
     public void moverUnidade(Unidades un, int novaLinha, int novaColuna) {
         int linhaAtual = un.getLinha();
         int colunaAtual = un.getColuna();
@@ -141,10 +142,4 @@ public class Mapa {
 
         mapa[novaLinha][novaColuna] = un.getCodigo();
     }
-    
-    
-    
-    
-    
-    
 }

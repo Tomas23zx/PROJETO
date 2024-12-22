@@ -15,7 +15,7 @@ public class Comida extends Recursos {
     public int getReserva() {
         return reserva;
     }
-//
+
     public int getPopulacao() {
         return populacao;
     }
@@ -35,11 +35,17 @@ public class Comida extends Recursos {
     }
 
     @Override
-    public void atualizar() { //ainda falta
-       
-}
+    public void atualizar() {
+        // Gerar comida de acordo com o nível da cidade e a população
+        int comidaGerada = 0;
+        if (getQuantidade() < limiteSuperiorReserva) {
+            comidaGerada = (populacao / 10) * 10; // Gerar 10 unidades de comida para cada 10 pessoas
+            adicionar(comidaGerada);
+        }
+    }
+
     @Override
-    public String toString(){
-          return "Quantidade de comida: "+getQuantidade()+ "\n" + "Populacao:" + getPopulacao()+ "\n" + "Reserva:" + getReserva();
-      }
+    public String toString() {
+        return "Quantidade de comida: " + getQuantidade() + "\n" + "População: " + getPopulacao() + "\n" + "Reserva: " + getReserva();
+    }
 }

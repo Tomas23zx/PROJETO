@@ -38,7 +38,7 @@ public class Cidade {
         re.add(new Producao(qntProducao));
         re.add(new Ouro(randomInt));
     }
-
+    
     public Cidade(String letra, int idCivilizacao,int populacaoInicial) {
         this(letra, 0, 0, idCivilizacao,populacaoInicial);
     }
@@ -111,6 +111,10 @@ public class Cidade {
 
     public int numdeUnid() {
         return un.size();
+    }
+    
+    public int getIdCivilizacao() {
+        return idCivilizacao;
     }
 
     public String getCodigo() {
