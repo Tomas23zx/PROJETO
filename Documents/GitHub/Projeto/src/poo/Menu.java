@@ -470,7 +470,7 @@ private void atualizarMapaERecursos(List<int[]> posicoesAlocadas, Cidade cidade,
                 ouro=12;
                 break;
             case "X": 
-            comida = 5000;
+                comida = 5000;
                 break;
             case "F": 
                 producao = 3;
@@ -488,7 +488,7 @@ private void atualizarMapaERecursos(List<int[]> posicoesAlocadas, Cidade cidade,
         }
 
        
-        mapa.getMapa()[linha][coluna] = "*";
+        
     }
 }
 

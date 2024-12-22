@@ -15,16 +15,18 @@ public class Cidade {
     private ArrayList<Recursos> re;
     private int nivel;
     private int idCivilizacao; 
-    private int populacaoInicial= random.nextInt(5)+2;
+    private int populacaoInicial;
 
-    public Cidade(String letra, int posX, int posY, int idCivilizacao) {
+    public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
         this.letra = letra;
         this.posX = posX;
         this.posY = posY;
         this.idCivilizacao = idCivilizacao; 
+        this.populacaoInicial=populacaoInicial;
         this.un = new TreeMap<>();
         this.re = new ArrayList<>();
         this.nivel = 1;
+        
         int limiteReserva=200;
         
         int randomInt = random.nextInt(1000);
@@ -37,8 +39,8 @@ public class Cidade {
         re.add(new Ouro(randomInt));
     }
 
-    public Cidade(String letra, int idCivilizacao) {
-        this(letra, 0, 0, idCivilizacao);
+    public Cidade(String letra, int idCivilizacao,int populacaoInicial) {
+        this(letra, 0, 0, idCivilizacao,populacaoInicial);
     }
 
     public String getLetra() {

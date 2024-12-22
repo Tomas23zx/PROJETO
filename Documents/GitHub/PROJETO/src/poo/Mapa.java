@@ -94,7 +94,7 @@ public class Mapa {
             return;
         }
 
-        Cidade citys = new Cidade("C", x, y, civi.getId());
+        Cidade citys = new Cidade("C", x, y, civi.getId(),4);
         civi.adicionaCidade(citys);
         mapa[x][y] = citys.getCodigo();
     }
