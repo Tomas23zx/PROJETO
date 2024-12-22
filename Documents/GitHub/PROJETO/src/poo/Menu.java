@@ -12,7 +12,8 @@ public class Menu {
     private Unidades un;
     private Civilizacao civi;
     private Mapa mapa; 
-
+    private int dia=0;
+    private int horasgastas=24;
     
     public Menu(String[][] matriz, Mapa mapa,Civilizacao civi) {
         if (matriz == null) {
@@ -74,6 +75,8 @@ public String menCiv() {
         boolean continuar = true;
     
         while (continuar) {
+            System.out.println("Dia:"+dia);
+            System.out.println("Horas Gastas:"+horasgastas);
             System.out.println("Escolha uma opcao:");
             System.out.println("1. Mover uma unidade");
             System.out.println("2. Produzir ");
@@ -83,20 +86,49 @@ public String menCiv() {
             System.out.println("6. Atacar uma cidade");
             System.out.println("7. Exibir informacoes da cidade");
             System.out.println("8. Exibir informacoes da civilizacao");
-            System.out.println("9.Produzir");
-            System.out.println("10. Sair");
+            System.out.println("9. Produzir");
+            System.out.println("10. Dia Seguinte");
+            System.out.println("11. Sair");
     
             int opcao = scanner.nextInt();
             //Atualizar recuros
-            
+            if(horasgastas<=0){
+                System.out.println("Nao tens mais horas para gastar!");
+                System.out.println("1. Dia Seguinte");
+                System.out.println("2. Sair");
+                int opcao2 = scanner.nextInt();
+                switch(opcao2){
+                    case 1->SkipDay();
+                    case 2->{
+                        System.out.println("Saindo do programa. Ate mais!");
+                        continuar = false;
+                    }
+                }
+            }
+            else{
             switch (opcao) {
                
-                case 1 -> menuMover(civi);
-                case 2 -> alocarPopulacao(civi) ;
-                case 3 -> menuFunciunalidades(civi,map);
+                case 1 -> {
+                    menuMover(civi);
+                    horasgastas-=3;
+                }
+                case 2 -> {
+                    alocarPopulacao(civi) ;
+                    horasgastas-=3;
+                }
+                case 3 -> {
+                    menuFunciunalidades(civi,map);
+                    horasgastas-=3;
+                }
                 case 4 -> mapa.imprimirMapa();
-                case 5 -> menuUnidades(civi);
-                case 6 -> Atacar();
+                case 5 -> {
+                    menuUnidades(civi);
+                    horasgastas-=3;
+                }
+                case 6 -> {
+                    Atacar();
+                    horasgastas-=6;
+                }
                 case 7 -> exibircidade(civi);
                 case 8 -> {
                     System.out.println("Informacoes da Civilizacao:");
@@ -104,20 +136,29 @@ public String menCiv() {
                 }
                 case 9 -> {
                     manutecao( civi,mapa);
+                    horasgastas-=3;
                 }
-                case 10 ->{
+                case 10 -> {
+                    SkipDay();
+                }
+                case 11 ->{
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
 
                 }
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
+            }
             atualizarCidades(civi);
             System.out.println();
         }
     }
     
+public void SkipDay(){
+    dia++;
+    horasgastas=24;
     
+}
 public void Atacar(){
         Cidade c = selecionarCidade(civi);
         Cidade atacada = selecionarCidade(civi);
