@@ -32,14 +32,15 @@ public class POO {
         int turnoAtual = 0;
         boolean continuarJogo = true;
 
-        
+        Controlarturnos controla = new Controlarturnos();
+
         while (continuarJogo) {
             Civilizacao civilizacaoAtual = civilizacoes.get(turnoAtual);
             System.out.println("É o turno de: " + civilizacaoAtual.getNome());
 
            
             menu.Interface(civilizacaoAtual);
-            menu.menus(civilizacaoAtual,mapa);
+            menu.menus(civilizacaoAtual,mapa, controla);
 
             
             System.out.println("Deseja continuar o jogo? (s/n): ");

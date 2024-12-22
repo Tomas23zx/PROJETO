@@ -3,7 +3,7 @@ package poo;
 public class Controlarturnos {
     private int dia;
     private int energia;
-    private static final int ENERGIA_MAXIMA = 5;
+    private static final int ENERGIA_MAXIMA = 24;
 
     public Controlarturnos() {
         this.dia = 1; // Começa no primeiro dia
@@ -56,5 +56,14 @@ public class Controlarturnos {
 
     public int getEnergia() {
         return energia;
+    }
+
+    private void consumirEnergiaEDia(Civilizacao civi) {
+    energia--; // Diminui a energia
+    if (energia == 0) {
+        energia = 3; // Reseta energia para o próximo turno
+        System.out.println("A energia foi restaurada para o próximo turno!");
+    }
+    dia++;  // Atualiza as cidades para o novo dia
     }
 }

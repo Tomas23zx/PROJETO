@@ -70,80 +70,63 @@ public String menCiv() {
 
     return escolha;
 }
-    public void menus(Civilizacao civi, Mapa map) {
-    boolean continuar = true;
-    int energia = 3; // Energia inicial por turno
-    int dia = 1; // Contador de dias
+    public void menus(Civilizacao civi, Mapa map, Controlarturnos controlTurnos) {
+        boolean continuar = true;
 
-    while (continuar) {
-        if (energia == 0) {
-            System.out.println("Energia esgotada. Avançando para o próximo dia.");
-            energia = 3; // Restaurar energia para o próximo dia
-            dia++; // Incrementar o contador de dias
-        }
+        while (continuar) {
+            controlTurnos.exibirStatus();
 
-        System.out.println("DIA " + dia + " (turno)");
-        System.out.print("Energia: [");
-        for (int i = 0; i < energia; i++) {
-            System.out.print("/"); 
-        }
-        for (int i = energia; i < 5; i++) {
-            System.out.print("\\"); 
-        }
-        System.out.println("]");
+            System.out.println("Escolha uma opção:");
+            System.out.println("1. Mover uma unidade");
+            System.out.println("2. Produzir");
+            System.out.println("3. Funcionalidades");
+            System.out.println("4. Ver o mapa");
+            System.out.println("5. Criar unidades");
+            System.out.println("6. Atacar uma cidade");
+            System.out.println("7. Exibir informações da cidade");
+            System.out.println("8. Exibir informações da civilização");
+            System.out.println("9. Sair");
 
-        System.out.println("Escolha uma opção:");
-        System.out.println("1. Mover uma unidade");
-        System.out.println("2. Produzir");
-        System.out.println("3. Funcionalidades");
-        System.out.println("4. Ver o mapa");
-        System.out.println("5. Criar unidades");
-        System.out.println("6. Atacar uma cidade");
-        System.out.println("7. Exibir informações da cidade");
-        System.out.println("8. Exibir informações da civilização");
-        System.out.println("9. Sair");
+            int opcao = scanner.nextInt();
 
-        int opcao = scanner.nextInt();
-        
-        switch (opcao) {
-            case 1 -> {
-                menuMover(civi);
-                energia--; // Consome energia
+            switch (opcao) {
+                case 1 -> {
+                    if (controlTurnos.gastarEnergia(1)) menuMover(civi);
+                }
+                case 2 -> {
+                    if (controlTurnos.gastarEnergia(1)) escolherProducao(civi, map);
+                }
+                case 3 -> {
+                    if (controlTurnos.gastarEnergia(1)) menuFunciunalidades(civi, map);
+                }
+                case 4 -> mapa.imprimirMapa(); // Não consome energia
+                case 5 -> {
+                    if (controlTurnos.gastarEnergia(1)) menuUnidades(civi);
+                }
+                case 6 -> {
+                    if (controlTurnos.gastarEnergia(1)) Atacar(civi);
+                }
+                case 7 -> exibircidade(civi); // Atualizado para exibir informações de cidades
+                case 8 -> {
+                    System.out.println("Informações da Civilização:");
+                    System.out.println(civi.toString());
+                }
+                case 9 -> {
+                    System.out.println("Saindo do programa. Até mais!");
+                    continuar = false;
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
             }
-            case 2 -> {
-                escolherProducao(civi, map);
-                energia--; // Consome energia
+
+            if (controlTurnos.getEnergia() == 0) {
+                controlTurnos.avancarDia(); // Restaura energia e avança o dia ao término do turno
             }
-            case 3 -> {
-                menuFunciunalidades(civi, map);
-                energia--; // Consome energia
-            }
-            case 4 -> mapa.imprimirMapa(); // Não consome energia
-            case 5 -> {
-                menuUnidades(civi);
-                energia--; // Consome energia
-            }
-            case 6 -> {
-                Atacar();
-                energia--; // Consome energia
-            }
-            case 7 -> exibircidade(civi); // Não consome energia
-            case 8 -> {
-                System.out.println("Informações da Civilização:");
-                System.out.println(civi.toString()); // Não consome energia
-            }
-            case 9 -> {
-                System.out.println("Saindo do programa. Até mais!");
-                continuar = false;
-            }
-            default -> System.out.println("Opção inválida. Tente novamente.");
+
+            System.out.println();
         }
-        atualizarCidades(civi); // Atualiza os recursos das cidades
-        System.out.println();
-    }
 }
 
-public void Atacar() {
+public void Atacar(Civilizacao civi1) {
     Cidade c = selecionarCidade(civi);
     Cidade atacada = selecionarCidade(civi);
     c.Atacar(atacada);
