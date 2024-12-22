@@ -409,7 +409,7 @@ private List<int[]> calcularPosicoesDisponiveis(Cidade cidade, Mapa mapa) {
     for (int i = Math.max(0, cidadeX - raio); i <= Math.min(mapa.getMapa().length - 1, cidadeX + raio); i++) {
         for (int j = Math.max(0, cidadeY - raio); j <= Math.min(mapa.getMapa()[0].length - 1, cidadeY + raio); j++) {
             int distancia = Math.abs(i - cidadeX) + Math.abs(j - cidadeY);
-            if (distancia <= raio && mapa.getMapa()[i][j].equals("X")) { 
+            if (distancia <= raio ) { 
                 posicoesDisponiveis.add(new int[]{i, j});
             }
         }
