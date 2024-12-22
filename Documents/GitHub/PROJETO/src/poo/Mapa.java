@@ -1,10 +1,12 @@
 package poo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
 public class Mapa {
     private int tamanhoX;
     private int tamanhoY;
+    private ArrayList<Unidades>un;
     
     
     private String[][] mapa;
@@ -15,6 +17,7 @@ public class Mapa {
         }
         this.tamanhoX = tamanhoX;
         this.tamanhoY = tamanhoY;
+        this.un=new ArrayList<Unidades>();
        
         this.mapa = criarMapa();
     }
@@ -82,10 +85,13 @@ public class Mapa {
         }
     }
 
-    public void meterUnidade(Unidades un, int x, int y) {
-        un.setColuna(y);
-        un.setLinha(x);
-        mapa[x][y] = un.getCodigo();
+    public void meterUnidade(Unidades en, int x, int y) {
+        en.setColuna(y);
+        en.setLinha(x);
+        mapa[x][y] = en.getCodigo();
+        un.add(en);
+        
+        System.out.println("Unidade adicionada: " + en.getCodigo());
     }
 
     public void meterCidade(Civilizacao civi, int x, int y) {
@@ -124,6 +130,18 @@ public class Mapa {
         return true;
     }
 
+    public void adicionarUnidades(Unidades e){
+        un.add(e);
+    }
+    public void removerPessoas(int pox)
+    {
+        un.remove(pox);
+
+    }
+
+    public Unidades getUnidades(int i) {
+        return  un.get(i);
+    }
     
     public void moverUnidade(Unidades un, int novaLinha, int novaColuna) {
         int linhaAtual = un.getLinha();
@@ -142,7 +160,36 @@ public class Mapa {
         mapa[novaLinha][novaColuna] = un.getCodigo();
     }
     
+    public int obterUnidadePorPosicao(int x, int y, List<Unidades> unidades) {
+        // Verifica se as posições fornecidas estão dentro dos limites do mapa
+        if (x < 0 || x >= tamanhoX || y < 0 || y >= tamanhoY) {
+            throw new IllegalArgumentException("As posições fornecidas estão fora dos limites do mapa.");
+        }
+
+        
+        String codigo = mapa[x][y];
+
+       
+        for (Unidades unidade : unidades) {
+            if (unidade.getCodigo().equals(codigo)) {
+                return unidade.getId();
+            }
+        }
+
+       
+        return 0;
+    }
     
+    public Unidades buscarUnidadePorCodigo(String codigo, int idCivilizacao) {
+        for (Unidades unidade : un) {
+            System.out.println("un:"+unidade.getCodigo());
+            System.out.println("c:"+codigo);
+            if (unidade.getCodigo().equals(codigo)) {
+                return unidade;
+            }
+        }
+        return null;  // Return null if no enemy unit is found
+    }
     
     
     

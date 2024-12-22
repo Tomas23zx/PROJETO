@@ -33,11 +33,12 @@ public class POO {
 
             
             for (Cidade cidade : civilizacaoAtual.getCidades()) {
-                
+    
                 Recursos producao = cidade.findRecurso(new Producao(0));
                 if (producao != null) {
-                    producao.adicionar(10);  
-                    System.out.println("10 pontos de produção foram adicionados à cidade " + cidade.getCodigo());
+                    
+                    producao.setQuantidade(10);  
+                    System.out.println("A produção da cidade " + cidade.getCodigo() + " foi ajustada para 10.");
                 }
             }
 

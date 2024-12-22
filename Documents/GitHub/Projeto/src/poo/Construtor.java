@@ -14,16 +14,16 @@ public class Construtor extends Unidades {
     private Cidade city;
 
     
-    public Construtor(String letra,Mapa mapa) {
-        super(letra, 0, 0);
+    public Construtor(String letra,Mapa mapa,int idCivilizacao,int vida) {
+        super(letra, 0, 0,idCivilizacao,vida);
         this.mapa=mapa;
         conta++; 
         
     }
 //
     
-    public Construtor(String letra, int linha, int coluna,Mapa mapa) {
-        super(letra, linha, coluna); 
+    public Construtor(String letra, int linha, int coluna,Mapa mapa,int idCivilizacao,int vida) {
+        super(letra, linha, coluna,idCivilizacao,vida); 
         this.mapa = mapa;
         conta++;
     }

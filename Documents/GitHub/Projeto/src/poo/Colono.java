@@ -15,16 +15,16 @@ public class Colono extends Unidades {
     private static int conta;
 //
     
-    public Colono(String letra,Mapa mapa) {
-        super(letra, 0, 0);
+    public Colono(String letra,Mapa mapa,int idCivilizacao,int vida) {
+        super(letra, 0, 0,idCivilizacao,vida);
         this.mapa=mapa;
         conta++; 
         
     }
 
     
-    public Colono(String letra, int linha, int coluna,Mapa mapa) {
-        super(letra, linha, coluna); 
+    public Colono(String letra, int linha, int coluna,Mapa mapa,int idCivilizacao,int vida) {
+        super(letra, linha, coluna,idCivilizacao,vida); 
         this.mapa = mapa;
         conta++;
     }

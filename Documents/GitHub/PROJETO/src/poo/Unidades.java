@@ -14,19 +14,26 @@ public abstract class Unidades {
     private int linha;
     private int coluna;
     private static int conta;
+    private int idCivilizacao;
+    private int vida;
 //
    
-    public Unidades(String letra) {  
+    public Unidades(String letra,int idCivilizacao,int vida) {  
         this.letra = letra;
         this.linha = 0;
         this.coluna = 0;
+        this.idCivilizacao=idCivilizacao;
+        this.vida=vida;
+
         conta=1;
     }
 
-    public Unidades(String letra, int linha, int coluna) {
+    public Unidades(String letra, int linha, int coluna,int idCivilizacao,int vida) {
         this.letra = letra;
         this.linha = linha;
         this.coluna = coluna;
+        this.idCivilizacao=idCivilizacao;
+        this.vida=vida;
         conta++;
     }
 
@@ -37,6 +44,15 @@ public abstract class Unidades {
     
     public String getLetra() {
         return letra;
+    }
+    public int getVida() {
+        return vida;
+    }
+   public void setVida(int x){
+    this.vida=x;
+   }
+    public int getId(){
+        return idCivilizacao;
     }
 
     public int getLinha() {

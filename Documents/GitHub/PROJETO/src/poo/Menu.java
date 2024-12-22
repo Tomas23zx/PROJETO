@@ -76,7 +76,7 @@ public String menCiv() {
         while (continuar) {
             System.out.println("Escolha uma opcao:");
             System.out.println("1. Mover uma unidade");
-            System.out.println("2. Produzir ");
+            System.out.println("2. Alocar ");
             System.out.println("3. Funcionalidades");
             System.out.println("4. Ver o mapa");
             System.out.println("5. Criar unidades");
@@ -84,10 +84,11 @@ public String menCiv() {
             System.out.println("7. Exibir informacoes da cidade");
             System.out.println("8. Exibir informacoes da civilizacao");
             System.out.println("9.Produzir");
-            System.out.println("10. Sair");
+            System.out.println("10.Atacar");
+            System.out.println("11. Sair");
     
             int opcao = scanner.nextInt();
-            //Atualizar recuros
+            
             
             switch (opcao) {
                
@@ -95,7 +96,7 @@ public String menCiv() {
                 case 2 -> alocarPopulacao(civi) ;
                 case 3 -> menuFunciunalidades(civi,map);
                 case 4 -> mapa.imprimirMapa();
-                case 5 -> menuUnidades(civi);
+                case 5 -> menuUnidades(civi,map);
                 case 6 -> Atacar();
                 case 7 -> exibircidade(civi);
                 case 8 -> {
@@ -103,12 +104,15 @@ public String menCiv() {
                     System.out.println(civi.toString()); 
                 }
                 case 9 -> {
-                    manutecao( civi,mapa);
+                    manutecao( civi,map);
                 }
                 case 10 ->{
+                    atacares(civi,map);
+
+                }
+                case 11 ->{
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
-
                 }
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
@@ -124,6 +128,43 @@ public void Atacar(){
         c.Atacar(atacada);
         exibircidade(civi);
 }
+public void atacares(Civilizacao civi, Mapa map) {
+    // Seleciona uma cidade da civilização
+    Cidade cityCidade = selecionarCidade(civi);
+    if (cityCidade == null) {
+        System.out.println("Cidade não encontrada ou opção inválida.");
+        return;
+    }
+    
+    // Seleciona uma unidade da cidade escolhida
+    Unidades un = selecionarUnidade(cityCidade);
+    if (un == null) {
+        System.out.println("Unidade não encontrada ou opção inválida.");
+        return;
+    }
+    
+    // Verifica se a unidade selecionada é do tipo Militar
+    if (un instanceof Militares) {
+        Militares unidadeMilitar = (Militares) un;  // Faz o casting para Militares
+        
+        // Verifica se há unidades inimigas ao redor da unidade selecionada
+        Unidades unidadesAoRedor = unidadeMilitar.verificarInimigoAoRedorDeTodasAsUnidades(unidadeMilitar,map);
+        
+        if (unidadesAoRedor != null) {
+            System.out.println("Unidades inimigas detectadas ao redor.");
+            System.out.println("Unidade inimiga encontrada: " + unidadesAoRedor.getCodigo());
+            // Chama a funcionalidade da unidade (no caso, ataque)
+            unidadeMilitar.funcionalidade(civi);
+        } else {
+            System.out.println("Nenhuma unidade inimiga detectada ao redor.");
+        }
+    } else {
+        System.out.println("A unidade selecionada não é militar.");
+    }
+}
+
+
+
 public void Interface(Civilizacao civi) {
     int comidaMax = 150;
     int populacao = 0;
@@ -334,7 +375,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
     return cidadeEscolhida;
 }
 
-public void menuUnidades(Civilizacao civi) {
+public void menuUnidades(Civilizacao civi,Mapa mapa) {
     // Selecionar a cidade escolhida pelo jogador
     Cidade cidadeEscolhida = selecionarCidade(civi);  
     if (cidadeEscolhida == null) {
@@ -349,38 +390,45 @@ public void menuUnidades(Civilizacao civi) {
 
     Unidades unidadeCriada;
 
-    // Acessando o recurso de Produção da cidade
+    
     Recursos producao = cidadeEscolhida.findRecurso(new Producao(0));
 
-    // Verificando se há produção suficiente
+    
     if (producao != null && producao.getQuantidade() >= 5) {
-        // Consumir 5 unidades de produção
+        
         cidadeEscolhida.consumirRecurso(new Producao(0), 5);
         System.out.println("5 pontos de produção foram retirados.");
 
-        // Criando a unidade com base na escolha do jogador
+        
         switch (tipoUnidade) {
             case 1:
-                unidadeCriada = new Militares("M");
+            Random random = new Random();
+            int numeroAleatorio = random.nextInt(41);  
+            
+            
+            unidadeCriada = new Militares("M",mapa, civi.getId(),100, numeroAleatorio);
                 break;
             case 2:
-                unidadeCriada = new Construtor("H", mapa);
+                unidadeCriada = new Construtor("H", mapa,civi.getId(),100);
                 break;
             case 3:
-                unidadeCriada = new Colono("E", mapa);
+                unidadeCriada = new Colono("E", mapa,civi.getId(),100);
                 break;
             default:
                 System.out.println("Tipo de unidade inválido!");
                 return;
         }
 
-        // Obtendo a posição da cidade escolhida
+        
         int posX = cidadeEscolhida.getPosX();
         int posY = cidadeEscolhida.getPosY();
 
         // Inserindo a unidade na cidade e no mapa
         cidadeEscolhida.insereUnidade(unidadeCriada);
-        mapa.meterUnidade(unidadeCriada, posX + 1, posY + 1);  // Posicionando a unidade ao lado da cidade (X+1, Y+1)
+        //mapa.adicionarUnidades(unidadeCriada);
+        mapa.meterUnidade(unidadeCriada, posX + 1, posY + 1);
+        System.out.println(""+mapa.getUnidades(0).getCodigo());
+        ;
 
         // Informando que a unidade foi criada e posicionada
         System.out.println("Unidade criada e posicionada no mapa na cidade " + cidadeEscolhida.getCodigo());
