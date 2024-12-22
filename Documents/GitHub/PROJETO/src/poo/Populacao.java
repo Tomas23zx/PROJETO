@@ -19,12 +19,12 @@ public void setPoy(int y){this.posY=y;}
 public void letraAtribuida(Cidade city,String letra){
     if(letra.equalsIgnoreCase("X"))
     {
-        Recursos recurso = new Ouro(0);
-        city.adicionarRecurso(recurso, 5);
+        Recursos recurso = new Comida(0,0,0);
+        city.adicionarRecurso(recurso, 4000000);
     }
     if(letra.equalsIgnoreCase("~"))
     {
-        Recursos recurso = new Comida(0,0,0);
+        Recursos recurso = new Ouro(0);
         city.adicionarRecurso(recurso, 5);
 
     }

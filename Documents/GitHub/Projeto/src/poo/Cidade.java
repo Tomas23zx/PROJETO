@@ -16,6 +16,7 @@ public class Cidade {
     private int nivel;
     private int idCivilizacao; 
     private int populacaoInicial;
+    private ArrayList<Populacao> p;
 
     public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
         this.letra = letra;
@@ -31,9 +32,9 @@ public class Cidade {
         
         int randomInt = random.nextInt(1000);
         int qntComida = random.nextInt(1000);
-        int qntProducao = random.nextInt(1000);
+        int qntProducao = 0;
+        this.p=new ArrayList<Populacao>();
         
-        // Inicializa os recursos.
         re.add(new Comida(qntComida, limiteReserva, populacaoInicial));
         re.add(new Producao(qntProducao));
         re.add(new Ouro(randomInt));
@@ -209,6 +210,34 @@ public class Cidade {
             recurso.atualizar();
         }
     }
+
+    public void meterPessoas(Populacao po)
+    {
+        p.add(po);
+
+    }
+
+    public void removerPessoas(int pox)
+    {
+        p.remove(pox);
+
+    }
+
+    
+    public List<Populacao> getPopulacoes() {
+        return new ArrayList<>(this.p); // Retorna uma cópia da lista para evitar modificações externas diretas
+    }
+    
+
+
+
+
+
+
+
+
+
+
     
     @Override
     public String toString(){
