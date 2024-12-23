@@ -225,16 +225,36 @@ public class Cidade {
 
     
     public List<Populacao> getPopulacoes() {
-        return new ArrayList<>(this.p); // Retorna uma cópia da lista para evitar modificações externas diretas
+        return new ArrayList<>(this.p);
+    }
+    
+
+    public Unidades buscarUnidadePorPosicao(int posX, int posY) {
+        for (Unidades unidade : un.values()) {
+            if (unidade.getLinha() == posX && unidade.getColuna() == posY) {
+                return unidade;  
+            }
+        }
+        return null;  
     }
     
 
 
+    public Unidades removerUnidadePorPosicao(int posX, int posY) {
+        for (var entry : un.entrySet()) {
+            Unidades unidade = entry.getValue();  
+            if (unidade.getLinha() == posX && unidade.getColuna() == posY) {
+                un.remove(entry.getKey());
+                return unidade;  
+            }
+        }
+        return null;  
+    }
+    
 
-
-
-
-
+public int tamanho_da_populacao(){
+    return p.size();
+}
 
 
 

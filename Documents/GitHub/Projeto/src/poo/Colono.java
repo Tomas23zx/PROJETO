@@ -61,5 +61,26 @@ public class Colono extends Unidades {
         
         
     }
+    @Override
+    public void morrer(Cidade city, Mapa map) {
+        if (this.getVida() == 0) {
+            
+            map.remover_do_mapa(getLinha(), getColuna());  
     
+            
+            for (Cidade c : map.getCidades()) {
+                
+                Unidades unidadeRemovida = c.removerUnidadePorPosicao(getLinha(), getColuna());
+                if (unidadeRemovida != null) {
+                    
+                    System.out.println("A unidade " + unidadeRemovida.getCodigo() + " foi removida da cidade " + c.getCodigo());
+                    break; 
+                }
+            }
+    
+            
+            map.removerUnidadePorPosicao(getLinha(), getColuna());  
+            System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
+        }
+    }
 }

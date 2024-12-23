@@ -88,7 +88,8 @@ public String menCiv() {
             System.out.println("8. Exibir informacoes da civilizacao");
             System.out.println("9. Produzir");
             System.out.println("10. Dia Seguinte");
-            System.out.println("11. Sair");
+            System.out.println("11.Atacar");
+            System.out.println("12. Sair");
     
             int opcao = scanner.nextInt();
             //Atualizar recuros
@@ -142,6 +143,9 @@ public String menCiv() {
                     SkipDay();
                 }
                 case 11 ->{
+                    atacares( civi,  map);
+                }
+                case 12  ->{
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
                 }
@@ -165,38 +169,43 @@ public void Atacar(){
         exibircidade(civi);
 }
 public void atacares(Civilizacao civi, Mapa map) {
-    // Seleciona uma cidade da civilização
+    
     Cidade cityCidade = selecionarCidade(civi);
     if (cityCidade == null) {
         System.out.println("Cidade não encontrada ou opção inválida.");
         return;
     }
     
-    // Seleciona uma unidade da cidade escolhida
+    
     Unidades un = selecionarUnidade(cityCidade);
     if (un == null) {
         System.out.println("Unidade não encontrada ou opção inválida.");
         return;
     }
     
-    // Verifica se a unidade selecionada é do tipo Militar
+    
     if (un instanceof Militares) {
-        Militares unidadeMilitar = (Militares) un;  // Faz o casting para Militares
+        Militares unidadeMilitar = (Militares) un;  
         
-        // Verifica se há unidades inimigas ao redor da unidade selecionada
+        
         Unidades unidadesAoRedor = unidadeMilitar.verificarInimigoAoRedorDeTodasAsUnidades(unidadeMilitar,map);
         
         if (unidadesAoRedor != null) {
             System.out.println("Unidades inimigas detectadas ao redor.");
-            System.out.println("Unidade inimiga encontrada: " + unidadesAoRedor.getCodigo());
-            // Chama a funcionalidade da unidade (no caso, ataque)
-            unidadeMilitar.funcionalidade(civi);
+            System.out.println("Unidade inimiga encontrada: " + unidadesAoRedor.getId());
+            
+            unidadeMilitar.atacar(unidadesAoRedor);
+            System.out.println("Inimigo: "+unidadesAoRedor.getVida());
+            System.out.println("Atacante: "+unidadeMilitar.getVida());
+            unidadeMilitar.morrer(cityCidade, map);
+            unidadesAoRedor.morrer(cityCidade, map);
         } else {
             System.out.println("Nenhuma unidade inimiga detectada ao redor.");
         }
     } else {
         System.out.println("A unidade selecionada não é militar.");
     }
+  
 }
 
 
@@ -368,12 +377,12 @@ public Cidade selecionarCidade(Civilizacao civi) {
         Cidade cidade = cidades.get(i);
         System.out.print(i + " - " + cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
         
-        // Acessar e exibir os recursos da cidade
+        
         Recursos producao = cidade.findRecurso(new Producao(0));
         Recursos comida = cidade.findRecurso(new Comida(0, 0, 0));
         Recursos ouro = cidade.findRecurso(new Ouro(0));
 
-        // Exibindo os pontos de produção, comida e ouro
+        
         if (producao != null) {
             System.out.print("Produção: " + producao.getQuantidade() + " ");
         }
@@ -383,7 +392,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
         if (ouro != null) {
             System.out.print("Ouro: " + ouro.getQuantidade() + " ");
         }
-        System.out.println();  // Nova linha para separar as cidades
+        System.out.println();  
     }
 
     if (cidades.isEmpty()) {
@@ -391,7 +400,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
         return null;
     }
 
-    // Entrada para selecionar a cidade
+   
     System.out.print("Escolha o indice da cidade: ");
     int indiceCidade;
     try {
@@ -412,10 +421,10 @@ public Cidade selecionarCidade(Civilizacao civi) {
 }
 
 public void menuUnidades(Civilizacao civi,Mapa mapa) {
-    // Selecionar a cidade escolhida pelo jogador
+    
     Cidade cidadeEscolhida = selecionarCidade(civi);  
     if (cidadeEscolhida == null) {
-        return;  // Se a cidade for null (não há cidades disponíveis), termina o método
+        return;  
     }
 
     System.out.println("Escolha uma unidade para criar:");
@@ -459,17 +468,17 @@ public void menuUnidades(Civilizacao civi,Mapa mapa) {
         int posX = cidadeEscolhida.getPosX();
         int posY = cidadeEscolhida.getPosY();
 
-        // Inserindo a unidade na cidade e no mapa
+        
         cidadeEscolhida.insereUnidade(unidadeCriada);
-        //mapa.adicionarUnidades(unidadeCriada);
+        
         mapa.meterUnidade(unidadeCriada, posX + 1, posY + 1);
         System.out.println(""+mapa.getUnidades(0).getCodigo());
         ;
 
-        // Informando que a unidade foi criada e posicionada
+       
         System.out.println("Unidade criada e posicionada no mapa na cidade " + cidadeEscolhida.getCodigo());
     } else {
-        // Caso não haja produção suficiente
+        
         System.out.println("Não há produção suficiente para criar a unidade. Produção necessária: 5 pontos.");
     }
 }
@@ -497,7 +506,7 @@ public void alocarPopulacao(Civilizacao civi) {
     int raio = populacaoInicial + 1;
     List<int[]> posicoesDisponiveis = new ArrayList<>();
 
-    // Determinar as posições disponíveis no raio da cidade
+    
     for (int i = Math.max(0, cidadeX - raio); i <= Math.min(mapa.getMapa().length - 1, cidadeX + raio); i++) {
         for (int j = Math.max(0, cidadeY - raio); j <= Math.min(mapa.getMapa()[0].length - 1, cidadeY + raio); j++) {
             int distancia = Math.abs(i - cidadeX) + Math.abs(j - cidadeY);
@@ -513,7 +522,7 @@ public void alocarPopulacao(Civilizacao civi) {
         System.out.println(i + ": (" + pos[0] + ", " + pos[1] + ")");
     }
 
-    // Perguntar ao utilizador quantas pessoas ele quer alocar
+    
     int pessoasParaAlocar;
     do {
         System.out.print("Digite o número de pessoas que deseja alocar (máximo " + populacaoInicial + "): ");
@@ -523,7 +532,7 @@ public void alocarPopulacao(Civilizacao civi) {
         }
     } while (pessoasParaAlocar > populacaoInicial || pessoasParaAlocar < 1);
 
-    // Perguntar ao utilizador onde ele quer alocar as pessoas
+   
     for (int i = 0; i < pessoasParaAlocar; i++) {
         int posicaoEscolhida;
         do {
@@ -534,7 +543,7 @@ public void alocarPopulacao(Civilizacao civi) {
             }
         } while (posicaoEscolhida < 0 || posicaoEscolhida >= posicoesDisponiveis.size());
 
-        // Alocar a pessoa na posição escolhida
+        
         int[] posicao = posicoesDisponiveis.get(posicaoEscolhida);
         int posX = posicao[0];
         int posY = posicao[1];
@@ -581,6 +590,8 @@ public void manutecao(Civilizacao civi,Mapa mapa){
     Cidade city = selecionarCidade(civi);
     manutencaoPopulacao(city,mapa);
 }
+
+
 
 
 

@@ -87,11 +87,11 @@ public class Militares extends Unidades {
     
                     String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
     
-                    if (!codigoNaPosicao.equals("X")) {
+                    if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals("F") && !codigoNaPosicao.equals("~")) {
                        
     
                         
-                        Unidades unidadeAdjacente = map.buscarUnidadePorCodigo(codigoNaPosicao, unidade.getId());
+                        Unidades unidadeAdjacente = map.buscarUnidadePorCodigo(novaLinha,novaColuna,unidade.getId());
                         
 
                         if (unidadeAdjacente != null) {
@@ -110,36 +110,78 @@ public class Militares extends Unidades {
     
     
     public double calcularProbabilidadeDeVitoria(Militares unidadeAdversaria) {
-        // Probabilidade é baseada na força e vida das unidades
+     
         double probabilidade = (this.forca * this.getVida()) / (double) (unidadeAdversaria.getForca() * unidadeAdversaria.getVida());
         return probabilidade;
     }
-    public void atacar(Militares unidadeAdversaria) {
-        double probabilidadeDeVitoria = calcularProbabilidadeDeVitoria(unidadeAdversaria);
 
-        // Determina o dano baseado na probabilidade de vitória
-        if (Math.random() < probabilidadeDeVitoria) {
-            // Se a unidade ganhar, a unidade adversária perde vida
-            unidadeAdversaria.setVida(unidadeAdversaria.getVida() - 10);  // Exemplo: cada ataque retira 10 de vida
-            System.out.println("A unidade " + getCodigo() + " atacou com sucesso! A vida da unidade adversária agora é " + unidadeAdversaria.getVida());
+    public void atacar(Unidades unidadeAdversaria) {
+        double probabilidadeDeVitoria;
+    
+        if (this instanceof Militares) {
+            
+            if (unidadeAdversaria instanceof Militares) {
+                probabilidadeDeVitoria = calcularProbabilidadeDeVitoria((Militares) unidadeAdversaria);
+            } else {
+                
+                probabilidadeDeVitoria = 0.8; 
+            }
+    
+            
+            if (Math.random() < probabilidadeDeVitoria) {
+                
+                int dano = (unidadeAdversaria instanceof Militares) ? 10 : 20; 
+    
+                // Reduz a vida da unidade adversária
+                unidadeAdversaria.setVida(unidadeAdversaria.getVida() - dano);
+                System.out.println("A unidade " + getCodigo() + " atacou com sucesso! A vida da unidade adversária agora é " + unidadeAdversaria.getVida());
+            } else {
+             
+                this.setVida(this.getVida() - 10);
+                System.out.println("A unidade " + getCodigo() + " falhou no ataque. Sua vida agora é " + this.getVida());
+            }
+    
+           
+            if (unidadeAdversaria.getVida() <= 0) {
+                System.out.println("A unidade " + unidadeAdversaria.getCodigo() + " foi derrotada!");
+                unidadeAdversaria.setVida(0);
+            }
+    
+            
+            if (this.getVida() <= 0) {
+                System.out.println("A unidade " + getCodigo() + " foi derrotada!");
+                this.setVida(0); 
+            }
         } else {
-            // Caso contrário, a unidade atacante perde vida
-            this.setVida(this.getVida() - 10);  // Exemplo: cada ataque retira 10 de vida
-            System.out.println("A unidade " + getCodigo() + " falhou no ataque. Sua vida agora é " + this.getVida());
+            System.out.println("Apenas unidades militares podem calcular probabilidade de vitória!");
         }
-
-        // Se a vida da unidade adversária ou a vida da unidade atual chegar a 0, a unidade é removida
-        if (unidadeAdversaria.getVida() <= 0) {
-            System.out.println("A unidade " + unidadeAdversaria.getCodigo() + " foi derrotada!");
-            unidadeAdversaria.setVida(0);  // Definir vida como 0 (indicando que foi derrotada)
-        }
-
-        if (this.getVida() <= 0) {
-            System.out.println("A unidade " + getCodigo() + " foi derrotada!");
-            this.setVida(0);  // Definir vida como 0 (indicando que foi derrotada)
+    }
+    @Override
+    public void morrer(Cidade city, Mapa map) {
+        if (this.getVida() == 0) {
+            
+            map.remover_do_mapa(getLinha(), getColuna());  
+    
+            
+            for (Cidade c : map.getCidades()) {
+                
+                Unidades unidadeRemovida = c.removerUnidadePorPosicao(getLinha(), getColuna());
+                if (unidadeRemovida != null) {
+                    
+                    System.out.println("A unidade " + unidadeRemovida.getCodigo() + " foi removida da cidade " + c.getCodigo());
+                    break; 
+                }
+            }
+    
+            
+            map.removerUnidadePorPosicao(getLinha(), getColuna());  
+            System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
         }
     }
     
+    
+    
+
 }
  
 

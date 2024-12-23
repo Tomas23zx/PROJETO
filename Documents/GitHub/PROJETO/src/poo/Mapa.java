@@ -1,5 +1,6 @@
 package poo;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,6 +8,8 @@ public class Mapa {
     private int tamanhoX;
     private int tamanhoY;
     private ArrayList<Unidades>un;
+    private ArrayList<Cidade>city;
+    private String[][] estadoAnterior;
     
     
     private String[][] mapa;
@@ -18,8 +21,9 @@ public class Mapa {
         this.tamanhoX = tamanhoX;
         this.tamanhoY = tamanhoY;
         this.un=new ArrayList<Unidades>();
-       
+        this.city=new ArrayList<Cidade>();
         this.mapa = criarMapa();
+        this.estadoAnterior = copiarMapa(mapa);
     }
 //
     private String[][] criarMapa() {
@@ -71,6 +75,13 @@ public class Mapa {
             }
         }
     }
+    private String[][] copiarMapa(String[][] mapa) {
+        String[][] copia = new String[tamanhoX][tamanhoY];
+        for (int i = 0; i < tamanhoX; i++) {
+            System.arraycopy(mapa[i], 0, copia[i], 0, tamanhoY);
+        }
+        return copia;
+    }
 
     public String[][] getMapa() {
         return this.mapa;
@@ -103,6 +114,7 @@ public class Mapa {
         Cidade citys = new Cidade("C", x, y, civi.getId(),4);
         civi.adicionaCidade(citys);
         mapa[x][y] = citys.getCodigo();
+        city.add(citys);
     }
 
     public boolean podeConstruirCidade(Civilizacao civi, int x, int y) {
@@ -138,6 +150,32 @@ public class Mapa {
         un.remove(pox);
 
     }
+    public void removerUnidadePorPosicao(int x, int y) {
+       
+        for (int i = 0; i < un.size(); i++) {
+            Unidades unidade = un.get(i);
+            if (unidade.getLinha() == x && unidade.getColuna() == y) {
+              
+                un.remove(i);
+                
+                return; 
+            }
+        }
+        System.out.println("Nenhuma unidade encontrada na posição (" + x + ", " + y + ").");
+    }
+
+    public void adicionaCidadees(Cidade citys){
+        city.add(citys);
+    }
+    public void removerCidades(int poxi)
+    {
+        city.remove(poxi);
+
+    }
+    
+    public ArrayList<Cidade> getCidades() {
+        return city; 
+    }
 
     public Unidades getUnidades(int i) {
         return  un.get(i);
@@ -147,7 +185,7 @@ public class Mapa {
         int linhaAtual = un.getLinha();
         int colunaAtual = un.getColuna();
 
-        mapa[linhaAtual][colunaAtual] = "X";
+        mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
 
         if (novaLinha < 0) novaLinha = tamanhoX - 1;
         if (novaLinha >= tamanhoX) novaLinha = 0;
@@ -180,18 +218,19 @@ public class Mapa {
         return 0;
     }
     
-    public Unidades buscarUnidadePorCodigo(String codigo, int idCivilizacao) {
+    public Unidades buscarUnidadePorCodigo(int x,int y, int idCivilizacao) {
         for (Unidades unidade : un) {
-            System.out.println("un:"+unidade.getCodigo());
-            System.out.println("c:"+codigo);
-            if (unidade.getCodigo().equals(codigo)) {
+           
+            if (unidade.getLinha()==x && unidade.getColuna()==y) {
                 return unidade;
             }
         }
-        return null;  // Return null if no enemy unit is found
+        return null;  
     }
     
-    
+    public void remover_do_mapa(int x,int y){
+        mapa[x][y]=estadoAnterior[x][y];
+    }
     
     
 }
