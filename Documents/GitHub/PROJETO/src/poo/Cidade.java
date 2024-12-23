@@ -256,6 +256,17 @@ public int tamanho_da_populacao(){
     return p.size();
 }
 
+public int manutencao_das_unidades(){
+    int conta=0;
+    if(un.size()==0)
+    {
+        return conta;
+    }
+    else{
+        conta=conta+un.size();
+        return conta*5;
+    }
+}
 
 
     

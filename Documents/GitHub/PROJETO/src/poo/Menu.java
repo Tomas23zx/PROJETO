@@ -13,7 +13,11 @@ public class Menu {
     private Civilizacao civi;
     private Mapa mapa; 
     private int dia=0;
+    private int criar;
     private int horasgastas=24;
+    private Cidade esc;
+    private int us;
+    private boolean jacriou;
     
     public Menu(String[][] matriz, Mapa mapa,Civilizacao civi) {
         if (matriz == null) {
@@ -99,14 +103,19 @@ public String menCiv() {
                 System.out.println("2. Sair");
                 int opcao2 = scanner.nextInt();
                 switch(opcao2){
-                    case 1->SkipDay();
+                    case 1->{
+                        jacriou=false;
+                        SkipDay();
+                    }
                     case 2->{
+                        
                         System.out.println("Saindo do programa. Ate mais!");
                         continuar = false;
                     }
                 }
             }
             else{
+                pagarMilitares(civi); 
             switch (opcao) {
                
                 case 1 -> {
@@ -123,8 +132,25 @@ public String menCiv() {
                 }
                 case 4 -> mapa.imprimirMapa();
                 case 5 -> {
-                    menuUnidades(civi,map);
-                    horasgastas-=3;
+                    if(!jacriou)
+                    {
+                        esc=selecionarCidade(civi);
+                        System.out.println("Escolha uma unidade para criar:");
+                        System.out.println("1. Militar");
+                        System.out.println("2. Construtor");
+                        System.out.println("3. Colono");
+                        us = scanner.nextInt();
+                        
+                        Data_de_criacao(dia);
+                        
+                        
+                        horasgastas-=3;
+                        jacriou=true;
+                    }
+                    else{
+                        System.out.println("ja foi criada uma unidade neste dia!!");
+                    }
+                  
                 }
                 case 6 -> {
                     Atacar();
@@ -140,6 +166,7 @@ public String menCiv() {
                     horasgastas-=3;
                 }
                 case 10 -> {
+                    jacriou=false;
                     SkipDay();
                 }
                 case 11 ->{
@@ -152,15 +179,32 @@ public String menCiv() {
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
             }
+            verifica_dia(esc,map,us);
             atualizarCidades(civi);
             System.out.println();
         }
     }
-    
 public void SkipDay(){
     dia++;
     horasgastas=24;
     
+}
+public int Data_de_criacao(int dia){
+   criar=dia+1;
+   
+return criar;
+
+}
+
+public void verifica_dia(Cidade cidade,Mapa map,int tipoUnidade){
+    if(criar==0){
+
+    }
+    else if(criar==dia){
+        System.out.println("criou" );
+        menuUnidades(cidade,map,tipoUnidade);
+        criar=0;
+    }
 }
 public void Atacar(){
         Cidade c = selecionarCidade(civi);
@@ -228,8 +272,8 @@ public void Interface(Civilizacao civi) {
     System.out.println("Total das civilizacoes: ");
     System.out.println("    Comida: " + totalComida + " / " + comidaMax);
     System.out.println("    Populacao: " + populacao);
-    System.out.println("    Ouro " + totalOuro);
-    System.out.println("    Tesouro: " + tesouros + " (cada 5 gemas 1 tesouro)");
+    System.out.println("    Tesouro " + totalOuro);
+    
     
    
     System.out.println("                               N");
@@ -420,19 +464,13 @@ public Cidade selecionarCidade(Civilizacao civi) {
     return cidadeEscolhida;
 }
 
-public void menuUnidades(Civilizacao civi,Mapa mapa) {
+public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
     
-    Cidade cidadeEscolhida = selecionarCidade(civi);  
-    if (cidadeEscolhida == null) {
-        return;  
-    }
+    
 
-    System.out.println("Escolha uma unidade para criar:");
-    System.out.println("1. Militar");
-    System.out.println("2. Construtor");
-    System.out.println("3. Colono");
-    int tipoUnidade = scanner.nextInt();
 
+   
+    int tipoUnidade = unidade;
     Unidades unidadeCriada;
 
     
@@ -498,65 +536,102 @@ public void menuFunciunalidades(Civilizacao civi,Mapa map){
 
 public void alocarPopulacao(Civilizacao civi) {
     Scanner scanner = new Scanner(System.in);
-    Cidade cidadescolhida = selecionarCidade(civi);
+    Cidade cidadeEscolhida = selecionarCidade(civi);
     List<int[]> posicoesAlocadas = new ArrayList<>();
-    int cidadeX = cidadescolhida.getPosX();
-    int cidadeY = cidadescolhida.getPosY();
-    int populacaoInicial = cidadescolhida.getPopulacao();
-    int raio = populacaoInicial + 1;
-    List<int[]> posicoesDisponiveis = new ArrayList<>();
+    int cidadeX = cidadeEscolhida.getPosX();
+    int cidadeY = cidadeEscolhida.getPosY();
+    int populacaoInicial = cidadeEscolhida.getPopulacao();
+    int populacaoAtual = cidadeEscolhida.tamanho_da_populacao();
+    int pessoasParaAlocar = 0;
+
+    int raio = (populacaoAtual == 0) ? populacaoInicial : populacaoInicial - populacaoAtual;
+
+    List<int[]> posicoesDisponiveis = calcularPosicoesDisponiveis(cidadeX, cidadeY, raio);
+
+    if (posicoesDisponiveis.isEmpty()) {
+        System.out.println("Não há posições disponíveis para alocação.");
+        return;
+    }
+
+    exibirPosicoesDisponiveis(posicoesDisponiveis);
+
+  
+    pessoasParaAlocar = determinarQuantidadeDePessoas(scanner, populacaoInicial - populacaoAtual);
 
     
+    alocarPessoas(scanner, cidadeEscolhida, posicoesDisponiveis, pessoasParaAlocar, posicoesAlocadas);
+
+    System.out.println("Alocação concluída. Total de pessoas alocadas: " + posicoesAlocadas.size());
+}
+
+
+private List<int[]> calcularPosicoesDisponiveis(int cidadeX, int cidadeY, int raio) {
+    List<int[]> posicoesDisponiveis = new ArrayList<>();
     for (int i = Math.max(0, cidadeX - raio); i <= Math.min(mapa.getMapa().length - 1, cidadeX + raio); i++) {
         for (int j = Math.max(0, cidadeY - raio); j <= Math.min(mapa.getMapa()[0].length - 1, cidadeY + raio); j++) {
             int distancia = Math.abs(i - cidadeX) + Math.abs(j - cidadeY);
-            if (distancia <= raio) { 
+            if (distancia <= raio) {
                 posicoesDisponiveis.add(new int[]{i, j});
             }
         }
     }
+    return posicoesDisponiveis;
+}
 
+
+private void exibirPosicoesDisponiveis(List<int[]> posicoesDisponiveis) {
     System.out.println("Posições disponíveis para alocar população:");
     for (int i = 0; i < posicoesDisponiveis.size(); i++) {
         int[] pos = posicoesDisponiveis.get(i);
         System.out.println(i + ": (" + pos[0] + ", " + pos[1] + ")");
     }
+}
 
-    
+
+private int determinarQuantidadeDePessoas(Scanner scanner, int maxPessoas) {
     int pessoasParaAlocar;
     do {
-        System.out.print("Digite o número de pessoas que deseja alocar (máximo " + populacaoInicial + "): ");
+        System.out.print("Digite o número de pessoas que deseja alocar (máximo " + maxPessoas + "): ");
+        while (!scanner.hasNextInt()) {
+            System.out.println("Entrada inválida. Digite um número inteiro.");
+            scanner.next();
+        }
         pessoasParaAlocar = scanner.nextInt();
-        if (pessoasParaAlocar > populacaoInicial || pessoasParaAlocar < 1) {
+        if (pessoasParaAlocar > maxPessoas || pessoasParaAlocar < 1) {
             System.out.println("Número inválido. Tente novamente.");
         }
-    } while (pessoasParaAlocar > populacaoInicial || pessoasParaAlocar < 1);
+    } while (pessoasParaAlocar > maxPessoas || pessoasParaAlocar < 1);
+    return pessoasParaAlocar;
+}
 
-   
+
+private void alocarPessoas(Scanner scanner, Cidade cidadeEscolhida, List<int[]> posicoesDisponiveis, int pessoasParaAlocar, List<int[]> posicoesAlocadas) {
     for (int i = 0; i < pessoasParaAlocar; i++) {
         int posicaoEscolhida;
         do {
             System.out.print("Escolha o índice da posição para alocar a pessoa " + (i + 1) + ": ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrada inválida. Digite um número inteiro.");
+                scanner.next();
+            }
             posicaoEscolhida = scanner.nextInt();
             if (posicaoEscolhida < 0 || posicaoEscolhida >= posicoesDisponiveis.size()) {
                 System.out.println("Índice inválido. Tente novamente.");
             }
         } while (posicaoEscolhida < 0 || posicaoEscolhida >= posicoesDisponiveis.size());
 
-        
         int[] posicao = posicoesDisponiveis.get(posicaoEscolhida);
         int posX = posicao[0];
         int posY = posicao[1];
 
         Populacao novaPopulacao = new Populacao(posX, posY);
-        cidadescolhida.meterPessoas(novaPopulacao);
+        cidadeEscolhida.meterPessoas(novaPopulacao);
         posicoesAlocadas.add(posicao);
 
         System.out.println("Pessoa alocada na posição: (" + posX + ", " + posY + ")");
     }
-
-    System.out.println("Alocação concluída. Total de pessoas alocadas: " + posicoesAlocadas.size());
 }
+
 
 public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
     
@@ -589,6 +664,28 @@ public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
 public void manutecao(Civilizacao civi,Mapa mapa){
     Cidade city = selecionarCidade(civi);
     manutencaoPopulacao(city,mapa);
+}
+
+public void pagarMilitares(Civilizacao civi) {
+    for (Cidade cidade : civi.getCidades()) {
+       
+        int custoManutencao = cidade.manutencao_das_unidades();
+
+        
+        Recursos ouro = cidade.findRecurso(new Ouro(0));
+        
+        if (ouro != null) {
+            
+            if (ouro.getQuantidade() >= custoManutencao) {
+                cidade.consumirRecurso(new Ouro(0), custoManutencao);
+                System.out.println("Cidade " + cidade.getCodigo() + ": manutenção de " + custoManutencao + " ouro paga.");
+            } else {
+                System.out.println("Cidade " + cidade.getCodigo() + ": ouro insuficiente para pagar manutenção. Ouro disponível: " + ouro.getQuantidade() + ".");
+            }
+        } else {
+            System.out.println("Cidade " + cidade.getCodigo() + " não possui recurso de ouro.");
+        }
+    }
 }
 
 

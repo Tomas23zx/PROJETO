@@ -56,7 +56,7 @@ public class Militares extends Unidades {
             case 'E' -> novaColuna++;
             case 'O' -> novaColuna--;
             default -> {
-                System.out.println("Direção inválida! Use N, E, S ou O.");
+                System.out.println("Direcao invalida! Use N, E, S ou O.");
                 return;
             }
         }
@@ -132,7 +132,6 @@ public class Militares extends Unidades {
                 
                 int dano = (unidadeAdversaria instanceof Militares) ? 10 : 20; 
     
-                // Reduz a vida da unidade adversária
                 unidadeAdversaria.setVida(unidadeAdversaria.getVida() - dano);
                 System.out.println("A unidade " + getCodigo() + " atacou com sucesso! A vida da unidade adversária agora é " + unidadeAdversaria.getVida());
             } else {

@@ -70,4 +70,6 @@ public int Total_Recurssos(Recursos tipoRecurso, Civilizacao civ) {
     public boolean existeCidadeNaCoordenada(int x, int y) {
         return buscarCidadePorCoordenada(x, y) != null;
     }
+
+   
 }
