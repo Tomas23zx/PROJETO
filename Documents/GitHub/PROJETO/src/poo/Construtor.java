@@ -55,27 +55,14 @@ public class Construtor extends Unidades {
     }
 @Override
 public void funcionalidade(Civilizacao civi) {
-    /*
-            
-        
-        if (this.city != null) {
-            
-            if (this.getLinha() == city.getPosX() && this.getColuna() == city.getPosY()) {
-               
-                city.upgrade();
-
-                
-                mapa.meterCidade(getLinha(), getColuna());
-
-                System.out.println("Cidade " + city.getLetra() + " foi upada!");
-            } else {
-                System.out.println("O construtor não está na cidade, não pode upar.");
-            }
-        } else {
-            System.out.println("Cidade não definida para o construtor.");
-        }
-*/
-    }
+System.out.println("Selecione duas cidades para criar a estrada: ");
+if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
+    System.out.println("Nao tem cidades sufecientes para construir uma estrada");
+}
+else{
+    civi.escolherCidades();
+}
+}
    
 
     @Override
