@@ -495,13 +495,13 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
             int numeroAleatorio = random.nextInt(41);  
             
             
-            unidadeCriada = new Militares("M",mapa, civi.getId(),100, numeroAleatorio);
+            unidadeCriada = new Militares("M",mapa, cidadeEscolhida.getId(),100, numeroAleatorio);
                 break;
             case 2:
-                unidadeCriada = new Construtor("H", mapa,civi.getId(),100);
+                unidadeCriada = new Construtor("H", mapa,cidadeEscolhida.getId(),100);
                 break;
             case 3:
-                unidadeCriada = new Colono("E", mapa,civi.getId(),100);
+                unidadeCriada = new Colono("E", mapa,cidadeEscolhida.getId(),100);
                 break;
             default:
                 System.out.println("Tipo de unidade inválido!");

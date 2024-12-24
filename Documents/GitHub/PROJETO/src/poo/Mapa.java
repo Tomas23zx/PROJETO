@@ -1,6 +1,5 @@
 package poo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -286,10 +285,12 @@ public class Mapa {
     public Unidades buscarUnidadePorCodigo(int x,int y, int idCivilizacao) {
         for (Unidades unidade : un) {
            
-            if (unidade.getLinha()==x && unidade.getColuna()==y) {
+            if (unidade.getLinha()==x && unidade.getColuna()==y && unidade.getId()!= idCivilizacao) {
                 return unidade;
             }
+            System.out.println(""+unidade.getId());
         }
+        System.out.println(""+idCivilizacao);
         return null;  
     }
 
