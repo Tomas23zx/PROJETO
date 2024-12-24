@@ -44,6 +44,9 @@ public class Militares extends Unidades {
     public int getForca() {
         return forca;
     }
+    public void setForca(int x){
+        this.forca=x;
+    }
     
     @Override
     public void mover(char direcao, Mapa map) {

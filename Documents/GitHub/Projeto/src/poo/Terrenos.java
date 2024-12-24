@@ -46,6 +46,6 @@ public abstract class Terrenos {
 
     public abstract char[] criarArray(int tamanho);
     //public abstract void permiteandar();
-    //public abstract void vantagem();
+    public abstract boolean vantagem(Unidades un);
 
 }

@@ -24,5 +24,9 @@ public class Agua extends Inacessivel {
         }
         return array;
     }
+    public  boolean  vantagem(Unidades un){
+        return true;
+
+    }
     
 }

@@ -26,4 +26,7 @@ public class Acessivel extends Terrenos {
         }
         return array;
     }
+    public  boolean vantagem(Unidades un){
+        return true;
+    }
 }

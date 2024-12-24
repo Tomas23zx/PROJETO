@@ -25,5 +25,9 @@ public class Arvore extends Acessivel {
         }
         return array;
     }
+    public  boolean vantagem(Unidades un){
+        un.setVida(un.getVida()+1);
+        return true;
+    }
     
 }

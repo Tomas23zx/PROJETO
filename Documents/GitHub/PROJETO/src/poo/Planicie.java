@@ -1,21 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package poo;
 
-/**
- *
- * @author joaot
- */
-public class Acessivel extends Terrenos {
-//
-    
-    public Acessivel(String letra) {
-        super(letra);
-    }
 
-    
+public class Planicie extends Acessivel {
+    public Planicie(){
+        super("P");
+
+    }
 
     @Override
     public char[] criarArray(int tamanho) {
@@ -26,7 +16,13 @@ public class Acessivel extends Terrenos {
         }
         return array;
     }
+
     public  boolean vantagem(Unidades un){
+        if(un instanceof  Militares)
+        {
+            ((Militares) un).setForca(((Militares) un).getForca() + ((Militares) un).getForca());
+        }
         return true;
     }
+
 }

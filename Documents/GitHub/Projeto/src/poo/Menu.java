@@ -173,6 +173,7 @@ public String menCiv() {
                     atacares( civi,  map);
                 }
                 case 12  ->{
+                    dia++;
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
                 }

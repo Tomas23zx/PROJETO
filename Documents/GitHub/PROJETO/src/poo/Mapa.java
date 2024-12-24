@@ -10,6 +10,7 @@ public class Mapa {
     private ArrayList<Unidades>un;
     private ArrayList<Cidade>city;
     private String[][] estadoAnterior;
+    private ArrayList<Terrenos> ter;
     
     
     private String[][] mapa;
@@ -22,25 +23,29 @@ public class Mapa {
         this.tamanhoY = tamanhoY;
         this.un=new ArrayList<Unidades>();
         this.city=new ArrayList<Cidade>();
+        this.ter=new ArrayList<Terrenos>();
         this.mapa = criarMapa();
         this.estadoAnterior = copiarMapa(mapa);
     }
 //
     private String[][] criarMapa() {
         String[][] mapa = new String[tamanhoX][tamanhoY];
-
+        Terrenos ass=new Acessivel("X");
         for (int i = 0; i < tamanhoX; i++) {
+            
             for (int j = 0; j < tamanhoY; j++) {
-                mapa[i][j] = "X";
+                mapa[i][j] = ass.getLetra();
             }
         }
 
         Random random = new Random();
         Terrenos agua = new Agua();
+        ter.add(agua);
         int tamanhoAgua = random.nextInt(25) + 20;
         preencherTerrenos(mapa, agua, tamanhoAgua);
 
         Terrenos arvore = new Arvore();
+        ter.add(arvore);
         int tamanhoFloresta = random.nextInt(50) + 30;
         preencherTerrenos(mapa, arvore, tamanhoFloresta);
 
@@ -131,7 +136,7 @@ public class Mapa {
             if (novoX >= 0 && novoX < tamanhoX && novoY >= 0 && novoY < tamanhoY) {
                 for (Cidade cidade : civi.getCidades()) {
                     if (cidade.getPosX() == novoX && cidade.getPosY() == novoY) {
-                        if ("C".equals(cidade.getLetra())) {
+                        if (cidade.getLetra().equals(cidade.getLetra())) {
                             return false;
                         }
                     }
@@ -149,6 +154,14 @@ public class Mapa {
     {
         un.remove(pox);
 
+    }
+
+    public void adicionarTerrenos(Terrenos cas){
+        ter.add(cas);
+    }
+
+    public void removerTerrenos(int capa){
+        ter.remove(capa);
     }
     public void removerUnidadePorPosicao(int x, int y) {
        
@@ -185,17 +198,36 @@ public class Mapa {
         int linhaAtual = un.getLinha();
         int colunaAtual = un.getColuna();
 
-        mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
+        
 
         if (novaLinha < 0) novaLinha = tamanhoX - 1;
         if (novaLinha >= tamanhoX) novaLinha = 0;
         if (novaColuna < 0) novaColuna = tamanhoY - 1;
         if (novaColuna >= tamanhoY) novaColuna = 0;
+        if(mapa[novaLinha][novaColuna]==obterLetraAgua()){
+            Terrenos agua=obterAgua();
+            boolean x=agua.vantagem(un);
+            System.out.println("Nao pode mover para aqui");
+        }
+        if (mapa[novaLinha][novaColuna]==obterLetraArvore()) {
+            Terrenos arvore=obterArvore();
+            boolean x= arvore.vantagem(un);
+            System.out.println("A sua vida, e agora: "+un.getVida());
+            mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
+            un.setLinha(novaLinha);
+            un.setColuna(novaColuna);
+            mapa[novaLinha][novaColuna] = un.getCodigo();
+            
+        }
+        else{
 
+        
+        mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
         un.setLinha(novaLinha);
         un.setColuna(novaColuna);
 
         mapa[novaLinha][novaColuna] = un.getCodigo();
+        }
     }
     
     public int obterUnidadePorPosicao(int x, int y, List<Unidades> unidades) {
@@ -231,6 +263,59 @@ public class Mapa {
     public void remover_do_mapa(int x,int y){
         mapa[x][y]=estadoAnterior[x][y];
     }
+
+    public String[] obterLetrasDosTerrenos() {
+        String[] letrasTerrenos = new String[ter.size()];
+    
+        for (int i = 0; i < ter.size(); i++) {
+            letrasTerrenos[i] = ter.get(i).getLetra();
+        }
+    
+        return letrasTerrenos;
+    }
+
+    public String obterLetraAgua() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Agua) {
+                return terreno.getLetra();
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Agua nao encontrado no array.");
+    }
+
+    public Terrenos obterAgua() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Agua) {
+                return (Agua) terreno;
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Agua nao encontrado no array.");
+    }
+    public String obterLetraArvore() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Arvore) {
+                return terreno.getLetra();
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Arvore nao encontrado no array.");
+    }
+    public Terrenos obterArvore() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Arvore) {
+                return (Arvore) terreno;
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Arvore nao encontrado no array.");
+    }
+    public String obterLetraAcessivel() {
+        for (Terrenos terreno : ter) {
+            if (terreno != null && terreno.getClass() == Acessivel.class) {
+                return terreno.getLetra();
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Acessivel nao encontrado no array.");
+    }
+    
     
     
 }
