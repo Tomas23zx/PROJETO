@@ -37,7 +37,7 @@ public class Colono extends Unidades {
     
      
     @Override
-    public void mover(char direcao, Mapa map) {
+    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -52,10 +52,10 @@ public class Colono extends Unidades {
             }
         }
 
-        map.moverUnidade(this, novaLinha, novaColuna);
+        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo);
     }
      @Override
-    public  void funcionalidade(Civilizacao civi)
+    public  void funcionalidade(Civilizacao civi,Mapa map)
     {
         mapa.meterCidade(civi,getLinha(),getColuna());
         
@@ -68,6 +68,7 @@ public class Colono extends Unidades {
             map.remover_do_mapa(getLinha(), getColuna());  
     
             
+
             for (Cidade c : map.getCidades()) {
                 
                 Unidades unidadeRemovida = c.removerUnidadePorPosicao(getLinha(), getColuna());

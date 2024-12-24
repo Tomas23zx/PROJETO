@@ -118,7 +118,9 @@ public class Cidade {
         
         return  getLetra() + idCivilizacao;
     }
-
+public int getId(){
+    return idCivilizacao;
+}
     public int quantidade_por_unidade() {
         int contador = 0;
         for (Unidades uni : un.values()) {

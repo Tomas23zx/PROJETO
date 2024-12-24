@@ -17,6 +17,7 @@ public class Menu {
     private int horasgastas=24;
     private Cidade esc;
     private int us;
+    private String codigo;
     private boolean jacriou;
     
     public Menu(String[][] matriz, Mapa mapa,Civilizacao civi) {
@@ -255,6 +256,7 @@ public void atacares(Civilizacao civi, Mapa map) {
 
 
 
+
 public void Interface(Civilizacao civi) {
     int comidaMax = 150;
     int populacao = 0;
@@ -313,6 +315,7 @@ public void Interface(Civilizacao civi) {
             System.out.println("Operação cancelada ou unidade não encontrada.");
             return;
         }
+        
     
         System.out.print("Digite a direção para mover a unidade (N, S, E, O): ");
         char direcao = scanner.next().toUpperCase().charAt(0);
@@ -335,7 +338,7 @@ public void Interface(Civilizacao civi) {
         int colunaAnterior = unidadeEscolhida.getColuna();
     
         for (int i = 0; i < numCasas; i++) {
-            unidadeEscolhida.mover(direcao, mapa);
+            unidadeEscolhida.mover(direcao, mapa,unidadeEscolhida,codigo);
         }
     
         int novaLinha = unidadeEscolhida.getLinha();
@@ -343,10 +346,11 @@ public void Interface(Civilizacao civi) {
     
         if (novaLinha != linhaAnterior || novaColuna != colunaAnterior) {
             System.out.println("Unidade movida com sucesso para a posição: (" + novaLinha + ", " + novaColuna + ").");
-            mapa.moverUnidade(unidadeEscolhida, novaLinha, novaColuna);
+            mapa.moverUnidade(unidadeEscolhida, novaLinha, novaColuna,codigo);
         } else {
             System.out.println("Movimento inválido. A unidade permaneceu na posição original.");
         }
+        codigo="";
     }
     
     
@@ -358,6 +362,7 @@ public void Interface(Civilizacao civi) {
         String codigoUnidade = scanner.next();
     
         Unidades unidadeEscolhida = cidade.buscarUnidadePorCodigo(codigoUnidade);
+        codigo=codigoUnidade;
         if (unidadeEscolhida == null) {
             System.out.println("Unidade com o código especificado não foi encontrada na cidade.");
             return null;
@@ -526,7 +531,7 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
 public void menuFunciunalidades(Civilizacao civi,Mapa map){
     Cidade cidadeEscolhida=selecionarCidade(civi);
     Unidades un=selecionarUnidade( cidadeEscolhida);
-    un.funcionalidade(civi);
+    un.funcionalidade(civi,map);
     if(un instanceof Colono && map.podeConstruirCidade(civi,un.getLinha(),un.getColuna())){
         cidadeEscolhida.removerUnidade(un);
     }

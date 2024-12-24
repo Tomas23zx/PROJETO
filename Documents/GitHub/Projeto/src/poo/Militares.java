@@ -49,7 +49,7 @@ public class Militares extends Unidades {
     }
     
     @Override
-    public void mover(char direcao, Mapa map) {
+    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -64,11 +64,11 @@ public class Militares extends Unidades {
             }
         }
 
-        map.moverUnidade(this, novaLinha, novaColuna);
+        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo);
     }
 
     @Override
-    public void funcionalidade(Civilizacao civi) {
+    public void funcionalidade(Civilizacao civi,Mapa map) {
         
         
     }
@@ -90,7 +90,7 @@ public class Militares extends Unidades {
     
                     String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
     
-                    if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals("F") && !codigoNaPosicao.equals("~")) {
+                    if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals("F") && !codigoNaPosicao.equals("~") && !codigoNaPosicao.startsWith("C")) {
                        
     
                         
@@ -158,6 +158,72 @@ public class Militares extends Unidades {
             System.out.println("Apenas unidades militares podem calcular probabilidade de vitória!");
         }
     }
+
+public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
+    int linhaUnidade = unidade.getLinha();
+    int colunaUnidade = unidade.getColuna();
+
+    for (int i = -1; i <= 1; i++) {
+        for (int j = -1; j <= 1; j++) {
+            if (i == 0 && j == 0) continue;
+
+            int novaLinha = linhaUnidade + i;
+            int novaColuna = colunaUnidade + j;
+
+            if (novaLinha >= 0 && novaLinha < map.getMapa().length &&
+                novaColuna >= 0 && novaColuna < map.getMapa()[0].length) {
+
+                String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
+
+                if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals("F") && !codigoNaPosicao.equals("~") && !codigoNaPosicao.equals("P") &&  !codigoNaPosicao.startsWith("M") ) {
+                   
+
+                    
+                    Cidade enimigoCidade =map.buscarCidadePorposicao(novaLinha, novaColuna, unidade.getId());
+                    
+
+                    if (enimigoCidade != null) {
+                        return enimigoCidade;
+                    }
+                }
+            }
+        }
+    }
+
+    return null; 
+}
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @Override
     public void morrer(Cidade city, Mapa map) {
         if (this.getVida() == 0) {

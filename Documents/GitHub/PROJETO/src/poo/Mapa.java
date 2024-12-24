@@ -198,9 +198,9 @@ public class Mapa {
         return  un.get(i);
     }
     
-    public void moverUnidade(Unidades un, int novaLinha, int novaColuna) {
-        int linhaAtual = un.getLinha();
-        int colunaAtual = un.getColuna();
+    public void moverUnidade(Unidades en, int novaLinha, int novaColuna,String codigo) {
+        int linhaAtual = en.getLinha();
+        int colunaAtual = en.getColuna();
 
         
 
@@ -221,7 +221,7 @@ public class Mapa {
         
         if (mapa[novaLinha][novaColuna] == obterLetraAgua()) {
             Terrenos agua = obterAgua();
-            boolean x = agua.vantagem(un);
+            boolean x = agua.vantagem(en);
             System.out.println("Nao pode mover para aqui");
             
             
@@ -229,12 +229,12 @@ public class Mapa {
         }
         if (mapa[novaLinha][novaColuna]==obterLetraArvore()) {
             Terrenos arvore=obterArvore();
-            boolean x= arvore.vantagem(un);
-            System.out.println("A sua vida, e agora: "+un.getVida());
+            boolean x= arvore.vantagem(en);
+            System.out.println("A sua vida, e agora: "+en.getVida());
             mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
-            un.setLinha(novaLinha);
-            un.setColuna(novaColuna);
-            mapa[novaLinha][novaColuna] = un.getCodigo();
+            en.setLinha(novaLinha);
+            en.setColuna(novaColuna);
+            mapa[novaLinha][novaColuna] = codigo;
 
 
             return;
@@ -242,11 +242,11 @@ public class Mapa {
         }
         if(mapa[novaLinha][novaColuna]==obterLetraPlanicie()){
             Terrenos pl=obterPlanicie();
-            boolean x = pl.vantagem(un);
+            boolean x = pl.vantagem(en);
             mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
-            un.setLinha(novaLinha);
-            un.setColuna(novaColuna);
-            mapa[novaLinha][novaColuna] = un.getCodigo();
+            en.setLinha(novaLinha);
+            en.setColuna(novaColuna);
+            mapa[novaLinha][novaColuna] = codigo;
 
 
             return;
@@ -256,10 +256,10 @@ public class Mapa {
 
         
         mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
-        un.setLinha(novaLinha);
-        un.setColuna(novaColuna);
+        en.setLinha(novaLinha);
+        en.setColuna(novaColuna);
 
-        mapa[novaLinha][novaColuna] = un.getCodigo();
+        mapa[novaLinha][novaColuna] = codigo;
         }
     }
     
@@ -292,6 +292,17 @@ public class Mapa {
         }
         return null;  
     }
+
+    public Cidade buscarCidadePorposicao(int x,int y,int idCivilizacao){
+
+        for(Cidade cit:city){
+            if(cit.getPosX()==x && cit.getPosY()==y && cit.getId()!=idCivilizacao){
+                return cit;
+            }
+        }
+        return null;
+    }
+    
     
     public void remover_do_mapa(int x,int y){
         mapa[x][y]=estadoAnterior[x][y];
