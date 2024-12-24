@@ -256,17 +256,20 @@ public int tamanho_da_populacao(){
     return p.size();
 }
 
-public int manutencao_das_unidades(){
-    int conta=0;
-    if(un.size()==0)
-    {
+public int manutencao_das_unidades() {
+    int conta = 0;
+    if (un.size() == 0) {
         return conta;
-    }
-    else{
-        conta=conta+un.size();
-        return conta*5;
+    } else {
+        for (Unidades unidade : un.values()) {
+            if (unidade instanceof Militares) { 
+                conta++;
+            }
+        }
+        return conta * 100; 
     }
 }
+
 
 
     

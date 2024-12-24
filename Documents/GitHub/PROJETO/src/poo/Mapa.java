@@ -41,7 +41,7 @@ public class Mapa {
         Random random = new Random();
         Terrenos agua = new Agua();
         ter.add(agua);
-        int tamanhoAgua = random.nextInt(25) + 20;
+        int tamanhoAgua = random.nextInt(50) + 30;
         preencherTerrenos(mapa, agua, tamanhoAgua);
 
         Terrenos arvore = new Arvore();
@@ -49,6 +49,10 @@ public class Mapa {
         int tamanhoFloresta = random.nextInt(50) + 30;
         preencherTerrenos(mapa, arvore, tamanhoFloresta);
 
+        Terrenos pl=new Planicie();
+        ter.add(pl);
+        int tamanhoPlanicie = random.nextInt(70) + 30;
+        preencherTerrenos(mapa, pl, tamanhoPlanicie);
         
     
         
@@ -204,10 +208,24 @@ public class Mapa {
         if (novaLinha >= tamanhoX) novaLinha = 0;
         if (novaColuna < 0) novaColuna = tamanhoY - 1;
         if (novaColuna >= tamanhoY) novaColuna = 0;
-        if(mapa[novaLinha][novaColuna]==obterLetraAgua()){
-            Terrenos agua=obterAgua();
-            boolean x=agua.vantagem(un);
+
+        String letraDestino = mapa[novaLinha][novaColuna];
+
+         for (Cidade cidade : city) {
+        if (cidade.getCodigo().equals(letraDestino)) {
+            System.out.println("Não é possível mover para a posição (" + novaLinha + ", " + novaColuna + "). Já está ocupada por uma cidade.");
+            return;
+        }
+    }
+        
+        
+        if (mapa[novaLinha][novaColuna] == obterLetraAgua()) {
+            Terrenos agua = obterAgua();
+            boolean x = agua.vantagem(un);
             System.out.println("Nao pode mover para aqui");
+            
+            
+            return;
         }
         if (mapa[novaLinha][novaColuna]==obterLetraArvore()) {
             Terrenos arvore=obterArvore();
@@ -217,7 +235,22 @@ public class Mapa {
             un.setLinha(novaLinha);
             un.setColuna(novaColuna);
             mapa[novaLinha][novaColuna] = un.getCodigo();
+
+
+            return;
             
+        }
+        if(mapa[novaLinha][novaColuna]==obterLetraPlanicie()){
+            Terrenos pl=obterPlanicie();
+            boolean x = pl.vantagem(un);
+            mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
+            un.setLinha(novaLinha);
+            un.setColuna(novaColuna);
+            mapa[novaLinha][novaColuna] = un.getCodigo();
+
+
+            return;
+
         }
         else{
 
@@ -231,7 +264,7 @@ public class Mapa {
     }
     
     public int obterUnidadePorPosicao(int x, int y, List<Unidades> unidades) {
-        // Verifica se as posições fornecidas estão dentro dos limites do mapa
+        
         if (x < 0 || x >= tamanhoX || y < 0 || y >= tamanhoY) {
             throw new IllegalArgumentException("As posições fornecidas estão fora dos limites do mapa.");
         }
@@ -314,6 +347,22 @@ public class Mapa {
             }
         }
         throw new IllegalStateException("Terreno do tipo Acessivel nao encontrado no array.");
+    }
+    public String obterLetraPlanicie() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Planicie) {
+                return terreno.getLetra();
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
+    }
+    public Terrenos obterPlanicie() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Planicie) {
+                return (Planicie) terreno;
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
     }
     
     

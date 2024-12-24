@@ -669,25 +669,29 @@ public void manutecao(Civilizacao civi,Mapa mapa){
 
 public void pagarMilitares(Civilizacao civi) {
     for (Cidade cidade : civi.getCidades()) {
-       
         int custoManutencao = cidade.manutencao_das_unidades();
 
         
         Recursos ouro = cidade.findRecurso(new Ouro(0));
         
         if (ouro != null) {
-            
             if (ouro.getQuantidade() >= custoManutencao) {
+                
                 cidade.consumirRecurso(new Ouro(0), custoManutencao);
                 System.out.println("Cidade " + cidade.getCodigo() + ": manutenção de " + custoManutencao + " ouro paga.");
             } else {
-                System.out.println("Cidade " + cidade.getCodigo() + ": ouro insuficiente para pagar manutenção. Ouro disponível: " + ouro.getQuantidade() + ".");
+                
+                int ouroDisponivel = ouro.getQuantidade();
+                cidade.consumirRecurso(new Ouro(0), ouroDisponivel);
+                System.out.println("Cidade " + cidade.getCodigo() + ": ouro insuficiente para pagar manutenção. Ouro disponível: " 
+                                   + ouroDisponivel + " consumido, ficando a 0.");
             }
         } else {
             System.out.println("Cidade " + cidade.getCodigo() + " não possui recurso de ouro.");
         }
     }
 }
+
 
 
 

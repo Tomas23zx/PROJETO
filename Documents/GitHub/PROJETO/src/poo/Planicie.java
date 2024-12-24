@@ -16,11 +16,12 @@ public class Planicie extends Acessivel {
         }
         return array;
     }
-
+    @Override
     public  boolean vantagem(Unidades un){
         if(un instanceof  Militares)
         {
             ((Militares) un).setForca(((Militares) un).getForca() + ((Militares) un).getForca());
+            System.out.println("A sua forca e: "+ ((Militares) un).getForca());
         }
         return true;
     }
