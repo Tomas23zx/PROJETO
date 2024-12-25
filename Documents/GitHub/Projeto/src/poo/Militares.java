@@ -90,7 +90,7 @@ public class Militares extends Unidades {
     
                     String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
     
-                    if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals("F") && !codigoNaPosicao.equals("~") && !codigoNaPosicao.startsWith("C")) {
+                    if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua()) && !codigoNaPosicao.startsWith("C") && !codigoNaPosicao.equals(map.obterLetraPlanicie()) ) {
                        
     
                         
@@ -175,7 +175,7 @@ public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
 
                 String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
 
-                if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals("F") && !codigoNaPosicao.equals("~") && !codigoNaPosicao.equals("P") &&  !codigoNaPosicao.startsWith("M") ) {
+                if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua())  && !codigoNaPosicao.equals(map.obterLetraPlanicie()) &&  !codigoNaPosicao.startsWith("M") ) {
                    
 
                     

@@ -209,6 +209,13 @@ public class Mapa {
         if (novaColuna >= tamanhoY) novaColuna = 0;
 
         String letraDestino = mapa[novaLinha][novaColuna];
+    
+            if (buscarUnidades(novaLinha,novaColuna)!=null) {
+                System.out.println("Não é possível mover para a posição (" + novaLinha + ", " + novaColuna + "). Já está ocupada por uma tropa.");
+                return;
+            }
+
+        
 
          for (Cidade cidade : city) {
         if (cidade.getCodigo().equals(letraDestino)) {
@@ -291,6 +298,18 @@ public class Mapa {
             System.out.println(""+unidade.getId());
         }
         System.out.println(""+idCivilizacao);
+        return null;  
+    }
+
+    public Unidades buscarUnidades(int x,int y) {
+        for (Unidades unidade : un) {
+           
+            if (unidade.getLinha()==x && unidade.getColuna()==y ) {
+                return unidade;
+            }
+            System.out.println(""+unidade.getId());
+        }
+       
         return null;  
     }
 

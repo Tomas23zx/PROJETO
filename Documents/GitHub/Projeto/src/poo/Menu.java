@@ -630,7 +630,7 @@ private void alocarPessoas(Scanner scanner, Cidade cidadeEscolhida, List<int[]> 
         int posX = posicao[0];
         int posY = posicao[1];
 
-        Populacao novaPopulacao = new Populacao(posX, posY);
+        Populacao novaPopulacao = new Populacao(posX, posY,mapa);
         cidadeEscolhida.meterPessoas(novaPopulacao);
         posicoesAlocadas.add(posicao);
 
@@ -658,7 +658,7 @@ public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
             String letraMapa = mapaArray[posX][posY];
 
             
-            populacao.letraAtribuida(cidade, letraMapa);
+            populacao.letraAtribuida(cidade, letraMapa,mapa);
         } else {
             System.out.println("Posição fora dos limites do mapa: (" + posX + ", " + posY + ")");
         }
