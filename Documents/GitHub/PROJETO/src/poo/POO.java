@@ -49,6 +49,8 @@ public class POO {
             menu.Interface(civilizacaoAtual);
             menu.menus(civilizacaoAtual, mapa);
 
+            
+
             System.out.println("Deseja continuar o jogo? (s/n): ");
             String resposta = scanner.nextLine().trim().toLowerCase();
 

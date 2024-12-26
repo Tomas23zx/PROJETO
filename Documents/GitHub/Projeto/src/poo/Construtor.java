@@ -60,7 +60,8 @@ if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
     System.out.println("Nao tem cidades sufecientes para construir uma estrada");
 }
 else{
-    civi.escolherCidades();
+    //civi.escolherCidades();
+    
 }
 }
    
