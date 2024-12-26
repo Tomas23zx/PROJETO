@@ -193,6 +193,46 @@ public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
     return null; 
 }
  
+public boolean atacar_cidade(Cidade cidade_inimiga,Cidade cidade_origem) {
+    
+    if (cidade_inimiga == null) {
+        System.out.println("Nenhuma cidade inimiga para atacar.");
+        return false;
+    }
+
+    double fatorDeReducao = 0.5;
+    double probabilidadeDeVitoria = (this.forca * this.getVida()) / (double) (cidade_inimiga.getDefesa() * cidade_inimiga.getPopulacao());
+    probabilidadeDeVitoria *= fatorDeReducao;
+    
+    if (Math.random() < probabilidadeDeVitoria) {
+        
+        System.out.println("A unidade " + getCodigo() + " venceu o ataque! A cidade " + cidade_inimiga.getCodigo() + " foi destruída.");
+        mapa.remover_do_mapa(cidade_inimiga.getPosX(), cidade_inimiga.getPosY());
+        mapa.removerCidades(conta);
+        mapa.removerCidadeDaposicao(cidade_inimiga.getPosX(), cidade_inimiga.getPosY());
+        return true;
+    } else {
+        
+        double sorte = Math.random();
+        if (sorte < 0.5) {
+           
+            int recursosRoubados = cidade_inimiga.getReserva() / 2; 
+            cidade_inimiga.setReserva(cidade_inimiga.getReserva() - recursosRoubados);
+            cidade_origem.setReserva(cidade_origem.getReserva()+recursosRoubados);
+            System.out.println("O ataque falhou, mas a unidade " + getCodigo() + " conseguiu roubar " + recursosRoubados + " recursos da cidade " + cidade_inimiga.getCodigo() + ".");
+            return false;
+        } else {
+            
+            this.setVida(this.getVida() - 20);
+            System.out.println("O ataque falhou. A unidade " + getCodigo() + " perdeu 20 de vida e agora tem " + this.getVida() + " de vida.");
+            return false;
+        }
+
+        
+        
+    }
+        
+}
 
 
 

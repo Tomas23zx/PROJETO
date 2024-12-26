@@ -15,6 +15,10 @@ public class POO {
         Mapa mapa = new Mapa(25, 25);
         mapa.meterCidade(civi1, 15, 15);
         mapa.meterCidade(civi2, 10, 10); 
+        mapa.adiciona_Civ(civi1);
+        mapa.adiciona_Civ(civi2);
+
+
 
         List<Civilizacao> civilizacoes = new ArrayList<>();
         civilizacoes.add(civi1);

@@ -24,6 +24,7 @@ public class Cidade {
     private int ouro_produzido;
     private int valor_produzido_reserva;
     private int valor_consumido_reserva;
+    private int defesa;
 
     public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
         this.letra = letra;
@@ -41,6 +42,7 @@ public class Cidade {
         this.valor_consumido_reserva=0;
         this.valor_produzido_reserva=0;
         this.consumoTotalPopulacao=0;
+        this.defesa=0;
         
        
         
@@ -135,6 +137,19 @@ public class Cidade {
     public int numdeUnid() {
         return un.size();
     }
+    public int getDefesa(){
+        return defesa;
+    }
+    public void setDefesa(int x){
+        this.defesa=defesa;
+    }
+    public void CalcularDefesa() {
+        Random rand = new Random();
+        int x = rand.nextInt(50);
+        defesa = x; 
+    }
+
+
 
     public String getCodigo() {
         
@@ -420,6 +435,34 @@ public void aumentar_populacao() {
        
     }
 }
+
+public void removerTodasUnidades() {
+    if (un.isEmpty()) {
+        System.out.println("Não há unidades para remover.");
+    } else {
+        int quantidadeRemovida = un.size();
+        un.clear(); 
+        System.out.println("Todas as " + quantidadeRemovida + " unidades foram removidas da cidade " + getCodigo() + ".");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

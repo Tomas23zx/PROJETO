@@ -10,6 +10,7 @@ public class Mapa {
     private ArrayList<Cidade>city;
     private String[][] estadoAnterior;
     private ArrayList<Terrenos> ter;
+    private ArrayList<Civilizacao> civa;
     
     
     private String[][] mapa;
@@ -23,6 +24,7 @@ public class Mapa {
         this.un=new ArrayList<Unidades>();
         this.city=new ArrayList<Cidade>();
         this.ter=new ArrayList<Terrenos>();
+        this.civa=new ArrayList<Civilizacao>();
         this.mapa = criarMapa();
         this.estadoAnterior = copiarMapa(mapa);
     }
@@ -180,6 +182,19 @@ public class Mapa {
         System.out.println("Nenhuma unidade encontrada na posição (" + x + ", " + y + ").");
     }
 
+    public void removerCidadeDaposicao(int x,int y){
+        for (int i = 0; i < city.size(); i++) {
+            Cidade cit = city.get(i);
+            if (cit.getPosX() == x && cit.getPosY() == y) {
+              
+                city.remove(i);
+                
+                return; 
+            }
+        }
+        System.out.println("Nenhuma unidade encontrada na posição (" + x + ", " + y + ").");
+    }
+
     public void adicionaCidadees(Cidade citys){
         city.add(citys);
     }
@@ -188,11 +203,29 @@ public class Mapa {
         city.remove(poxi);
 
     }
+    public void  adiciona_Civ(Civilizacao cava){
+        civa.add(cava);
+    }
+    public void remover_civ(int x){
+        civa.remove(x);
+
+    }
+    public Civilizacao buscarcivilizacao_por_id(int id) {
+        for (Civilizacao c : civa) {  
+            if (c.getId() == id) {    
+                return c;  
+            }
+        }
+        return null;  
+    }
+    
     
     public ArrayList<Cidade> getCidades() {
         return city; 
     }
-
+    public Civilizacao getCivi(int x){
+        return civa.get(x);
+    }
     public Unidades getUnidades(int i) {
         return  un.get(i);
     }

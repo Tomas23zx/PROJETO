@@ -225,44 +225,86 @@ public void Atacar(){
         exibircidade(civi);
 }
 public void atacares(Civilizacao civi, Mapa map) {
-    
     Cidade cityCidade = selecionarCidade(civi);
     if (cityCidade == null) {
         System.out.println("Cidade não encontrada ou opção inválida.");
         return;
     }
-    
-    
+
     Unidades un = selecionarUnidade(cityCidade);
     if (un == null) {
         System.out.println("Unidade não encontrada ou opção inválida.");
         return;
     }
-    
-    
+
     if (un instanceof Militares) {
-        Militares unidadeMilitar = (Militares) un;  
+        Militares unidadeMilitar = (Militares) un;
+
         
-        
-        Unidades unidadesAoRedor = unidadeMilitar.verificarInimigoAoRedorDeTodasAsUnidades(unidadeMilitar,map);
-        
-        if (unidadesAoRedor != null) {
-            System.out.println("Unidades inimigas detectadas ao redor.");
-            System.out.println("Unidade inimiga encontrada: " + unidadesAoRedor.getId());
+        Unidades unidadesAoRedor = unidadeMilitar.verificarInimigoAoRedorDeTodasAsUnidades(unidadeMilitar, map);
+        Cidade cidadeInimiga = unidadeMilitar.verificar_cidade_inimiga(unidadeMilitar, map);
+
+        if (unidadesAoRedor != null && cidadeInimiga != null) {
+           
+            System.out.println("Tanto uma unidade inimiga quanto uma cidade inimiga foram detectadas ao redor.");
+            System.out.println("1. Atacar Unidade (" + unidadesAoRedor.getId() + ")");
+            System.out.println("2. Atacar Cidade (" + cidadeInimiga.getCodigo() + ")");
+            System.out.print("Escolha uma opção (1 ou 2): ");
+            int escolha = new Scanner(System.in).nextInt();
+
+            if (escolha == 1) {
+                atacarUnidade(unidadeMilitar, unidadesAoRedor, cityCidade, map);
+            } else if (escolha == 2) {
+                atacarCidade(unidadeMilitar, cidadeInimiga,cityCidade,mapa);
+            } else {
+                System.out.println("Opção inválida.");
+            }
+        } else if (unidadesAoRedor != null) {
             
-            unidadeMilitar.atacar(unidadesAoRedor);
-            System.out.println("Inimigo: "+unidadesAoRedor.getVida());
-            System.out.println("Atacante: "+unidadeMilitar.getVida());
-            unidadeMilitar.morrer(cityCidade, map);
-            unidadesAoRedor.morrer(cityCidade, map);
+            System.out.println("Unidade inimiga encontrada: " + unidadesAoRedor.getId());
+            atacarUnidade(unidadeMilitar, unidadesAoRedor, cityCidade, map);
+        } else if (cidadeInimiga != null) {
+           
+            System.out.println("Cidade inimiga encontrada: " + cidadeInimiga.getCodigo());
+            atacarCidade(unidadeMilitar, cidadeInimiga,cityCidade,mapa);
         } else {
-            System.out.println("Nenhuma unidade inimiga detectada ao redor.");
+            
+            System.out.println("Nenhuma unidade ou cidade inimiga detectada ao redor.");
         }
     } else {
         System.out.println("A unidade selecionada não é militar.");
     }
-  
 }
+
+
+private void atacarUnidade(Militares atacante, Unidades alvo, Cidade cidadeOrigem, Mapa mapa) {
+    atacante.atacar(alvo);
+    System.out.println("Unidade inimiga atacada. Vida restante do inimigo: " + alvo.getVida());
+    System.out.println("Vida restante do atacante: " + atacante.getVida());
+    atacante.morrer(cidadeOrigem, mapa);
+    alvo.morrer(cidadeOrigem, mapa);
+}
+
+
+private void atacarCidade(Militares atacante, Cidade cidadeAlvo,Cidade cit,Mapa mapa) {
+    System.out.println("Atacando a cidade: " + cidadeAlvo.getCodigo());
+    boolean x=atacante.atacar_cidade(cidadeAlvo,cit);
+    atacante.morrer(cit, mapa);
+    if(x==true){
+       Civilizacao cava= mapa.buscarcivilizacao_por_id(cidadeAlvo.getId());
+       if(cidadeAlvo.numdeUnid()==0){
+       cava.removerCidade(cidadeAlvo);
+       }
+       if(cidadeAlvo.numdeUnid()!=0){
+        cidadeAlvo.removerTodasUnidades();
+        cava.removerCidade(cidadeAlvo);
+        
+       }
+    }
+
+    
+}
+
 
 
 
