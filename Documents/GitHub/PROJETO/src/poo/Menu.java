@@ -19,6 +19,10 @@ public class Menu {
     private int us;
     private String codigo;
     private boolean jacriou;
+    private int comida_consumida;
+    private int comida_produzida;
+    private int ouro_produzido;
+
     
     public Menu(String[][] matriz, Mapa mapa,Civilizacao civi) {
         if (matriz == null) {
@@ -116,7 +120,8 @@ public String menCiv() {
                 }
             }
             else{
-                pagarMilitares(civi); 
+                
+                
             switch (opcao) {
                
                 case 1 -> {
@@ -181,10 +186,19 @@ public String menCiv() {
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
             }
+            
             verifica_dia(esc,map,us);
-            atualizarCidades(civi);
+            
+            //atualizarCidades(civi);
             System.out.println();
         }
+        comida_produzida=0;
+        comida_consumida=0;
+        ouro_produzido=0;
+        produzir_populacao_alocada(civi, mapa);
+        pagarMilitares(civi); 
+        consumir(civi);
+        valor_da_Reserva(civi) ;
     }
 public void SkipDay(){
     dia++;
@@ -265,7 +279,7 @@ public void Interface(Civilizacao civi) {
     int dia = 0;
     int energia = 3; 
 
-    Recursos tipoComida = new Comida(0, 0, 0); 
+    Recursos tipoComida = new Comida(0,  0); 
     Recursos tipoOuro = new Ouro(0);           
     
     int totalComida = civi.Total_Recurssos(tipoComida, civi);
@@ -306,18 +320,18 @@ public void Interface(Civilizacao civi) {
 
         Cidade cidadeEscolhida = selecionarCidade(civi);
         if (cidadeEscolhida == null) {
-            System.out.println("Operação cancelada. Nenhuma cidade foi selecionada.");
+            System.out.println("Operaçao cancelada. Nenhuma cidade foi selecionada.");
             return;
         }
     
         Unidades unidadeEscolhida = selecionarUnidade(cidadeEscolhida);
         if (unidadeEscolhida == null) {
-            System.out.println("Operação cancelada ou unidade não encontrada.");
+            System.out.println("Operação cancelada ou unidade nao encontrada.");
             return;
         }
         
     
-        System.out.print("Digite a direção para mover a unidade (N, S, E, O): ");
+        System.out.print("Digite a direçao para mover a unidade (N, S, E, O): ");
         char direcao = scanner.next().toUpperCase().charAt(0);
     
         System.out.print("Digite o número de casas que deseja mover: ");
@@ -325,11 +339,11 @@ public void Interface(Civilizacao civi) {
         try {
             numCasas = scanner.nextInt();
             if (numCasas <= 0) {
-                System.out.println("O número de casas deve ser maior que zero.");
+                System.out.println("O numero de casas deve ser maior que zero.");
                 return;
             }
         } catch (InputMismatchException e) {
-            System.out.println("Entrada inválida. Certifique-se de digitar um número inteiro.");
+            System.out.println("Entrada invalida. Certifique-se de digitar um numero inteiro.");
             scanner.next(); 
             return;
         }
@@ -374,6 +388,7 @@ public void Interface(Civilizacao civi) {
   public void exibircidade(Civilizacao civi){
     Cidade c = selecionarCidade(civi);
     c.getRecursos();
+    System.out.println("Reserva: "+c.getReserva());
     
   }
   
@@ -381,7 +396,7 @@ public void atualizarCidades(Civilizacao civi){
 ArrayList<Cidade> cidades = civi.getCidades();
     for (int i = 0; i < cidades.size(); i++) {
         Recursos ouro = cidades.get(i).findRecurso(new Ouro(0));
-        Recursos comida = cidades.get(i).findRecurso(new Comida(0,0,0));
+        Recursos comida = cidades.get(i).findRecurso(new Comida(0,0));
         Recursos producao = cidades.get(i).findRecurso(new Producao(0));
         Random random = new Random();
         
@@ -429,7 +444,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
         
         
         Recursos producao = cidade.findRecurso(new Producao(0));
-        Recursos comida = cidade.findRecurso(new Comida(0, 0, 0));
+        Recursos comida = cidade.findRecurso(new Comida(0, 0));
         Recursos ouro = cidade.findRecurso(new Ouro(0));
 
         
@@ -640,13 +655,14 @@ private void alocarPessoas(Scanner scanner, Cidade cidadeEscolhida, List<int[]> 
 
 
 public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
-    
     if (cidade.getPopulacoes().isEmpty()) {
         System.out.println("A cidade " + cidade.getCodigo() + " não tem população alocada.");
         return; 
     }
 
     String[][] mapaArray = mapa.getMapa(); 
+    comida_produzida = 0; 
+    ouro_produzido=0;
 
     for (Populacao populacao : cidade.getPopulacoes()) {
         int posX = populacao.getPox();
@@ -654,15 +670,25 @@ public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
 
        
         if (posX >= 0 && posX < mapaArray.length && posY >= 0 && posY < mapaArray[0].length) {
-            
             String letraMapa = mapaArray[posX][posY];
 
+           
+            populacao.letraAtribuida(cidade, letraMapa, mapa);
+
             
-            populacao.letraAtribuida(cidade, letraMapa,mapa);
+            comida_produzida += populacao.getComidaTotalProduzida();
+            ouro_produzido+= populacao.getOuroproduzido();
+            
         } else {
             System.out.println("Posição fora dos limites do mapa: (" + posX + ", " + posY + ")");
         }
+        populacao.setComidaTotalProduzida(0);
+        populacao.setOuroproduzido(0);
+        
     }
+    System.out.print(cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
+    System.out.println("A quantidade de comida produzida foi: " + comida_produzida);
+    System.out.println("A quantidade de ouro produzida foi: " + ouro_produzido);
 }
 
 
@@ -670,6 +696,13 @@ public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
 public void manutecao(Civilizacao civi,Mapa mapa){
     Cidade city = selecionarCidade(civi);
     manutencaoPopulacao(city,mapa);
+}
+
+public void produzir_populacao_alocada(Civilizacao civi,Mapa mapa){
+    for (Cidade cidade : civi.getCidades()){
+        manutencaoPopulacao(cidade,mapa);
+    }
+
 }
 
 public void pagarMilitares(Civilizacao civi) {
@@ -698,8 +731,36 @@ public void pagarMilitares(Civilizacao civi) {
 }
 
 
+public void consumir(Civilizacao civi) {
+    comida_consumida = 0; 
+
+    for (Cidade cidade : civi.getCidades()) {
+        System.out.print(cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
+        cidade.Populacao_consumir(); 
+        comida_consumida += cidade.getConsumoTotalPopulacao();
+        cidade.setConsumoTotalPopulacao(0); 
+        System.out.println("Comida total consumida pela cidade: " + comida_consumida + " unidades.");
+       
+    }
+
+    System.out.println("Comida total consumida pela civilização: " + comida_consumida + " unidades.");
 
 
+}
+public void valor_da_Reserva(Civilizacao civi) {
+    for(Cidade cidade:civi.getCidades()){
+    int novaReserva = cidade.getReserva() + (comida_produzida - comida_consumida);
+    cidade.setReserva(novaReserva);
+
+    if (novaReserva >= 0) {
+        System.out.println("Reserva atualizada para a cidade " + cidade.getCodigo() + ": " + novaReserva + " unidades.");
+    } else {
+        System.out.println("O valor da reserva ficará a 0");
+        cidade.setReserva(0);
+
+    }
+}
+}
 
 
 }

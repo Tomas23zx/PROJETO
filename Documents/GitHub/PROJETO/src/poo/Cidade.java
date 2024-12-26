@@ -16,6 +16,8 @@ public class Cidade {
     private int nivel;
     private int idCivilizacao; 
     private int populacaoInicial;
+    private int reserva;
+    private int consumoTotalPopulacao;
     private ArrayList<Populacao> p;
 
     public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
@@ -27,15 +29,17 @@ public class Cidade {
         this.un = new TreeMap<>();
         this.re = new ArrayList<>();
         this.nivel = 1;
+        this.reserva=0;
+        this.consumoTotalPopulacao=0;
         
-        int limiteReserva=200;
+       
         
         int randomInt = random.nextInt(1000);
         int qntComida = random.nextInt(1000);
         int qntProducao = 0;
         this.p=new ArrayList<Populacao>();
         
-        re.add(new Comida(qntComida, limiteReserva, populacaoInicial));
+        re.add(new Comida(qntComida,populacaoInicial));
         re.add(new Producao(qntProducao));
         re.add(new Ouro(randomInt));
     }
@@ -65,9 +69,9 @@ public class Cidade {
                 int qnt1=producao.getQuantidade()/2;
                 c.consumirRecurso(new Producao(0),qnt1);
                 
-                Recursos comida =c.findRecurso(new Comida(0,0,0));
+                Recursos comida =c.findRecurso(new Comida(0,0));
                 int qnt2=comida.getQuantidade()/2;
-                c.consumirRecurso(new Comida(0,0,0),qnt2);
+                c.consumirRecurso(new Comida(0,0),qnt2);
                 
                 System.out.println("Conseguiste escapar a tempo!");
                 
@@ -78,7 +82,12 @@ public class Cidade {
                 break;
         } 
     }
-    
+    public int getReserva(){
+        return reserva;
+    }
+    public void setReserva(int x){
+        this.reserva=x;
+    }
     
     public int getPosX() {
         return posX;
@@ -97,6 +106,9 @@ public class Cidade {
     }
     public int getPopulacao(){
         return populacaoInicial;
+    }
+    public void  setPopulacao(int x){
+        this.populacaoInicial=x;
     }
     public TreeMap<String, Unidades> getUnidades() {
         return new TreeMap<>(un);
@@ -268,9 +280,48 @@ public int manutencao_das_unidades() {
                 conta++;
             }
         }
-        return conta * 100; 
+        return conta * 10; 
     }
 }
+
+
+
+public void Populacao_consumir() {
+    Recursos comida = findRecurso(new Comida(0, 0));
+    
+    if (comida != null) {
+        
+        consumoTotalPopulacao = populacaoInicial * 5;
+
+        
+        if (comida.getQuantidade() >= consumoTotalPopulacao) {
+            
+            consumirRecurso(new Comida(0,0), consumoTotalPopulacao);
+            System.out.println("População consumiu " + consumoTotalPopulacao + " unidades de comida.");
+        } else {
+            System.out.println("Recursos de comida insuficientes! Apenas " + comida.getQuantidade() + " disponíveis.");
+        }
+    } else {
+        System.out.println("Recurso de comida não encontrado!");
+    }
+}
+
+public int getConsumoTotalPopulacao() {
+    return consumoTotalPopulacao;
+}
+public void setConsumoTotalPopulacao(int x){
+    this.consumoTotalPopulacao=x;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

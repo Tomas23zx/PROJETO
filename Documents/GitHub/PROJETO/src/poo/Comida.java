@@ -1,20 +1,16 @@
 package poo;
 
 public class Comida extends Recursos {
-    private int reserva;
-    private int limiteSuperiorReserva;
+   
     private int populacao;
 
-    public Comida(int quantidadeInicial, int limiteSuperiorReserva, int populacaoInicial) {
+    public Comida(int quantidadeInicial,  int populacaoInicial) {
         super(quantidadeInicial);
-        this.reserva = 0;
-        this.limiteSuperiorReserva = limiteSuperiorReserva;
+    
         this.populacao = populacaoInicial;
     }
 
-    public int getReserva() {
-        return reserva;
-    }
+
 //
     public int getPopulacao() {
         return populacao;
@@ -40,6 +36,6 @@ public class Comida extends Recursos {
 }
     @Override
     public String toString(){
-          return "Quantidade de comida: "+getQuantidade()+ "\n" + "Populacao:" + getPopulacao()+ "\n" + "Reserva:" + getReserva();
+          return "Quantidade de comida: "+getQuantidade()+ "\n" + "Populacao:" + getPopulacao()+ "\n";
       }
 }
