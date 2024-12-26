@@ -19,9 +19,7 @@ public class Menu {
     private int us;
     private String codigo;
     private boolean jacriou;
-    private int comida_consumida;
-    private int comida_produzida;
-    private int ouro_produzido;
+   
 
     
     public Menu(String[][] matriz, Mapa mapa,Civilizacao civi) {
@@ -192,9 +190,7 @@ public String menCiv() {
             //atualizarCidades(civi);
             System.out.println();
         }
-        comida_produzida=0;
-        comida_consumida=0;
-        ouro_produzido=0;
+        
         produzir_populacao_alocada(civi, mapa);
         pagarMilitares(civi); 
         consumir(civi);
@@ -655,40 +651,7 @@ private void alocarPessoas(Scanner scanner, Cidade cidadeEscolhida, List<int[]> 
 
 
 public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
-    if (cidade.getPopulacoes().isEmpty()) {
-        System.out.println("A cidade " + cidade.getCodigo() + " não tem população alocada.");
-        return; 
-    }
-
-    String[][] mapaArray = mapa.getMapa(); 
-    comida_produzida = 0; 
-    ouro_produzido=0;
-
-    for (Populacao populacao : cidade.getPopulacoes()) {
-        int posX = populacao.getPox();
-        int posY = populacao.getPoy();
-
-       
-        if (posX >= 0 && posX < mapaArray.length && posY >= 0 && posY < mapaArray[0].length) {
-            String letraMapa = mapaArray[posX][posY];
-
-           
-            populacao.letraAtribuida(cidade, letraMapa, mapa);
-
-            
-            comida_produzida += populacao.getComidaTotalProduzida();
-            ouro_produzido+= populacao.getOuroproduzido();
-            
-        } else {
-            System.out.println("Posição fora dos limites do mapa: (" + posX + ", " + posY + ")");
-        }
-        populacao.setComidaTotalProduzida(0);
-        populacao.setOuroproduzido(0);
-        
-    }
-    System.out.print(cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
-    System.out.println("A quantidade de comida produzida foi: " + comida_produzida);
-    System.out.println("A quantidade de ouro produzida foi: " + ouro_produzido);
+   cidade.produzir(mapa);
 }
 
 
@@ -732,33 +695,21 @@ public void pagarMilitares(Civilizacao civi) {
 
 
 public void consumir(Civilizacao civi) {
-    comida_consumida = 0; 
+   
 
     for (Cidade cidade : civi.getCidades()) {
-        System.out.print(cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
-        cidade.Populacao_consumir(); 
-        comida_consumida += cidade.getConsumoTotalPopulacao();
-        cidade.setConsumoTotalPopulacao(0); 
-        System.out.println("Comida total consumida pela cidade: " + comida_consumida + " unidades.");
+        cidade.consumir_pessoas();
        
     }
 
-    System.out.println("Comida total consumida pela civilização: " + comida_consumida + " unidades.");
+   
 
 
 }
 public void valor_da_Reserva(Civilizacao civi) {
     for(Cidade cidade:civi.getCidades()){
-    int novaReserva = cidade.getReserva() + (comida_produzida - comida_consumida);
-    cidade.setReserva(novaReserva);
-
-    if (novaReserva >= 0) {
-        System.out.println("Reserva atualizada para a cidade " + cidade.getCodigo() + ": " + novaReserva + " unidades.");
-    } else {
-        System.out.println("O valor da reserva ficará a 0");
-        cidade.setReserva(0);
-
-    }
+   cidade.meter_reserva();
+   
 }
 }
 

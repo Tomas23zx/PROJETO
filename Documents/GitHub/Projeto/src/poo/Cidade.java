@@ -19,6 +19,11 @@ public class Cidade {
     private int reserva;
     private int consumoTotalPopulacao;
     private ArrayList<Populacao> p;
+    private int comida_consumida;
+    private int comida_produzida;
+    private int ouro_produzido;
+    private int valor_produzido_reserva;
+    private int valor_consumido_reserva;
 
     public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
         this.letra = letra;
@@ -30,6 +35,11 @@ public class Cidade {
         this.re = new ArrayList<>();
         this.nivel = 1;
         this.reserva=0;
+        this.comida_consumida=0;
+        this.comida_produzida=0;
+        this.ouro_produzido=0;
+        this.valor_consumido_reserva=0;
+        this.valor_produzido_reserva=0;
         this.consumoTotalPopulacao=0;
         
        
@@ -315,6 +325,84 @@ public void setConsumoTotalPopulacao(int x){
 
 
 
+
+public void produzir(Mapa mapa) {
+    if (this.getPopulacoes().isEmpty()) {
+        System.out.println("A cidade " + this.getCodigo() + " não tem população alocada.");
+        return; 
+    }
+
+    String[][] mapaArray = mapa.getMapa(); 
+    
+
+    for (Populacao populacao : this.getPopulacoes()) {
+        int posX = populacao.getPox();
+        int posY = populacao.getPoy();
+
+       
+        if (posX >= 0 && posX < mapaArray.length && posY >= 0 && posY < mapaArray[0].length) {
+            String letraMapa = mapaArray[posX][posY];
+
+           
+            populacao.letraAtribuida(this, letraMapa, mapa);
+
+            
+            comida_produzida += populacao.getComidaTotalProduzida();
+            ouro_produzido+= populacao.getOuroproduzido();
+            
+        } else {
+            System.out.println("Posição fora dos limites do mapa: (" + posX + ", " + posY + ")");
+        }
+        populacao.setComidaTotalProduzida(0);
+        populacao.setOuroproduzido(0);
+        
+    }
+    System.out.print(this.getCodigo() + " (" + this.getPosX() + "," + this.getPosY() + ") ");
+    System.out.println("A quantidade de comida produzida foi: " + comida_produzida);
+    System.out.println("A quantidade de ouro produzida foi: " + ouro_produzido);
+    valor_produzido_reserva=comida_produzida;
+    comida_produzida=0;
+    ouro_produzido=0;
+}
+
+
+public void consumir_pessoas() {
+    
+
+    
+        System.out.print(this.getCodigo() + " (" + this.getPosX() + "," + this.getPosY() + ") ");
+        this.Populacao_consumir(); 
+        comida_consumida += this.getConsumoTotalPopulacao();
+        this.setConsumoTotalPopulacao(0); 
+        System.out.println("Comida total consumida pela cidade: " + comida_consumida + " unidades.");
+        valor_consumido_reserva=comida_consumida;
+       
+    
+
+    comida_consumida=0;
+
+}
+
+
+
+
+public void meter_reserva() {
+    
+    int novaReserva = this.getReserva() +(valor_produzido_reserva-valor_consumido_reserva) ;
+    this.setReserva(novaReserva);
+
+    if (novaReserva >= 0) {
+        System.out.print(this.getCodigo() + " (" + this.getPosX() + "," + this.getPosY() + ") ");
+        System.out.println("Reserva atualizada para a cidade: " + novaReserva + " unidades.");
+        System.out.println("Diferença entre produzido e consumido"+ (valor_produzido_reserva-valor_consumido_reserva));
+    } else {
+        System.out.println("O valor da reserva ficará a 0");
+        this.setReserva(0);
+
+    }
+    valor_produzido_reserva=0;
+    valor_consumido_reserva=0;
+}
 
 
 
