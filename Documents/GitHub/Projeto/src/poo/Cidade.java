@@ -312,7 +312,7 @@ public void Populacao_consumir() {
             System.out.println("Recursos de comida insuficientes! Apenas " + comida.getQuantidade() + " disponíveis.");
         }
     } else {
-        System.out.println("Recurso de comida não encontrado!");
+        System.out.println("Recurso de comida nao encontrado!");
     }
 }
 
@@ -328,7 +328,7 @@ public void setConsumoTotalPopulacao(int x){
 
 public void produzir(Mapa mapa) {
     if (this.getPopulacoes().isEmpty()) {
-        System.out.println("A cidade " + this.getCodigo() + " não tem população alocada.");
+        System.out.println("A cidade " + this.getCodigo() + " nao tem populacao alocada.");
         return; 
     }
 
@@ -351,7 +351,7 @@ public void produzir(Mapa mapa) {
             ouro_produzido+= populacao.getOuroproduzido();
             
         } else {
-            System.out.println("Posição fora dos limites do mapa: (" + posX + ", " + posY + ")");
+            System.out.println("Posicao fora dos limites do mapa: (" + posX + ", " + posY + ")");
         }
         populacao.setComidaTotalProduzida(0);
         populacao.setOuroproduzido(0);
@@ -394,9 +394,9 @@ public void meter_reserva() {
     if (novaReserva >= 0) {
         System.out.print(this.getCodigo() + " (" + this.getPosX() + "," + this.getPosY() + ") ");
         System.out.println("Reserva atualizada para a cidade: " + novaReserva + " unidades.");
-        System.out.println("Diferença entre produzido e consumido"+ (valor_produzido_reserva-valor_consumido_reserva));
+        System.out.println("Diferenca entre produzido e consumido"+ (valor_produzido_reserva-valor_consumido_reserva));
     } else {
-        System.out.println("O valor da reserva ficará a 0");
+        System.out.println("O valor da reserva ficara a 0");
         this.setReserva(0);
 
     }
@@ -406,7 +406,20 @@ public void meter_reserva() {
 
 
 
+public void aumentar_populacao() {    
+    int limiteSuperior =500;   
+    if (reserva > limiteSuperior) {     
+        int excedente = reserva - limiteSuperior;
+        populacaoInicial += 1;
 
+        reserva = excedente;
+
+        System.out.println("A populacao foi aumentada para " + populacaoInicial +
+                           " e a nova reserva e " + reserva);
+    } else {
+       
+    }
+}
 
 
 

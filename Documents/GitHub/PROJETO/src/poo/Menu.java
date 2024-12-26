@@ -80,6 +80,7 @@ public String menCiv() {
 }
     public void menus(Civilizacao civi,Mapa map) {
         boolean continuar = true;
+        verificar_aumento_da_populacao(civi);
     
         while (continuar) {
             System.out.println("Dia:"+dia);
@@ -190,11 +191,10 @@ public String menCiv() {
             //atualizarCidades(civi);
             System.out.println();
         }
-        
         produzir_populacao_alocada(civi, mapa);
         pagarMilitares(civi); 
         consumir(civi);
-        valor_da_Reserva(civi) ;
+        valor_da_Reserva(civi);
     }
 public void SkipDay(){
     dia++;
@@ -713,5 +713,11 @@ public void valor_da_Reserva(Civilizacao civi) {
 }
 }
 
+public void verificar_aumento_da_populacao(Civilizacao civi){
+    for(Cidade cidade: civi.getCidades()){
+        cidade.aumentar_populacao();
+    }
+
+}
 
 }
