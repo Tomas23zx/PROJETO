@@ -13,6 +13,7 @@ public class Cidade {
     private int posY;
     private TreeMap<String, Unidades> un;
     private ArrayList<Recursos> re;
+    private ArrayList<String> ligacoes;
     private int nivel;
     private int idCivilizacao; 
     private int populacaoInicial;
@@ -29,6 +30,7 @@ public class Cidade {
         this.letra = letra;
         this.posX = posX;
         this.posY = posY;
+        this.ligacoes = new ArrayList<>();
         this.idCivilizacao = idCivilizacao; 
         this.populacaoInicial=populacaoInicial;
         this.un = new TreeMap<>();
@@ -57,11 +59,15 @@ public class Cidade {
     public Cidade(String letra, int idCivilizacao,int populacaoInicial) {
         this(letra, 0, 0, idCivilizacao,populacaoInicial);
     }
-
+    public ArrayList<String> getLigacoes() {
+        return ligacoes;
+    }
     public String getLetra() {
         return letra;
     }
-    
+    public void addLigacao(String codigo){
+        ligacoes.add(codigo);
+    }
     public void Atacar(Cidade c){
         int probGanhar = random.nextInt(3);
         System.out.println(" ");
@@ -154,7 +160,8 @@ public int getId(){
     public boolean existeTropa(String letra) {
         return un.containsKey(letra);
     }
-
+    
+    
     public List<String> listarCodigosUnidades() {
         return new ArrayList<>(un.keySet());
     }
@@ -166,6 +173,8 @@ public int getId(){
     public Unidades buscarUnidadePorCodigo(String codigo) {
         return un.getOrDefault(codigo, null);
     }
+    
+
 
     public void listarDetalhesUnidades() {
         for (var entry : un.entrySet()) {

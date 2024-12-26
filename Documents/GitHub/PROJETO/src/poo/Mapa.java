@@ -7,10 +7,12 @@ public class Mapa {
     private int tamanhoX;
     private int tamanhoY;
     private ArrayList<Unidades>un;
+    private ArrayList<Estrutura>es;
     private ArrayList<Cidade>city;
     private String[][] estadoAnterior;
     private ArrayList<Terrenos> ter;
-    
+    public static final String VERMELHO = "\033[31m";
+    public static final String RESET = "\033[0m";
     
     private String[][] mapa;
 
@@ -23,6 +25,7 @@ public class Mapa {
         this.un=new ArrayList<Unidades>();
         this.city=new ArrayList<Cidade>();
         this.ter=new ArrayList<Terrenos>();
+        this.es=new ArrayList<Estrutura>();
         this.mapa = criarMapa();
         this.estadoAnterior = copiarMapa(mapa);
     }
@@ -98,7 +101,11 @@ public class Mapa {
     public void imprimirMapa() {
         for (String[] linha : mapa) {
             for (String celula : linha) {
-                System.out.print(celula + " ");
+                if(celula == "E"){
+                System.out.print(VERMELHO + celula + " " + RESET);
+                }
+                else{
+                System.out.print(celula + " ");}
             }
             System.out.println();
         }
@@ -112,7 +119,15 @@ public class Mapa {
         
         System.out.println("Unidade adicionada: " + en.getCodigo());
     }
-
+    public void meterEstrutura(Estrutura en, int x, int y) {
+        en.setColuna(y);
+        en.setLinha(x);
+        mapa[x][y] = en.getCodigo();
+        es.add(en);
+        
+        System.out.println("Estrutura adicionada: " + en.getCodigo());
+    }
+    
     public void meterCidade(Civilizacao civi, int x, int y) {
         if (!podeConstruirCidade(civi,x, y)) {
             System.out.println("Não é possível construir uma cidade aqui. Existe outra cidade próxima.");

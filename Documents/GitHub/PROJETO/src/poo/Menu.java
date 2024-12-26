@@ -97,7 +97,8 @@ public String menCiv() {
             System.out.println("9. Produzir");
             System.out.println("10. Dia Seguinte");
             System.out.println("11.Atacar");
-            System.out.println("12. Sair");
+            System.out.println("12.Trocas");
+            System.out.println("13.Sair");
     
             int opcao = scanner.nextInt();
             //Atualizar recuros
@@ -177,7 +178,10 @@ public String menCiv() {
                 case 11 ->{
                     atacares( civi,  map);
                 }
-                case 12  ->{
+                case 12 ->{
+                    Trocas();
+                }
+                case 13  ->{
                     dia++;
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
@@ -196,6 +200,57 @@ public String menCiv() {
         consumir(civi);
         valor_da_Reserva(civi);
     }
+public void Trocas(){
+    Cidade cidadeEscolhida=selecionarCidade(civi);
+        System.out.println("  ");
+        
+            System.out.println("Escolhe a cidade para trocar");
+            System.out.println("  ");
+            boolean continua=true;
+            Cidade c2=null;
+            while(continua){
+                c2 = selecionarCidade(civi);
+                for(String ligacao : cidadeEscolhida.getLigacoes() ){
+                    if(ligacao.equals(c2.getCodigo())){
+                        System.out.println("O que deseja trocar?");
+                        System.out.println("1.Ouro");
+                        System.out.println("2.Comida");
+                        int opcao = scanner.nextInt();
+                        switch(opcao){
+                            case 1->{
+                                Recursos ouro1 = cidadeEscolhida.findRecurso(new Ouro(0));
+                                Recursos ouro2 = c2.findRecurso(new Ouro(0));
+                                System.out.println("Quanto queres trocar de Ouro da "+ cidadeEscolhida.getCodigo()+"?");
+                                int opcao1 = scanner.nextInt();
+                                ouro1.consumir(opcao1);
+                                ouro2.adicionar(opcao1);
+                                System.out.println("Troca de Ouro realizada com sucesso!");
+                                continua=false;
+                                
+                            }
+                            case 2 ->{
+                                Recursos comida1 = cidadeEscolhida.findRecurso(new Comida(0,0));
+                                Recursos comida2 = c2.findRecurso(new Comida(0,0));
+                                System.out.println("Quanto queres trocar de Comida da "+ cidadeEscolhida.getCodigo()+"?");
+                                int opcao1 = scanner.nextInt();
+                                comida1.consumir(opcao1);
+                                comida2.adicionar(opcao1);
+                                
+                                continua=false;
+                            }
+                        
+                        }
+                        
+                        
+                    }
+                    
+                }
+                System.out.println(" ");
+                System.out.println("Nao ha ligacoes entre cidades!");
+                System.out.println(" ");
+                continua=false;
+            }
+}
 public void SkipDay(){
     dia++;
     horasgastas=24;
@@ -296,19 +351,10 @@ public void Interface(Civilizacao civi) {
     System.out.println("                           W---+---E");
     System.out.println("                            \\  |  /");
     System.out.println("                             \\ | /");
-    System.out.println("                               \\|/");
-    System.out.println("                                S");
+    System.out.println("                              \\|/");
+    System.out.println("                               S");
 
     
-    System.out.println("DIA " + dia + " (turno)");
-    System.out.print("Energia: [");
-    for (int i = 0; i < energia; i++) {
-        System.out.print("/"); 
-    }
-    for (int i = energia; i < 5; i++) {
-        System.out.print("\\"); 
-    }
-    System.out.println("]");
 }
 
 
@@ -541,10 +587,81 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
 
 public void menuFunciunalidades(Civilizacao civi,Mapa map){
     Cidade cidadeEscolhida=selecionarCidade(civi);
+    
     Unidades un=selecionarUnidade( cidadeEscolhida);
     un.funcionalidade(civi,map);
     if(un instanceof Colono && map.podeConstruirCidade(civi,un.getLinha(),un.getColuna())){
+        
         cidadeEscolhida.removerUnidade(un);
+    }
+    if(un instanceof Construtor){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("O que deseja construir:");
+        
+        String entrada = sc.nextLine();
+        System.out.println("  ");
+        if(entrada.equals("estrada")||entrada.equals("Estrada")||entrada.equals("ESTRADA")){
+            System.out.println("Escolhe a cidade final da estrada!");
+            System.out.println("  ");
+            boolean continua=true;
+            Cidade c2=null;
+            while(continua){
+                c2 = selecionarCidade(civi);
+                if(!cidadeEscolhida.equals(c2)){
+                    continua=false;
+                }
+                else{
+                    System.out.println("Escolhe uma cidade diferente");
+                }
+            }
+            if(c2!=null){
+                int x2=c2.getPosX();
+                int y2=c2.getPosY();
+                int x1=cidadeEscolhida.getPosX();
+                int y1=cidadeEscolhida.getPosY();
+                
+                if(x1<x2){
+                    while(x1 != x2){
+                        x1++;
+                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                    }
+                    
+                    
+                }
+                else{
+                    while(x1 != x2){
+                        x1--;
+                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                    }
+                    
+                }
+                if(y1<y2){
+                    while(y1 != y2-1){
+                        y1++;
+                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                    }
+                    
+                    
+                }
+                else{
+                    while(y1 != y2+1){
+                        y1--;
+                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                    }
+                    
+                }
+            }
+            
+            cidadeEscolhida.addLigacao(c2.getCodigo());
+            c2.addLigacao(cidadeEscolhida.getCodigo());
+        }
+        else{
+            System.out.println("hdfgjdgfhsdh");
+        }
+        
+
+        
+        
     }
 
 }
