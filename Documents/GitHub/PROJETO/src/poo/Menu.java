@@ -133,7 +133,7 @@ public String menCiv() {
                     horasgastas-=3;
                 }
                 case 3 -> {
-                    menuFunciunalidades(civi,map);
+                    menuFuncionalidades(civi,map);
                     horasgastas-=3;
                 }
                 case 4 -> mapa.imprimirMapa();
@@ -189,7 +189,7 @@ public String menCiv() {
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
             }
-            
+            verificaeAtualiza(civi);
             verifica_dia(esc,map,us);
             
             //atualizarCidades(civi);
@@ -199,7 +199,16 @@ public String menCiv() {
         pagarMilitares(civi); 
         consumir(civi);
         valor_da_Reserva(civi);
+        
+        
     }
+public void verificaeAtualiza(Civilizacao civi){
+    if(civi.getEstruturas()!=null){
+        for(Estrutura est : civi.getEstruturas()){
+            est.funcionalidade(civi);
+        }
+    }
+}
 public void Trocas(){
     Cidade cidadeEscolhida=selecionarCidade(civi);
         System.out.println("  ");
@@ -584,14 +593,38 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
     }
 }
 
-
-public void menuFunciunalidades(Civilizacao civi,Mapa map){
+public boolean verificaPosicao(int x,int y){
+    String[][] map = mapa.getMapa();
+    if(!map[x][y].equals("X") && !map[x][y].equals("P") && !map[x][y].equals("F")){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+public boolean verificaPosicao(int x,int y,String tipo){
+    String[][] map = mapa.getMapa();
+    if(!map[x][y].equals("X") && !map[x][y].equals("P") && !map[x][y].equals("F") && !map[x][y].equals("~")){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+public boolean verifica(){
+if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
+    System.out.println("Selecione duas cidades para criar a estrada: ");
+    System.out.println("Nao tem cidades sufecientes para construir uma estrada");
+    return false;
+}
+return true;}
+public void menuFuncionalidades(Civilizacao civi,Mapa map){
     Cidade cidadeEscolhida=selecionarCidade(civi);
     
     Unidades un=selecionarUnidade( cidadeEscolhida);
-    un.funcionalidade(civi,map);
+    
     if(un instanceof Colono && map.podeConstruirCidade(civi,un.getLinha(),un.getColuna())){
-        
+        un.funcionalidade(civi,map);
         cidadeEscolhida.removerUnidade(un);
     }
     if(un instanceof Construtor){
@@ -601,62 +634,114 @@ public void menuFunciunalidades(Civilizacao civi,Mapa map){
         String entrada = sc.nextLine();
         System.out.println("  ");
         if(entrada.equals("estrada")||entrada.equals("Estrada")||entrada.equals("ESTRADA")){
-            System.out.println("Escolhe a cidade final da estrada!");
-            System.out.println("  ");
-            boolean continua=true;
-            Cidade c2=null;
-            while(continua){
-                c2 = selecionarCidade(civi);
-                if(!cidadeEscolhida.equals(c2)){
-                    continua=false;
+            if(verifica()){
+                System.out.println("Escolhe a cidade final da estrada!");
+                System.out.println("  ");
+                boolean continua=true;
+                Cidade c2=null;
+                while(continua){
+                    c2 = selecionarCidade(civi);
+                    if(!cidadeEscolhida.equals(c2)){
+                        continua=false;
+                    }
+                    else{
+                        System.out.println("Escolhe uma cidade diferente");
+                    }
                 }
-                else{
-                    System.out.println("Escolhe uma cidade diferente");
+                if(c2!=null){
+                    int x2=c2.getPosX();
+                    int y2=c2.getPosY();
+                    int x1=cidadeEscolhida.getPosX();
+                    int y1=cidadeEscolhida.getPosY();
+
+                    if(x1<x2){
+                        while(x1 != x2){
+                            x1++;
+
+                            if(verificaPosicao(x1,y1,"estrada")){
+                            mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                            civi.adicionaEstrutura(new Estrutura("E",civi.getId()));}
+                        }
+
+
+                    }
+                    else{
+                        while(x1 != x2){
+                            x1--;
+                            if(verificaPosicao(x1,y1,"estrada")){
+                            mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                            civi.adicionaEstrutura(new Estrutura("E",civi.getId()));}
+                        }
+
+                    }
+                    if(y1<y2){
+                        while(y1 != y2-1){
+                            y1++;
+                            if(verificaPosicao(x1,y1,"estrada")){
+                            mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                            civi.adicionaEstrutura(new Estrutura("E",civi.getId()));}
+                        }
+
+
+                    }
+                    else{
+                        while(y1 != y2+1){
+                            y1--;
+                            if(verificaPosicao(x1,y1,"estrada")){
+                            mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                            civi.adicionaEstrutura(new Estrutura("E",civi.getId()));}
+                        }
+
+                    }
                 }
+                if(c2!=null && cidadeEscolhida!=null){
+                cidadeEscolhida.addLigacao(c2.getCodigo());
+                c2.addLigacao(cidadeEscolhida.getCodigo());}
             }
-            if(c2!=null){
-                int x2=c2.getPosX();
-                int y2=c2.getPosY();
-                int x1=cidadeEscolhida.getPosX();
-                int y1=cidadeEscolhida.getPosY();
-                
-                if(x1<x2){
-                    while(x1 != x2){
-                        x1++;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
-                    }
-                    
-                    
-                }
-                else{
-                    while(x1 != x2){
-                        x1--;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
-                    }
-                    
-                }
-                if(y1<y2){
-                    while(y1 != y2-1){
-                        y1++;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
-                    }
-                    
-                    
-                }
-                else{
-                    while(y1 != y2+1){
-                        y1--;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
-                    }
-                    
-                }
-            }
-            
-            cidadeEscolhida.addLigacao(c2.getCodigo());
-            c2.addLigacao(cidadeEscolhida.getCodigo());
         }
         else{
-            System.out.println("hdfgjdgfhsdh");
+            char f = entrada.charAt(0);
+            char s =entrada.charAt(1);
+            System.out.println("Escolhe a posicao da tua Construcao:");
+            System.out.print("x:");
+            int opcaox = sc.nextInt();
+            System.out.println("");
+            System.out.print("y:");
+            int opcaoy = sc.nextInt();
+            System.out.println(" ");
+            System.out.println("Para que serve a tua Construcao?");
+            System.out.println("1.Fabrica de comida");
+            System.out.println("2.Mina de Ouro");
+            System.out.println("3.Loja de Cavalos");
+            System.out.println("4.Outro");
+            int opcao2 = sc.nextInt();
+            String tipo;
+            switch(opcao2){
+                case 1-> {
+                    tipo = "comida";   
+                    }
+                case 2->{
+                    tipo = "ouro";
+                }
+                case 3->{
+                    tipo = "cavalos";
+                }
+                default->{
+                    tipo = null;
+                }
+            }
+            if(tipo!=null){
+                if(verificaPosicao(opcaox,opcaoy)){
+                mapa.meterEstrutura(new Estrutura(""+f+s,civi.getId(),tipo),opcaox, opcaoy);
+                civi.adicionaEstrutura(new Estrutura(""+f+s,civi.getId(),tipo));}
+            }
+            else{
+                if(verificaPosicao(opcaox,opcaoy)){
+                mapa.meterEstrutura(new Estrutura(""+f+s,civi.getId()),opcaox, opcaoy);
+                civi.adicionaEstrutura(new Estrutura(""+f+s,civi.getId()));}
+            }
+            
+            
         }
         
 

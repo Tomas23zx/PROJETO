@@ -10,8 +10,10 @@ package poo;
  * @author joaot
  */
 public class Arvore extends Acessivel {
+    public static final String VERDE = "\033[32m";
+    public static final String RESET = "\033[0m";
     public Arvore(){
-        super("F");
+        super(VERDE +"F "+RESET);
     }
     
    

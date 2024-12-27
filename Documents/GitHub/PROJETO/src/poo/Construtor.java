@@ -53,16 +53,11 @@ public class Construtor extends Unidades {
 
         map.moverUnidade(escolhida, novaLinha, novaColuna,codigo);
     }
+
 @Override
 public void funcionalidade(Civilizacao civi,Mapa map) {
-System.out.println("Selecione duas cidades para criar a estrada: ");
-if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
-    System.out.println("Nao tem cidades sufecientes para construir uma estrada");
-}
-else{
-    //civi.escolherCidades();
-    
-}
+
+
 }
    
 

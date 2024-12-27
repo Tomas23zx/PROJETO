@@ -25,7 +25,8 @@ public class Cidade {
     private int ouro_produzido;
     private int valor_produzido_reserva;
     private int valor_consumido_reserva;
-
+    public static final String NEGRITO = "\033[1m";
+    public static final String RESET = "\033[0m"; 
     public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
         this.letra = letra;
         this.posX = posX;
@@ -63,7 +64,7 @@ public class Cidade {
         return ligacoes;
     }
     public String getLetra() {
-        return letra;
+        return NEGRITO + letra + RESET;
     }
     public void addLigacao(String codigo){
         ligacoes.add(codigo);
