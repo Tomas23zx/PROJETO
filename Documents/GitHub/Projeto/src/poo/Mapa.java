@@ -14,7 +14,9 @@ public class Mapa {
     private ArrayList<Civilizacao> civa;
     
     public static final String VERMELHO = "\033[31m";
+    public static final String AZUL = "\033[34m";
     public static final String RESET = "\033[0m";
+    
     
     private String[][] mapa;
 
@@ -31,6 +33,7 @@ public class Mapa {
         this.es=new ArrayList<Estrutura>();
         this.mapa = criarMapa();
         this.estadoAnterior = copiarMapa(mapa);
+        
     }
 //
     private String[][] criarMapa() {
@@ -105,11 +108,19 @@ public class Mapa {
     public void imprimirMapa() {
         for (String[] linha : mapa) {
             for (String celula : linha) {
-                if(celula == "E"){
-                System.out.print(VERMELHO + celula + " " + RESET);
-                }
-                else{
-                System.out.print(celula + " ");}
+                
+                    if(celula.length()==2){
+                        System.out.print(celula + " ");
+
+                    }
+                    else if(celula.length()==1){
+                        System.out.print(celula + "  ");
+                    }
+                    
+                    else{
+                        System.out.print(celula + " ");
+                    }
+                
             }
             System.out.println();
         }

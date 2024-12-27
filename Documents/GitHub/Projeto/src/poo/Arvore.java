@@ -10,9 +10,10 @@ package poo;
  * @author joaot
  */
 public class Arvore extends Acessivel {
+    public static final String VERDE = "\033[32m";
+    public static final String RESET = "\033[0m";
     public Arvore(){
-        super("F");
-
+        super(VERDE +"F "+RESET);
     }
     
    
@@ -30,15 +31,5 @@ public class Arvore extends Acessivel {
         un.setVida(un.getVida()+1);
         return true;
     }
-    public  void custo_para_mover(Cidade cidade){
-        Recursos ouro = cidade.findRecurso(new Ouro(0));
-        if (ouro != null) {
-            cidade.consumirRecurso(new Ouro(0), 10);
-            System.out.println("Cidade " + cidade.getCodigo() + ",consumio "+ 10 +" para mover.");
-    }
-    else{
-        return ;
-    }
     
-}
 }

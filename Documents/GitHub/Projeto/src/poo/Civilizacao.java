@@ -7,22 +7,28 @@ public class Civilizacao {
     private ArrayList<Cidade> citys;
     private String nome;
     private int idCivilizacao; 
+    private ArrayList<Estrutura>estt;
 
     public Civilizacao(String nome, int idCivilizacao) {
         this.nome = nome;
         this.idCivilizacao = idCivilizacao;
+        this.estt=new ArrayList<Estrutura>();
         citys = new ArrayList<>();
     }
 //
     public String getNome() {
         return nome;
     }
-
+    public void adicionaEstrutura(Estrutura est){
+        estt.add(est);
+    }
     public void adicionaCidade(Cidade c) {
         
         citys.add(c);
     }
-
+    public ArrayList<Estrutura> getEstruturas(){
+        return estt;
+    }
     public int getId(){
         return idCivilizacao;
     }
@@ -48,6 +54,14 @@ public int Total_Recurssos(Recursos tipoRecurso, Civilizacao civ) {
         }
     }
     return totalRecursos;
+}
+public void atualizarRecurssos(Recursos tipoRecurso, Civilizacao civ) { 
+    
+    for (Cidade cidade : civ.getCidades()) {
+        
+            cidade.findRecurso(tipoRecurso).adicionar(5);
+        
+    }
 }
 
     ///

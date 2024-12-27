@@ -30,7 +30,7 @@ public class Menu {
         this.mapa = mapa;
         this.civi=civi;
     }
-//
+
 public String menCiv() {
     boolean continuar = true;
     String escolha = "";
@@ -190,7 +190,7 @@ public String menCiv() {
                 default -> System.out.println("Opcao invalida. Tente novamente.");
             }
             }
-            
+            verificaeAtualiza(civi);
             verifica_dia(esc,map,us);
             
             //atualizarCidades(civi);
@@ -200,7 +200,16 @@ public String menCiv() {
         pagarMilitares(civi); 
         consumir(civi);
         valor_da_Reserva(civi);
+        
+        
     }
+public void verificaeAtualiza(Civilizacao civi){
+    if(civi.getEstruturas()!=null){
+        for(Estrutura est : civi.getEstruturas()){
+            est.funcionalidade(civi);
+        }
+    }
+}
 public void Trocas(){
     Cidade cidadeEscolhida=selecionarCidade(civi);
         System.out.println("  ");
@@ -633,100 +642,180 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
 }
 
 
+public boolean verificaPosicao(int x,int y){
+    String[][] map = mapa.getMapa();
+    if(!map[x][y].equals("X") && !map[x][y].equals("P") && !map[x][y].equals("F")){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+public boolean verificaPosicao(int x,int y,String tipo){
+    String[][] map = mapa.getMapa();
+    if(!map[x][y].equals("X") && !map[x][y].equals("P") && !map[x][y].equals("F") && !map[x][y].equals("~")){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+public boolean verifica(){
+if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
+    System.out.println("Selecione duas cidades para criar a estrada: ");
+    System.out.println("Nao tem cidades sufecientes para construir uma estrada");
+    return false;
+}
+return true;}
+
+
 public void menuFuncionalidades(Civilizacao civi, Mapa map) {
-    Cidade cidadeEscolhida = selecionarCidade(civi); 
+    Cidade cidadeEscolhida = selecionarCidade(civi); // Seleciona a cidade escolhida
     
-    Unidades un = selecionarUnidade(cidadeEscolhida); 
-    un.funcionalidade(civi, map); 
-    
-    
+    Unidades un = selecionarUnidade(cidadeEscolhida); // Seleciona a unidade escolhida
+
+    // Verifica se a unidade é um Colono e se pode construir uma cidade
     if (un instanceof Colono && map.podeConstruirCidade(civi, un.getLinha(), un.getColuna())) {
+        un.funcionalidade(civi, map);
         cidadeEscolhida.removerUnidade(un);
     }
-    
-    
-    if (un instanceof Construtor) {
+    // Verifica se a unidade é um Construtor
+    else if (un instanceof Construtor) {
         Scanner sc = new Scanner(System.in);
         System.out.println("O que deseja construir:");
-        
+
         String entrada = sc.nextLine();
         System.out.println("  ");
         
         if (entrada.equalsIgnoreCase("estrada")) {
-            System.out.println("Escolha a cidade final da estrada!");
-            System.out.println("  ");
-            
-            boolean continua = true;
-            Cidade c2 = null;
-            while (continua) {
-                c2 = selecionarCidade(civi);
-                if (!cidadeEscolhida.equals(c2)) {
-                    continua = false;
-                } else {
-                    System.out.println("Escolha uma cidade diferente");
-                }
-            }
-            
-            if (c2 != null) {
-                int x2 = c2.getPosX();
-                int y2 = c2.getPosY();
-                int x1 = cidadeEscolhida.getPosX();
-                int y1 = cidadeEscolhida.getPosY();
-                
-                if (x1 < x2) {
-                    while (x1 != x2) {
-                        x1++;
-                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
-                    }
-                } else {
-                    while (x1 != x2) {
-                        x1--;
-                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+            if (verifica()) {
+                System.out.println("Escolhe a cidade final da estrada!");
+                System.out.println("  ");
+                boolean continua = true;
+                Cidade c2 = null;
+                while (continua) {
+                    c2 = selecionarCidade(civi);
+                    if (!cidadeEscolhida.equals(c2)) {
+                        continua = false;
+                    } else {
+                        System.out.println("Escolha uma cidade diferente");
                     }
                 }
+                if (c2 != null) {
+                    int x2 = c2.getPosX();
+                    int y2 = c2.getPosY();
+                    int x1 = cidadeEscolhida.getPosX();
+                    int y1 = cidadeEscolhida.getPosY();
 
-                if (y1 < y2) {
-                    while (y1 != y2 - 1) {
-                        y1++;
-                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+                    // Movimento na direção x
+                    if (x1 < x2) {
+                        while (x1 != x2) {
+                            x1++;
+                            if (verificaPosicao(x1, y1, "estrada")) {
+                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                            }
+                        }
+                    } else {
+                        while (x1 != x2) {
+                            x1--;
+                            if (verificaPosicao(x1, y1, "estrada")) {
+                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                            }
+                        }
                     }
-                } else {
-                    while (y1 != y2 + 1) {
-                        y1--;
-                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+
+                    // Movimento na direção y
+                    if (y1 < y2) {
+                        while (y1 != y2 - 1) {
+                            y1++;
+                            if (verificaPosicao(x1, y1, "estrada")) {
+                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                            }
+                        }
+                    } else {
+                        while (y1 != y2 + 1) {
+                            y1--;
+                            if (verificaPosicao(x1, y1, "estrada")) {
+                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                            }
+                        }
                     }
                 }
+                if (c2 != null && cidadeEscolhida != null) {
+                    cidadeEscolhida.addLigacao(c2.getCodigo());
+                    c2.addLigacao(cidadeEscolhida.getCodigo());
+                }
             }
-            
-            cidadeEscolhida.addLigacao(c2.getCodigo());
-            c2.addLigacao(cidadeEscolhida.getCodigo());
+        } else {
+            // Lógica para construções diferentes
+            char f = entrada.charAt(0);
+            char s = entrada.charAt(1);
+            System.out.println("Escolhe a posição da tua construção:");
+            System.out.print("x:");
+            int opcaox = sc.nextInt();
+            System.out.println("");
+            System.out.print("y:");
+            int opcaoy = sc.nextInt();
+            System.out.println(" ");
+            System.out.println("Para que serve a tua construção?");
+            System.out.println("1. Fábrica de comida");
+            System.out.println("2. Mina de Ouro");
+            System.out.println("3. Loja de Cavalos");
+            System.out.println("4. Outro");
+            int opcao2 = sc.nextInt();
+            String tipo = null;
+            switch (opcao2) {
+                case 1:
+                    tipo = "comida";
+                    break;
+                case 2:
+                    tipo = "ouro";
+                    break;
+                case 3:
+                    tipo = "cavalos";
+                    break;
+                default:
+                    tipo = null;
+                    break;
+            }
+            if (tipo != null) {
+                if (verificaPosicao(opcaox, opcaoy)) {
+                    map.meterEstrutura(new Estrutura("" + f + s, civi.getId(), tipo), opcaox, opcaoy);
+                    civi.adicionaEstrutura(new Estrutura("" + f + s, civi.getId(), tipo));
+                }
+            } else {
+                if (verificaPosicao(opcaox, opcaoy)) {
+                    map.meterEstrutura(new Estrutura("" + f + s, civi.getId()), opcaox, opcaoy);
+                    civi.adicionaEstrutura(new Estrutura("" + f + s, civi.getId()));
+                }
+            }
         }
     }
     
-    // Verifica se é um Goblin
-    if (un instanceof Goblin) {
+    else if (un instanceof Goblin) {
         Goblin unidadeGoblin = (Goblin) un;
-        
-        // O Goblin verifica a cidade inimiga nas proximidades
         Cidade cidadeInimiga = unidadeGoblin.verificar_cidade_inimiga(unidadeGoblin, map);
         
         if (cidadeInimiga != null) {
-            // Se encontrou uma cidade inimiga, o Goblin pode roubar
+            
             System.out.println("O Goblin pode roubar uma cidade inimiga!");
-            unidadeGoblin.roubar(cidadeEscolhida, cidadeInimiga); // Roubando ouro da cidade inimiga
+            unidadeGoblin.roubar(cidadeEscolhida, cidadeInimiga); 
         } else {
             System.out.println("Não há cidades inimigas próximas para roubo.");
         }
     }
     
-    // Verifica se é um Militar
-    if (un instanceof Militares) {
+    else if (un instanceof Militares) {
         atacares(civi, map);
     } else {
+        
         System.out.println("Erro: unidade não reconhecida.");
     }
 }
-
 
 
 

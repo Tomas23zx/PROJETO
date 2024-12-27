@@ -9,25 +9,25 @@ package poo;
  * @author joaot
  */
 public class Agua extends Inacessivel {
-//
+    //
+        public static final String AZUL = "\033[34m";
+        public static final String RESET = "\033[0m";
+        public Agua() {
+            super(AZUL+"~ "+RESET); 
+        }
     
-    public Agua() {
-        super("~"); 
+        @Override
+        public char[] criarArray(int tamanho) {
+            char[] array = new char[tamanho];
+            char letraChar = getLetra().charAt(0); 
+            for (int i = 0; i < tamanho; i++) {
+                array[i] = letraChar; 
+            }
+            return array;
+        }
+        public  boolean  vantagem(Unidades un){
+            return true;
+    
+        }
         
     }
-
-    @Override
-    public char[] criarArray(int tamanho) {
-        char[] array = new char[tamanho];
-        char letraChar = getLetra().charAt(0); 
-        for (int i = 0; i < tamanho; i++) {
-            array[i] = letraChar; 
-        }
-        return array;
-    }
-    public  boolean  vantagem(Unidades un){
-        return true;
-
-    }
-    
-}
