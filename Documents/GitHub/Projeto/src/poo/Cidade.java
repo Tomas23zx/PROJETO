@@ -143,7 +143,10 @@ public class Cidade {
     }
 
     public int numdeUnid() {
-        return un.size();
+        if(un!=null){
+            return un.size();
+        }
+        return 0;
     }
     public int getDefesa(){
         return defesa;

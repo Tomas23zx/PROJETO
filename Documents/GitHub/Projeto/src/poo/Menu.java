@@ -101,7 +101,7 @@ public String menCiv() {
             System.out.println("13.Sair");
     
             int opcao = scanner.nextInt();
-            //Atualizar recuros
+            
             if(horasgastas<=0){
                 System.out.println("Nao tens mais horas para gastar!");
                 System.out.println("1. Dia Seguinte");
@@ -180,7 +180,7 @@ public String menCiv() {
                     atacares( civi,  map);
                 }
                 case 12 ->{
-                    Trocas();
+                    Trocas(civi);
                 }
                 case 13  ->{
                     dia++;
@@ -192,8 +192,6 @@ public String menCiv() {
             }
             verificaeAtualiza(civi);
             verifica_dia(esc,map,us);
-            
-            //atualizarCidades(civi);
             System.out.println();
         }
         produzir_populacao_alocada(civi, mapa);
@@ -210,57 +208,60 @@ public void verificaeAtualiza(Civilizacao civi){
         }
     }
 }
-public void Trocas(){
-    Cidade cidadeEscolhida=selecionarCidade(civi);
-        System.out.println("  ");
-        
-            System.out.println("Escolhe a cidade para trocar");
-            System.out.println("  ");
-            boolean continua=true;
-            Cidade c2=null;
-            while(continua){
-                c2 = selecionarCidade(civi);
-                for(String ligacao : cidadeEscolhida.getLigacoes() ){
-                    if(ligacao.equals(c2.getCodigo())){
-                        System.out.println("O que deseja trocar?");
-                        System.out.println("1.Ouro");
-                        System.out.println("2.Comida");
-                        int opcao = scanner.nextInt();
-                        switch(opcao){
-                            case 1->{
-                                Recursos ouro1 = cidadeEscolhida.findRecurso(new Ouro(0));
-                                Recursos ouro2 = c2.findRecurso(new Ouro(0));
-                                System.out.println("Quanto queres trocar de Ouro da "+ cidadeEscolhida.getCodigo()+"?");
-                                int opcao1 = scanner.nextInt();
-                                ouro1.consumir(opcao1);
-                                ouro2.adicionar(opcao1);
-                                System.out.println("Troca de Ouro realizada com sucesso!");
-                                continua=false;
-                                
-                            }
-                            case 2 ->{
-                                Recursos comida1 = cidadeEscolhida.findRecurso(new Comida(0,0));
-                                Recursos comida2 = c2.findRecurso(new Comida(0,0));
-                                System.out.println("Quanto queres trocar de Comida da "+ cidadeEscolhida.getCodigo()+"?");
-                                int opcao1 = scanner.nextInt();
-                                comida1.consumir(opcao1);
-                                comida2.adicionar(opcao1);
-                                
-                                continua=false;
-                            }
-                        
-                        }
-                        
-                        
+public void Trocas(Civilizacao civi) {
+    Cidade cidadeEscolhida = selecionarCidade(civi);
+    System.out.println(" ");
+    System.out.println("Escolhe a cidade para trocar");
+    System.out.println(" ");
+    boolean continua = true;
+
+    while (continua) {
+        Cidade c2 = selecionarCidade(civi);
+        boolean encontrouLigacao = false;
+
+        for (String ligacao : cidadeEscolhida.getLigacoes()) {
+            if (ligacao.equals(c2.getCodigo())) {
+                encontrouLigacao = true; 
+                System.out.println("O que deseja trocar?");
+                System.out.println("1. Ouro");
+                System.out.println("2. Comida");
+                int opcao = scanner.nextInt();
+
+                switch (opcao) {
+                    case 1 -> {
+                        Recursos ouro1 = cidadeEscolhida.findRecurso(new Ouro(0));
+                        Recursos ouro2 = c2.findRecurso(new Ouro(0));
+                        System.out.println("Quanto queres trocar de Ouro da " + cidadeEscolhida.getCodigo() + "?");
+                        int opcao1 = scanner.nextInt();
+                        ouro1.consumir(opcao1);
+                        ouro2.adicionar(opcao1);
+                        System.out.println("Troca de Ouro realizada com sucesso!");
+                        continua = false; 
                     }
-                    
+                    case 2 -> {
+                        Recursos comida1 = cidadeEscolhida.findRecurso(new Comida(0, 0));
+                        Recursos comida2 = c2.findRecurso(new Comida(0, 0));
+                        System.out.println("Quanto queres trocar de Comida da " + cidadeEscolhida.getCodigo() + "?");
+                        int opcao1 = scanner.nextInt();
+                        comida1.consumir(opcao1);
+                        comida2.adicionar(opcao1);
+                        System.out.println("Troca de Comida realizada com sucesso!");
+                        continua = false; 
+                    }
+                    default -> System.out.println("Opção inválida.");
                 }
-                System.out.println(" ");
-                System.out.println("Nao ha ligacoes entre cidades!");
-                System.out.println(" ");
-                continua=false;
+                break; 
             }
+        }
+
+        if (!encontrouLigacao) {
+            System.out.println(" ");
+            System.out.println("Nao ha ligacoes entre cidades!");
+            System.out.println(" ");
+        }
+    }
 }
+
 public void SkipDay(){
     dia++;
     horasgastas=24;
@@ -351,24 +352,40 @@ private void atacarUnidade(Militares atacante, Unidades alvo, Cidade cidadeOrige
 }
 
 
-private void atacarCidade(Militares atacante, Cidade cidadeAlvo,Cidade cit,Mapa mapa) {
+private void atacarCidade(Militares atacante, Cidade cidadeAlvo, Cidade cit, Mapa mapa) {
     System.out.println("Atacando a cidade: " + cidadeAlvo.getCodigo());
-    boolean x=atacante.atacar_cidade(cidadeAlvo,cit);
-    atacante.morrer(cit, mapa);
-    if(x==true){
-       Civilizacao cava= mapa.buscarcivilizacao_por_id(cidadeAlvo.getId());
-       if(cidadeAlvo.numdeUnid()==0){
-       cava.removerCidade(cidadeAlvo);
-       }
-       if(cidadeAlvo.numdeUnid()!=0){
-        cidadeAlvo.removerTodasUnidades();
-        cava.removerCidade(cidadeAlvo);
-        
-       }
-    }
 
     
+    boolean x = atacante.atacar_cidade(cidadeAlvo, cit);
+    
+   
+    atacante.morrer(cit, mapa);
+
+    if (x) { 
+        Civilizacao cava = mapa.buscarcivilizacao_por_id(cidadeAlvo.getId());
+        
+       
+        if (cidadeAlvo.numdeUnid() == 0) {
+           
+            mapa.remover_do_mapa(cidadeAlvo.getPosX(), cidadeAlvo.getPosY());
+            mapa.removerCidadeDaposicao(cidadeAlvo.getPosX(), cidadeAlvo.getPosY());
+            cava.removerCidade(cidadeAlvo);
+        } else {
+            
+            List<Unidades> unidadesParaRemover = new ArrayList<>(cidadeAlvo.getUnidades().values());
+
+            
+            for (Unidades uni : unidadesParaRemover) {
+                uni.morrer(cidadeAlvo, mapa);
+            }
+
+            mapa.remover_do_mapa(cidadeAlvo.getPosX(), cidadeAlvo.getPosY());
+            mapa.removerCidadeDaposicao(cidadeAlvo.getPosX(), cidadeAlvo.getPosY());
+            cava.removerCidade(cidadeAlvo);
+        }
+    }
 }
+
 
 
 
@@ -533,16 +550,30 @@ public Cidade selecionarCidade(Civilizacao civi) {
     System.out.println("Cidades disponiveis:");
 
     ArrayList<Cidade> cidades = civi.getCidades();
-    for (int i = 0; i < cidades.size(); i++) {
-        Cidade cidade = cidades.get(i);
+    ArrayList<Cidade> cidadesValidas = new ArrayList<>();
+
+    // Filtra apenas as cidades não nulas
+    for (Cidade cidade : cidades) {
+        if (cidade != null) {
+            cidadesValidas.add(cidade);
+        }
+    }
+
+    // Verifica se há cidades válidas disponíveis
+    if (cidadesValidas.isEmpty()) {
+        System.out.println("Nenhuma cidade disponivel.");
+        return null;
+    }
+
+    // Exibe as cidades válidas
+    for (int i = 0; i < cidadesValidas.size(); i++) {
+        Cidade cidade = cidadesValidas.get(i);
         System.out.print(i + " - " + cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
-        
         
         Recursos producao = cidade.findRecurso(new Producao(0));
         Recursos comida = cidade.findRecurso(new Comida(0, 0));
         Recursos ouro = cidade.findRecurso(new Ouro(0));
 
-        
         if (producao != null) {
             System.out.print("Produção: " + producao.getQuantidade() + " ");
         }
@@ -555,12 +586,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
         System.out.println();  
     }
 
-    if (cidades.isEmpty()) {
-        System.out.println("Nenhuma cidade disponivel.");
-        return null;
-    }
-
-   
+    // Solicita ao usuário que escolha uma cidade
     System.out.print("Escolha o indice da cidade: ");
     int indiceCidade;
     try {
@@ -570,12 +596,13 @@ public Cidade selecionarCidade(Civilizacao civi) {
         return null;
     }
 
-    if (indiceCidade < 0 || indiceCidade >= cidades.size()) {
+    // Verifica se o índice é válido
+    if (indiceCidade < 0 || indiceCidade >= cidadesValidas.size()) {
         System.out.println("Indice invalido.");
         return null;
     }
 
-    Cidade cidadeEscolhida = cidades.get(indiceCidade);
+    Cidade cidadeEscolhida = cidadesValidas.get(indiceCidade);
     System.out.println("Você escolheu a cidade: " + cidadeEscolhida.getCodigo());
     return cidadeEscolhida;
 }
@@ -660,13 +687,17 @@ public boolean verificaPosicao(int x,int y,String tipo){
         return true;
     }
 }
-public boolean verifica(){
+public boolean verifica(Civilizacao civi){
 if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
-    System.out.println("Selecione duas cidades para criar a estrada: ");
+    
     System.out.println("Nao tem cidades sufecientes para construir uma estrada");
     return false;
 }
-return true;}
+else{  
+    return true;
+}
+}
+
 
 
 public void menuFuncionalidades(Civilizacao civi, Mapa map) {
@@ -688,7 +719,7 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
         System.out.println("  ");
         
         if (entrada.equalsIgnoreCase("estrada")) {
-            if (verifica()) {
+            if (verifica( civi)) {
                 System.out.println("Escolhe a cidade final da estrada!");
                 System.out.println("  ");
                 boolean continua = true;
@@ -712,16 +743,16 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         while (x1 != x2) {
                             x1++;
                             if (verificaPosicao(x1, y1, "estrada")) {
-                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
-                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                                map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
                         }
                     } else {
                         while (x1 != x2) {
                             x1--;
                             if (verificaPosicao(x1, y1, "estrada")) {
-                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
-                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                                map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
                         }
                     }
@@ -731,16 +762,16 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         while (y1 != y2 - 1) {
                             y1++;
                             if (verificaPosicao(x1, y1, "estrada")) {
-                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
-                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                                map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
                         }
                     } else {
                         while (y1 != y2 + 1) {
                             y1--;
                             if (verificaPosicao(x1, y1, "estrada")) {
-                                map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
-                                civi.adicionaEstrutura(new Estrutura("E", civi.getId()));
+                                map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
+                                civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
                         }
                     }
@@ -757,7 +788,6 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
             System.out.println("Escolhe a posição da tua construção:");
             System.out.print("x:");
             int opcaox = sc.nextInt();
-            System.out.println("");
             System.out.print("y:");
             int opcaoy = sc.nextInt();
             System.out.println(" ");
@@ -784,13 +814,13 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
             }
             if (tipo != null) {
                 if (verificaPosicao(opcaox, opcaoy)) {
-                    map.meterEstrutura(new Estrutura("" + f + s, civi.getId(), tipo), opcaox, opcaoy);
-                    civi.adicionaEstrutura(new Estrutura("" + f + s, civi.getId(), tipo));
+                    map.meterEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId(), tipo), opcaox, opcaoy);
+                    civi.adicionaEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId(), tipo));
                 }
             } else {
                 if (verificaPosicao(opcaox, opcaoy)) {
-                    map.meterEstrutura(new Estrutura("" + f + s, civi.getId()), opcaox, opcaoy);
-                    civi.adicionaEstrutura(new Estrutura("" + f + s, civi.getId()));
+                    map.meterEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId()), opcaox, opcaoy);
+                    civi.adicionaEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId()));
                 }
             }
         }
@@ -930,8 +960,11 @@ public void manutecao(Civilizacao civi,Mapa mapa){
 }
 
 public void produzir_populacao_alocada(Civilizacao civi,Mapa mapa){
-    for (Cidade cidade : civi.getCidades()){
-        manutencaoPopulacao(cidade,mapa);
+    for (Cidade cidade : civi.getCidades()) {
+        if (cidade == null) {
+            continue; 
+        }
+        manutencaoPopulacao(cidade, mapa);
     }
 
 }
@@ -963,29 +996,29 @@ public void pagarMilitares(Civilizacao civi) {
 
 
 public void consumir(Civilizacao civi) {
-   
-
     for (Cidade cidade : civi.getCidades()) {
+        if (cidade == null) {
+            continue; 
+        }
         cidade.consumir_pessoas();
-       
     }
-
-   
-
-
 }
 public void valor_da_Reserva(Civilizacao civi) {
-    for(Cidade cidade:civi.getCidades()){
-   cidade.meter_reserva();
-   
-}
+    for (Cidade cidade : civi.getCidades()) {
+        if (cidade == null) {
+            continue; 
+        }
+        cidade.meter_reserva();
+    }
 }
 
-public void verificar_aumento_da_populacao(Civilizacao civi){
-    for(Cidade cidade: civi.getCidades()){
+public void verificar_aumento_da_populacao(Civilizacao civi) {
+    for (Cidade cidade : civi.getCidades()) {
+        if (cidade == null) {
+            continue; 
+        }
         cidade.aumentar_populacao();
     }
-
 }
 
 }
