@@ -35,7 +35,8 @@ public class Mapa {
 //
     private String[][] criarMapa() {
         String[][] mapa = new String[tamanhoX][tamanhoY];
-        Terrenos ass=new Acessivel("X");
+        Terrenos ass=new Terra("X");
+        ter.add(ass);
         for (int i = 0; i < tamanhoX; i++) {
             
             for (int j = 0; j < tamanhoY; j++) {
@@ -145,9 +146,9 @@ public class Mapa {
 
     public boolean podeConstruirCidade(Civilizacao civi, int x, int y) {
         int[][] direcoes = {
-            {-1, -1}, {-1, 0}, {-1, 1},
-            {0, -1},          {0, 1},
-            {1, -1}, {1, 0}, {1, 1}
+            {-2, -2}, {-2, 0}, {-2, 2},
+            {0, -2},          {0, 2},
+            {2, -2}, {2, 0}, {2, 2}
         };
     
         for (int[] dir : direcoes) {
@@ -246,7 +247,7 @@ public class Mapa {
         return  un.get(i);
     }
     
-    public void moverUnidade(Unidades en, int novaLinha, int novaColuna,String codigo) {
+    public void moverUnidade(Unidades en, int novaLinha, int novaColuna,String codigo,Cidade cidades) {
         int linhaAtual = en.getLinha();
         int colunaAtual = en.getColuna();
 
@@ -282,6 +283,7 @@ public class Mapa {
             
             return;
         }
+        
         if (mapa[novaLinha][novaColuna]==obterLetraArvore()) {
             Terrenos arvore=obterArvore();
             boolean x= arvore.vantagem(en);
@@ -290,6 +292,7 @@ public class Mapa {
             en.setLinha(novaLinha);
             en.setColuna(novaColuna);
             mapa[novaLinha][novaColuna] = codigo;
+            arvore.custo_para_mover(cidades);
 
 
             return;
@@ -302,6 +305,7 @@ public class Mapa {
             en.setLinha(novaLinha);
             en.setColuna(novaColuna);
             mapa[novaLinha][novaColuna] = codigo;
+            pl.custo_para_mover(cidades);
 
 
             return;
@@ -309,7 +313,9 @@ public class Mapa {
         }
         else{
 
-        
+        Terrenos terra=obterTerra();
+        boolean x= terra.vantagem(en);
+        terra.custo_para_mover(cidades);
         mapa[linhaAtual][colunaAtual] = estadoAnterior[linhaAtual][colunaAtual];
         en.setLinha(novaLinha);
         en.setColuna(novaColuna);
@@ -420,13 +426,13 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Arvore nao encontrado no array.");
     }
-    public String obterLetraAcessivel() {
+    public String obterLetraTerra() {
         for (Terrenos terreno : ter) {
-            if (terreno != null && terreno.getClass() == Acessivel.class) {
+            if (terreno instanceof Terra) {
                 return terreno.getLetra();
             }
         }
-        throw new IllegalStateException("Terreno do tipo Acessivel nao encontrado no array.");
+        throw new IllegalStateException("Terreno do tipo Terra nao encontrado no array.");
     }
     public String obterLetraPlanicie() {
         for (Terrenos terreno : ter) {
@@ -444,7 +450,14 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
     }
-    
+    public Terrenos obterTerra() {
+        for (Terrenos terreno : ter) {
+            if (terreno instanceof Terra) {
+                return (Terra) terreno;
+            }
+        }
+        throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
+    }
     
     
 }

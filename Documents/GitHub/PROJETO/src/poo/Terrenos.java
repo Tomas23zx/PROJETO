@@ -33,6 +33,7 @@ public abstract class Terrenos {
         this.letra = letra;
     }
 
+
     public int getTamanho() {
         return tamanho;
     }
@@ -47,5 +48,6 @@ public abstract class Terrenos {
     public abstract char[] criarArray(int tamanho);
     //public abstract void permiteandar();
     public abstract boolean vantagem(Unidades un);
+    public abstract void custo_para_mover(Cidade cidade);
 
 }

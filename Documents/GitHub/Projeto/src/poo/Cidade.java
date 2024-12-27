@@ -418,7 +418,7 @@ public void meter_reserva() {
     if (novaReserva >= 0) {
         System.out.print(this.getCodigo() + " (" + this.getPosX() + "," + this.getPosY() + ") ");
         System.out.println("Reserva atualizada para a cidade: " + novaReserva + " unidades.");
-        System.out.println("Diferenca entre produzido e consumido"+ (valor_produzido_reserva-valor_consumido_reserva));
+        System.out.println("Diferenca entre produzido e consumido: "+ (valor_produzido_reserva-valor_consumido_reserva));
     } else {
         System.out.println("O valor da reserva ficara a 0");
         this.setReserva(0);

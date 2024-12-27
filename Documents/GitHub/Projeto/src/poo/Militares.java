@@ -49,7 +49,7 @@ public class Militares extends Unidades {
     }
     
     @Override
-    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo) {
+    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo,Cidade cidadeEscolhida) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -64,7 +64,7 @@ public class Militares extends Unidades {
             }
         }
 
-        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo);
+        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo, cidadeEscolhida);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class Militares extends Unidades {
     
                     String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
     
-                    if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua()) && !codigoNaPosicao.startsWith("C") && !codigoNaPosicao.equals(map.obterLetraPlanicie()) ) {
+                    if (!codigoNaPosicao.equals(mapa.obterLetraTerra()) && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua()) && !codigoNaPosicao.startsWith("C") && !codigoNaPosicao.equals(map.obterLetraPlanicie()) ) {
                        
     
                         
@@ -175,7 +175,7 @@ public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
 
                 String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
 
-                if (!codigoNaPosicao.equals("X") && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua())  && !codigoNaPosicao.equals(map.obterLetraPlanicie()) &&  !codigoNaPosicao.startsWith("M") ) {
+                if (!codigoNaPosicao.equals(mapa.obterLetraTerra()) && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua())  && !codigoNaPosicao.equals(map.obterLetraPlanicie()) &&  !codigoNaPosicao.startsWith("M") ) {
                    
 
                     

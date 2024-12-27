@@ -15,6 +15,7 @@ public class Acessivel extends Terrenos {
         super(letra);
     }
 
+
     
 
     @Override
@@ -29,4 +30,6 @@ public class Acessivel extends Terrenos {
     public  boolean vantagem(Unidades un){
         return true;
     }
+    public  void custo_para_mover(Cidade cidade){
+        return ;}
 }

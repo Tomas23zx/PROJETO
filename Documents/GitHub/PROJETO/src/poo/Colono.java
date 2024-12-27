@@ -37,7 +37,7 @@ public class Colono extends Unidades {
     
      
     @Override
-    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo) {
+    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo,Cidade cidadeEscolhida) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -52,7 +52,7 @@ public class Colono extends Unidades {
             }
         }
 
-        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo);
+        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo,cidadeEscolhida);
     }
      @Override
     public  void funcionalidade(Civilizacao civi,Mapa map)

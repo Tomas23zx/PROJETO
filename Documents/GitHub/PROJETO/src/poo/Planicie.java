@@ -5,6 +5,7 @@ public class Planicie extends Acessivel {
     public Planicie(){
         super("P");
 
+
     }
 
     @Override
@@ -26,4 +27,15 @@ public class Planicie extends Acessivel {
         return true;
     }
 
+    public  void custo_para_mover(Cidade cidade){
+        Recursos ouro = cidade.findRecurso(new Ouro(0));
+        if (ouro != null) {
+            cidade.consumirRecurso(new Ouro(0), 1);
+            System.out.println("Cidade " + cidade.getCodigo() + ",consumio "+ 1 +" para mover.");
+    }
+    else{
+        return ;
+    }
+
+}
 }

@@ -436,7 +436,7 @@ public void Interface(Civilizacao civi) {
         int colunaAnterior = unidadeEscolhida.getColuna();
     
         for (int i = 0; i < numCasas; i++) {
-            unidadeEscolhida.mover(direcao, mapa,unidadeEscolhida,codigo);
+            unidadeEscolhida.mover(direcao, mapa,unidadeEscolhida,codigo, cidadeEscolhida);
         }
     
         int novaLinha = unidadeEscolhida.getLinha();
@@ -444,7 +444,7 @@ public void Interface(Civilizacao civi) {
     
         if (novaLinha != linhaAnterior || novaColuna != colunaAnterior) {
             System.out.println("Unidade movida com sucesso para a posição: (" + novaLinha + ", " + novaColuna + ").");
-            mapa.moverUnidade(unidadeEscolhida, novaLinha, novaColuna,codigo);
+            mapa.moverUnidade(unidadeEscolhida, novaLinha, novaColuna,codigo,cidadeEscolhida);
         } else {
             System.out.println("Movimento inválido. A unidade permaneceu na posição original.");
         }
@@ -473,6 +473,7 @@ public void Interface(Civilizacao civi) {
     Cidade c = selecionarCidade(civi);
     c.getRecursos();
     System.out.println("Reserva: "+c.getReserva());
+    System.out.println("Populacao: "+c.getPopulacao());
     
   }
   

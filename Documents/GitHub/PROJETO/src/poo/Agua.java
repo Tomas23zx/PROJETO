@@ -13,6 +13,7 @@ public class Agua extends Inacessivel {
     
     public Agua() {
         super("~"); 
+        
     }
 
     @Override

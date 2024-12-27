@@ -29,4 +29,5 @@ public class Inacessivel extends Terrenos {
     public  boolean vantagem(Unidades un){
         return true;
     }
+    public  void custo_para_mover(Cidade cidade){return ;}
 }

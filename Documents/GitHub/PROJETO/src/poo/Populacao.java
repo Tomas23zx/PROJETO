@@ -23,7 +23,7 @@ public void setPoy(int y){this.posY=y;}
 
 
 public void letraAtribuida(Cidade city, String letra, Mapa map) {
-    if (letra.equalsIgnoreCase("X")) {
+    if (letra.equalsIgnoreCase(map.obterLetraTerra())) {
         Recursos recurso = new Comida(0,0);
         city.adicionarRecurso(recurso, 100);
         this.comidaTotalProduzida += 100; 

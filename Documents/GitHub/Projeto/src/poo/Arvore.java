@@ -12,6 +12,7 @@ package poo;
 public class Arvore extends Acessivel {
     public Arvore(){
         super("F");
+
     }
     
    
@@ -29,5 +30,15 @@ public class Arvore extends Acessivel {
         un.setVida(un.getVida()+1);
         return true;
     }
+    public  void custo_para_mover(Cidade cidade){
+        Recursos ouro = cidade.findRecurso(new Ouro(0));
+        if (ouro != null) {
+            cidade.consumirRecurso(new Ouro(0), 10);
+            System.out.println("Cidade " + cidade.getCodigo() + ",consumio "+ 10 +" para mover.");
+    }
+    else{
+        return ;
+    }
     
+}
 }

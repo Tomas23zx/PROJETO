@@ -78,7 +78,7 @@ public abstract class Unidades {
     }
 
     
-    public abstract  void mover(char direcao, Mapa mapa,Unidades escolhida,String codigo);
+    public abstract  void mover(char direcao, Mapa mapa,Unidades escolhida,String codigo,Cidade cidadeEscolhida);
     public abstract void morrer(Cidade city,Mapa map);
     //public abstract void perderVida(); // ainda ns como vai ficar
    // public abstract void recuperarVida();// ainda ns tbm

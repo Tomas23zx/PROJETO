@@ -20,4 +20,14 @@ public class Terra extends Acessivel{
         System.out.println("Nenhuma vantagem aplicada");
         return true;
     }
+    public  void custo_para_mover(Cidade cidade){
+        Recursos ouro = cidade.findRecurso(new Ouro(0));
+        if (ouro != null) {
+            cidade.consumirRecurso(new Ouro(0), 5);
+            System.out.println("Cidade " + cidade.getCodigo() + ",consumio "+ 5 +" para mover.");
+    }
+    else{
+        return ;
+    }
+}
 }
