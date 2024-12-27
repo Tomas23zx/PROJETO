@@ -59,6 +59,8 @@ public class Colono extends Unidades {
     {
         mapa.meterCidade(civi,getLinha(),getColuna());
         
+
+        
         
     }
     @Override

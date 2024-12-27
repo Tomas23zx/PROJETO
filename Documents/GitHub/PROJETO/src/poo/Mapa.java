@@ -156,30 +156,41 @@ public class Mapa {
     }
 
     public boolean podeConstruirCidade(Civilizacao civi, int x, int y) {
+
+        
+        if (x == 0 && y == 0) {
+            return false;
+        }
+    
+        
         int[][] direcoes = {
-            {-2, -2}, {-2, 0}, {-2, 2},
-            {0, -2},          {0, 2},
-            {2, -2}, {2, 0}, {2, 2}
+            {-2, -2}, {-2, -1}, {-2, 0}, {-2, 1}, {-2, 2},  
+            {-1, -2}, {-1, -1}, {-1, 0}, {-1, 1}, {-1, 2},  
+            {0, -2}, {0, -1},          {0, 1}, {0, 2},     
+            {1, -2}, {1, -1}, {1, 0}, {1, 1}, {1, 2},     
+            {2, -2}, {2, -1}, {2, 0}, {2, 1}, {2, 2}     
         };
     
+       
         for (int[] dir : direcoes) {
             int novoX = x + dir[0];
             int novoY = y + dir[1];
     
+            
             if (novoX >= 0 && novoX < tamanhoX && novoY >= 0 && novoY < tamanhoY) {
-                for (Cidade cidade : civi.getCidades()) {
+                for (Cidade cidade : city) {
+                    
                     if (cidade.getPosX() == novoX && cidade.getPosY() == novoY) {
-                        if (cidade.getLetra().equals(cidade.getLetra())) {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
         }
     
+      
         return true;
     }
-
+    
     public void adicionarUnidades(Unidades e){
         un.add(e);
     }

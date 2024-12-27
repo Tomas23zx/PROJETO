@@ -701,16 +701,18 @@ else{
 
 
 public void menuFuncionalidades(Civilizacao civi, Mapa map) {
-    Cidade cidadeEscolhida = selecionarCidade(civi); // Seleciona a cidade escolhida
+    Cidade cidadeEscolhida = selecionarCidade(civi); 
     
-    Unidades un = selecionarUnidade(cidadeEscolhida); // Seleciona a unidade escolhida
+    Unidades un = selecionarUnidade(cidadeEscolhida); 
 
-    // Verifica se a unidade é um Colono e se pode construir uma cidade
+   
     if (un instanceof Colono && map.podeConstruirCidade(civi, un.getLinha(), un.getColuna())) {
         un.funcionalidade(civi, map);
         cidadeEscolhida.removerUnidade(un);
+        map.removerUnidadePorPosicao(un.getLinha(), un.getColuna());
+        un.morrer(cidadeEscolhida, map);
     }
-    // Verifica se a unidade é um Construtor
+    
     else if (un instanceof Construtor) {
         Scanner sc = new Scanner(System.in);
         System.out.println("O que deseja construir:");
@@ -738,7 +740,7 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                     int x1 = cidadeEscolhida.getPosX();
                     int y1 = cidadeEscolhida.getPosY();
 
-                    // Movimento na direção x
+                 
                     if (x1 < x2) {
                         while (x1 != x2) {
                             x1++;
@@ -757,7 +759,6 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         }
                     }
 
-                    // Movimento na direção y
                     if (y1 < y2) {
                         while (y1 != y2 - 1) {
                             y1++;
@@ -782,7 +783,7 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                 }
             }
         } else {
-            // Lógica para construções diferentes
+            
             char f = entrada.charAt(0);
             char s = entrada.charAt(1);
             System.out.println("Escolhe a posição da tua construção:");
