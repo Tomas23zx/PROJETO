@@ -234,36 +234,6 @@ public boolean atacar_cidade(Cidade cidade_inimiga,Cidade cidade_origem) {
         
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     public void morrer(Cidade city, Mapa map) {
         if (this.getVida() == 0) {

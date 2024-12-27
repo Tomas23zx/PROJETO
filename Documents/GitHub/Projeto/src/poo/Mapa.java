@@ -350,7 +350,7 @@ public class Mapa {
             if (unidade.getLinha()==x && unidade.getColuna()==y && unidade.getId()!= idCivilizacao) {
                 return unidade;
             }
-            System.out.println(""+unidade.getId());
+           
         }
         System.out.println(""+idCivilizacao);
         return null;  
@@ -362,7 +362,7 @@ public class Mapa {
             if (unidade.getLinha()==x && unidade.getColuna()==y ) {
                 return unidade;
             }
-            System.out.println(""+unidade.getId());
+            
         }
        
         return null;  

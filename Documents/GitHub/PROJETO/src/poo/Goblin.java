@@ -9,7 +9,7 @@ public class Goblin extends Unidades {
    
     
 
-    public Goblin(String letra,Mapa mapa ,int idCivilizacao,int vida,int forca) {
+    public Goblin(String letra,Mapa mapa ,int idCivilizacao,int vida) {
         super(letra, 0, 0, idCivilizacao,vida); 
         this.mapa=mapa;
         
@@ -62,12 +62,13 @@ public class Goblin extends Unidades {
         Recursos ouro = cidadeInimiga.findRecurso(new Ouro(0)); 
     
         if (ouro != null) {
-            int quantidadeParaRoubar = ouro.getQuantidade() / 2; 
+            int quantidadeParaRoubar = ouro.getQuantidade() / 3; 
     
             if (quantidadeParaRoubar > 0) {
                 cidadeInimiga.consumirRecurso(new Ouro(0), quantidadeParaRoubar);
     
                 if (chance == 0) {
+                    System.out.println("O Goblin robou o ouro para si ahahah.");
                     
                     System.out.println("O Goblin roubou " + quantidadeParaRoubar + " unidades de ouro da cidade inimiga " +
                             cidadeInimiga.getCodigo() + " sem revelar sua origem!");
@@ -84,6 +85,60 @@ public class Goblin extends Unidades {
             System.out.println("A cidade inimiga " + cidadeInimiga.getCodigo() + " não possui ouro!");
         }
     }
+    @Override
+    public void morrer(Cidade city, Mapa map) {
+        if (this.getVida() == 0) {
+            
+            map.remover_do_mapa(getLinha(), getColuna());  
     
-
+            
+            for (Cidade c : map.getCidades()) {
+                
+                Unidades unidadeRemovida = c.removerUnidadePorPosicao(getLinha(), getColuna());
+                if (unidadeRemovida != null) {
+                    
+                    System.out.println("A unidade " + unidadeRemovida.getCodigo() + " foi removida da cidade " + c.getCodigo());
+                    break; 
+                }
+            }
+    
+            
+            map.removerUnidadePorPosicao(getLinha(), getColuna());  
+            System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
+        }
+    }
+    
+    public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
+        int linhaUnidade = unidade.getLinha();
+        int colunaUnidade = unidade.getColuna();
+    
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0) continue;
+    
+                int novaLinha = linhaUnidade + i;
+                int novaColuna = colunaUnidade + j;
+    
+                if (novaLinha >= 0 && novaLinha < map.getMapa().length &&
+                    novaColuna >= 0 && novaColuna < map.getMapa()[0].length) {
+    
+                    String codigoNaPosicao = map.getMapa()[novaLinha][novaColuna];
+    
+                    if (!codigoNaPosicao.equals(mapa.obterLetraTerra()) && !codigoNaPosicao.equals(map.obterLetraArvore()) && !codigoNaPosicao.equals(map.obterLetraAgua())  && !codigoNaPosicao.equals(map.obterLetraPlanicie()) &&  !codigoNaPosicao.startsWith("G") &&   !codigoNaPosicao.startsWith("M") &&   !codigoNaPosicao.startsWith("H") &&    !codigoNaPosicao.startsWith("E")) {
+                       
+    
+                        
+                        Cidade enimigoCidade =map.buscarCidadePorposicao(novaLinha, novaColuna, unidade.getId());
+                        
+    
+                        if (enimigoCidade != null) {
+                            return enimigoCidade;
+                        }
+                    }
+                }
+            }
+        }
+    
+        return null; 
+    }
 }

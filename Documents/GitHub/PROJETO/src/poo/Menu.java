@@ -133,7 +133,7 @@ public String menCiv() {
                     horasgastas-=3;
                 }
                 case 3 -> {
-                    menuFunciunalidades(civi,map);
+                    menuFuncionalidades(civi,map);
                     horasgastas-=3;
                 }
                 case 4 -> mapa.imprimirMapa();
@@ -145,6 +145,7 @@ public String menCiv() {
                         System.out.println("1. Militar");
                         System.out.println("2. Construtor");
                         System.out.println("3. Colono");
+                        System.out.println("4. Goblin");
                         us = scanner.nextInt();
                         
                         Data_de_criacao(dia);
@@ -603,6 +604,10 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
             case 3:
                 unidadeCriada = new Colono("E", mapa,cidadeEscolhida.getId(),100);
                 break;
+
+            case 4:
+                unidadeCriada = new Goblin("G", mapa,cidadeEscolhida.getId(),100); 
+                break;
             default:
                 System.out.println("Tipo de unidade inválido!");
                 return;
@@ -617,7 +622,7 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
         
         mapa.meterUnidade(unidadeCriada, posX + 1, posY + 1);
         System.out.println(""+mapa.getUnidades(0).getCodigo());
-        ;
+        
 
        
         System.out.println("Unidade criada e posicionada no mapa na cidade " + cidadeEscolhida.getCodigo());
@@ -628,86 +633,100 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
 }
 
 
-public void menuFunciunalidades(Civilizacao civi,Mapa map){
-    Cidade cidadeEscolhida=selecionarCidade(civi);
+public void menuFuncionalidades(Civilizacao civi, Mapa map) {
+    Cidade cidadeEscolhida = selecionarCidade(civi); 
     
-    Unidades un=selecionarUnidade( cidadeEscolhida);
-    un.funcionalidade(civi,map);
-    if(un instanceof Colono && map.podeConstruirCidade(civi,un.getLinha(),un.getColuna())){
-        
+    Unidades un = selecionarUnidade(cidadeEscolhida); 
+    un.funcionalidade(civi, map); 
+    
+    
+    if (un instanceof Colono && map.podeConstruirCidade(civi, un.getLinha(), un.getColuna())) {
         cidadeEscolhida.removerUnidade(un);
     }
-    if(un instanceof Construtor){
+    
+    
+    if (un instanceof Construtor) {
         Scanner sc = new Scanner(System.in);
         System.out.println("O que deseja construir:");
         
         String entrada = sc.nextLine();
         System.out.println("  ");
-        if(entrada.equals("estrada")||entrada.equals("Estrada")||entrada.equals("ESTRADA")){
-            System.out.println("Escolhe a cidade final da estrada!");
+        
+        if (entrada.equalsIgnoreCase("estrada")) {
+            System.out.println("Escolha a cidade final da estrada!");
             System.out.println("  ");
-            boolean continua=true;
-            Cidade c2=null;
-            while(continua){
+            
+            boolean continua = true;
+            Cidade c2 = null;
+            while (continua) {
                 c2 = selecionarCidade(civi);
-                if(!cidadeEscolhida.equals(c2)){
-                    continua=false;
-                }
-                else{
-                    System.out.println("Escolhe uma cidade diferente");
+                if (!cidadeEscolhida.equals(c2)) {
+                    continua = false;
+                } else {
+                    System.out.println("Escolha uma cidade diferente");
                 }
             }
-            if(c2!=null){
-                int x2=c2.getPosX();
-                int y2=c2.getPosY();
-                int x1=cidadeEscolhida.getPosX();
-                int y1=cidadeEscolhida.getPosY();
+            
+            if (c2 != null) {
+                int x2 = c2.getPosX();
+                int y2 = c2.getPosY();
+                int x1 = cidadeEscolhida.getPosX();
+                int y1 = cidadeEscolhida.getPosY();
                 
-                if(x1<x2){
-                    while(x1 != x2){
+                if (x1 < x2) {
+                    while (x1 != x2) {
                         x1++;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
                     }
-                    
-                    
-                }
-                else{
-                    while(x1 != x2){
+                } else {
+                    while (x1 != x2) {
                         x1--;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
                     }
-                    
                 }
-                if(y1<y2){
-                    while(y1 != y2-1){
+
+                if (y1 < y2) {
+                    while (y1 != y2 - 1) {
                         y1++;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
                     }
-                    
-                    
-                }
-                else{
-                    while(y1 != y2+1){
+                } else {
+                    while (y1 != y2 + 1) {
                         y1--;
-                        mapa.meterEstrutura(new Estrutura("E",civi.getId()),x1, y1);
+                        map.meterEstrutura(new Estrutura("E", civi.getId()), x1, y1);
                     }
-                    
                 }
             }
             
             cidadeEscolhida.addLigacao(c2.getCodigo());
             c2.addLigacao(cidadeEscolhida.getCodigo());
         }
-        else{
-            System.out.println("hdfgjdgfhsdh");
-        }
-        
-
-        
-        
     }
-
+    
+    // Verifica se é um Goblin
+    if (un instanceof Goblin) {
+        Goblin unidadeGoblin = (Goblin) un;
+        
+        // O Goblin verifica a cidade inimiga nas proximidades
+        Cidade cidadeInimiga = unidadeGoblin.verificar_cidade_inimiga(unidadeGoblin, map);
+        
+        if (cidadeInimiga != null) {
+            // Se encontrou uma cidade inimiga, o Goblin pode roubar
+            System.out.println("O Goblin pode roubar uma cidade inimiga!");
+            unidadeGoblin.roubar(cidadeEscolhida, cidadeInimiga); // Roubando ouro da cidade inimiga
+        } else {
+            System.out.println("Não há cidades inimigas próximas para roubo.");
+        }
+    }
+    
+    // Verifica se é um Militar
+    if (un instanceof Militares) {
+        atacares(civi, map);
+    } else {
+        System.out.println("Erro: unidade não reconhecida.");
+    }
 }
+
 
 
 
