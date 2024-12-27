@@ -760,7 +760,9 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         while (x1 != x2) {
                             x1++;
                             if (verificaPosicao(x1, y1, "estrada")) {
-                                map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
+                                Estrutura e=new Estrutura("E", cidadeEscolhida.getId());
+                                map.meterEstrutura(e, x1, y1);
+                                mapa.meter_estrutura_no_array(e);
                                 civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
                         }
@@ -768,6 +770,8 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         while (x1 != x2) {
                             x1--;
                             if (verificaPosicao(x1, y1, "estrada")) {
+                                Estrutura e=new Estrutura("E", cidadeEscolhida.getId());
+                                mapa.meter_estrutura_no_array(e);
                                 map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
                                 civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
@@ -778,6 +782,8 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         while (y1 != y2 - 1) {
                             y1++;
                             if (verificaPosicao(x1, y1, "estrada")) {
+                                Estrutura e=new Estrutura("E", cidadeEscolhida.getId());
+                                mapa.meter_estrutura_no_array(e);
                                 map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
                                 civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
@@ -786,6 +792,8 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
                         while (y1 != y2 + 1) {
                             y1--;
                             if (verificaPosicao(x1, y1, "estrada")) {
+                                Estrutura e=new Estrutura("E", cidadeEscolhida.getId());
+                                mapa.meter_estrutura_no_array(e);
                                 map.meterEstrutura(new Estrutura("E", cidadeEscolhida.getId()), x1, y1);
                                 civi.adicionaEstrutura(new Estrutura("E", cidadeEscolhida.getId()));
                             }
@@ -830,11 +838,15 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
             }
             if (tipo != null) {
                 if (verificaPosicao(opcaox, opcaoy)) {
+                    Estrutura e=new Estrutura("" + f + s,cidadeEscolhida.getId());
+                    mapa.meter_estrutura_no_array(e);
                     map.meterEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId(), tipo), opcaox, opcaoy);
                     civi.adicionaEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId(), tipo));
                 }
             } else {
                 if (verificaPosicao(opcaox, opcaoy)) {
+                    Estrutura e=new Estrutura("" + f + s,cidadeEscolhida.getId());
+                    mapa.meter_estrutura_no_array(e);
                     map.meterEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId()), opcaox, opcaoy);
                     civi.adicionaEstrutura(new Estrutura("" + f + s, cidadeEscolhida.getId()));
                 }

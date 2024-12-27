@@ -268,6 +268,9 @@ public class Mapa {
     public Unidades getUnidades(int i) {
         return  un.get(i);
     }
+    public void meter_estrutura_no_array(Estrutura e){
+        es.add(e);
+    }
     
     public void moverUnidade(Unidades en, int novaLinha, int novaColuna,String codigo,Cidade cidades) {
         int linhaAtual = en.getLinha();
@@ -282,8 +285,8 @@ public class Mapa {
 
         String letraDestino = mapa[novaLinha][novaColuna];
     
-            if (buscarUnidades(novaLinha,novaColuna)!=null) {
-                System.out.println("Não é possível mover para a posição (" + novaLinha + ", " + novaColuna + "). Já está ocupada por uma tropa.");
+            if (buscarUnidades(novaLinha,novaColuna)!=null || buscar_estrutura_letra(letraDestino)) {
+                System.out.println("Não é possível mover para a posição (" + novaLinha + ", " + novaColuna + "). Ja esta a ser ocupada.");
                 return;
             }
 
@@ -481,5 +484,13 @@ public class Mapa {
         throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
     }
     
+    public boolean buscar_estrutura_letra(String letra){
+        for(Estrutura est: es){
+            if(est.getLetra().equals(letra)){
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
