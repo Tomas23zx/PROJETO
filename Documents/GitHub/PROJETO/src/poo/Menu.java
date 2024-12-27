@@ -199,18 +199,22 @@ public String menCiv() {
         produzir_populacao_alocada(civi, mapa);
         pagarMilitares(civi); 
         consumir(civi);
+        verificar_reserva_vazia( civi);
         valor_da_Reserva(civi);
         
         
     }
-public boolean condicoesdevitoria(Civilizacao civi){
+public int condicoesdevitoria(Civilizacao civi){
    
     for(Cidade cidade : civi.getCidades()){
         if(cidade.findRecurso(new Ouro(0)).getQuantidade()==10000){
-            return true;
+            return 0;
+        }
+        if(cidade.getPopulacao()==0){
+            return 1;
         }
     }
-    return false;
+    return 2;
 }
 public void verificaeAtualiza(Civilizacao civi){
     if(civi.getEstruturas()!=null){
@@ -1021,6 +1025,14 @@ public void valor_da_Reserva(Civilizacao civi) {
             continue; 
         }
         cidade.meter_reserva();
+    }
+}
+public void verificar_reserva_vazia(Civilizacao civi){
+    for (Cidade cidade : civi.getCidades()) {
+        if (cidade == null) {
+            continue; 
+        }
+        cidade.verifica_reserva();
     }
 }
 

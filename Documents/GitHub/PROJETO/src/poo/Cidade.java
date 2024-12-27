@@ -460,11 +460,30 @@ public void removerTodasUnidades() {
     }
 }
 
+public void remover_pessoa_aleatoria() {
+    if (p.isEmpty()) {
+        System.out.println("Não há pessoas para remover.");
+        return;
+    }
+    int indiceAleatorio = random.nextInt(p.size()); 
+    Populacao pessoaRemovida = p.remove(indiceAleatorio); 
+    System.out.println("Uma pessoa foi removida aleatoriamente:");
+}
 
 
 
 
 
+public void verifica_reserva() {
+    if (getReserva() == 0) {
+        if (p.isEmpty()|| p.size()==0) {
+            setPopulacao(getPopulacao() - 1);
+            System.out.println("População total da cidade foi reduzida para: " + getPopulacao());
+        } else {
+            remover_pessoa_aleatoria(); 
+        }
+    }
+}
 
 
 

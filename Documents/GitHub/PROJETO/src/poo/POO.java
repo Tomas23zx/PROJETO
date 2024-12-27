@@ -49,54 +49,81 @@ public class POO {
         boolean continuarJogo = true;
 
         while (continuarJogo) {
+            // Seleciona a civilização atual
             Civilizacao civilizacaoAtual = civilizacoes.get(turnoAtual);
             System.out.println("É o turno de: " + civilizacaoAtual.getNome());
-
+        
+            // Ajusta a produção das cidades da civilização atual
             for (Cidade cidade : civilizacaoAtual.getCidades()) {
                 if (cidade != null) {
                     Recursos producao = cidade.findRecurso(new Producao(0));
                     if (producao != null) {
-                        producao.setQuantidade(10);  
+                        producao.setQuantidade(10);
                         System.out.println("A produção da cidade " + cidade.getCodigo() + " foi ajustada para 10.");
                     }
                 }
             }
-
         
+            // Mostra a interface e menus para o jogador atual
             menu.Interface(civilizacaoAtual);
             menu.menus(civilizacaoAtual, mapa);
-            int conta=0;
+        
+            // Troca de jogador
+            int conta = 0;
             System.out.println(" ");
             System.out.println("Mudar de Player");
-            for(Civilizacao c : civilizacoes){
+            for (Civilizacao c : civilizacoes) {
                 conta++;
-                System.out.println(conta+". Player"+conta);
+                System.out.println(conta + ". Player" + conta);
             }
             System.out.print("->");
-            
-            
-            
+        
             int resposta = scanner.nextInt();
             System.out.println(" ");
-            switch(resposta){
-                case 1->{
-                    turnoAtual=0;
+            switch (resposta) {
+                case 1 -> turnoAtual = 0;
+                case 2 -> turnoAtual = 1;
+                case 3 -> {
+                    if (civilizacoes.size() > 2) turnoAtual = 2;
                 }
-                case 2->{
-                    turnoAtual=1;
-                }
-                case 3->{
-                    if(civilizacoes.size()>2){
-                    turnoAtual=2;}
-                }
-                case 4->{
-                    if(civilizacoes.size()>2){
-                    turnoAtual=3;}
+                case 4 -> {
+                    if (civilizacoes.size() > 2) turnoAtual = 3;
                 }
             }
+        
             
+            for (Civilizacao c : civilizacoes) {
+                if (menu.condicoesdevitoria(c)==0) {
+                    continuarJogo = false; 
+                    System.out.println("A civilização " + c.getNome() + " venceu o jogo!");
+                    break;
+                }
+                if(menu.condicoesdevitoria(c)==1){
+                    
+                    if(civilizacoes.size()==2){
+                        continuarJogo = false; 
+                        for (Civilizacao outraCivilizacao : civilizacoes) {
+                            if (!outraCivilizacao.equals(c)) {
+                                System.out.println("A civilização " + outraCivilizacao.getNome() + " venceu o jogo!");
+                                break;
+                            }
+                        }
+                    }
+                    else{
+                        System.out.println("A civilizacao " + c.getNome() + " foi eliminada!");
+                        civilizacoes.remove(c);
+                    }
+                    break; 
+                }
+                if(menu.condicoesdevitoria(c)==2){
+                    
+                }
+
+            }
         }
+        
 
         scanner.close();
     }
 }
+
