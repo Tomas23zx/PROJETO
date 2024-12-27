@@ -10,18 +10,18 @@ public class POO {
         Menuinicial men = new Menuinicial();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Bem-vindo ao jogo! Quantas civilizações deseja jogar? (mínimo 2, máximo 4): ");
+        System.out.println("Bem-vindo ao jogo! Quantas civilizaçoes deseja jogar? (mínimo 2, máximo 3): ");
         int numeroCivilizacoes;
         while (true) {
             try {
                 numeroCivilizacoes = Integer.parseInt(scanner.nextLine());
-                if (numeroCivilizacoes >= 2 && numeroCivilizacoes <= 4) {
+                if (numeroCivilizacoes >= 2 && numeroCivilizacoes <= 3) {
                     break;
                 } else {
-                    System.out.println("Por favor, insira um número entre 2 e 4:");
+                    System.out.println("Entrada invalida. Por favor, insira um numero entre 2 e 3:");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, insira um número:");
+                System.out.println("Entrada invalida. Por favor, insira um numero:");
             }
         }
 
@@ -65,15 +65,36 @@ public class POO {
         
             menu.Interface(civilizacaoAtual);
             menu.menus(civilizacaoAtual, mapa);
-
-            System.out.println("Deseja continuar o jogo? (s/n): ");
-            String resposta = scanner.nextLine().trim().toLowerCase();
-            if (resposta.equals("n")) {
-                System.out.println("Saindo do jogo. Até a próxima!");
-                continuarJogo = false;
-            } else {
-                turnoAtual = (turnoAtual + 1) % civilizacoes.size();
+            int conta=0;
+            System.out.println(" ");
+            System.out.println("Mudar de Player");
+            for(Civilizacao c : civilizacoes){
+                conta++;
+                System.out.println(conta+". Player"+conta);
             }
+            System.out.print("->");
+            
+            
+            
+            int resposta = scanner.nextInt();
+            System.out.println(" ");
+            switch(resposta){
+                case 1->{
+                    turnoAtual=0;
+                }
+                case 2->{
+                    turnoAtual=1;
+                }
+                case 3->{
+                    if(civilizacoes.size()>2){
+                    turnoAtual=2;}
+                }
+                case 4->{
+                    if(civilizacoes.size()>2){
+                    turnoAtual=3;}
+                }
+            }
+            
         }
 
         scanner.close();

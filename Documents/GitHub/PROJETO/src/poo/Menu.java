@@ -105,7 +105,7 @@ public String menCiv() {
             if(horasgastas<=0){
                 System.out.println("Nao tens mais horas para gastar!");
                 System.out.println("1. Dia Seguinte");
-                System.out.println("2. Sair");
+                System.out.println("2. Mudar de Player");
                 int opcao2 = scanner.nextInt();
                 switch(opcao2){
                     case 1->{
@@ -114,7 +114,7 @@ public String menCiv() {
                     }
                     case 2->{
                         
-                        System.out.println("Saindo do programa. Ate mais!");
+               
                         continuar = false;
                     }
                 }
@@ -191,6 +191,8 @@ public String menCiv() {
             }
             }
             verificaeAtualiza(civi);
+            condicoesdevitoria(civi);
+            
             verifica_dia(esc,map,us);
             System.out.println();
         }
@@ -201,6 +203,15 @@ public String menCiv() {
         
         
     }
+public boolean condicoesdevitoria(Civilizacao civi){
+   
+    for(Cidade cidade : civi.getCidades()){
+        if(cidade.findRecurso(new Ouro(0)).getQuantidade()==10000){
+            return true;
+        }
+    }
+    return false;
+}
 public void verificaeAtualiza(Civilizacao civi){
     if(civi.getEstruturas()!=null){
         for(Estrutura est : civi.getEstruturas()){
