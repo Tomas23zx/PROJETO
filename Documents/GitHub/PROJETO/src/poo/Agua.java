@@ -10,8 +10,8 @@ package poo;
  */
 public class Agua extends Inacessivel {
     //
-        public static final String AZUL = "\033[34m";
-        public static final String RESET = "\033[0m";
+        private static final String AZUL = "\033[34m";
+        private static final String RESET = "\033[0m";
         public Agua() {
             super(AZUL+"~ "+RESET); 
         }

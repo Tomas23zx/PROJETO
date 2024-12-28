@@ -47,6 +47,6 @@ public class Comida extends Recursos {
     */
     @Override
     public String toString(){
-          return "Quantidade de comida: "+getQuantidade()+ "\n";
+          return "Quantidade de comida: "+getQuantidade();
       }
 }

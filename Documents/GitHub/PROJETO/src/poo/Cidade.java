@@ -244,8 +244,8 @@ public int getId(){
 
     public void listarDetalhesUnidades() {
         for (var entry : un.entrySet()) {
-            System.out.println("Código: " + entry.getKey() + " - Unidade: " + entry.getValue().getLetra() +
-                    " (Posição: " + entry.getValue().getLinha() + ", " + entry.getValue().getColuna() + ")");
+            System.out.println("Codigo: " + entry.getKey() + " - Unidade: " + entry.getValue().getLetra() +
+                    " (Posicao: " + entry.getValue().getLinha() + ", " + entry.getValue().getColuna() + ")");
         }
     }
     /*
@@ -303,7 +303,7 @@ public int getId(){
         if (r != null) {
             r.adicionar(quantidade); 
         } else {
-            System.out.println("Recurso não encontrado!");
+            System.out.println("Recurso nao encontrado!");
         }
     }
     /*
@@ -316,7 +316,7 @@ public int getId(){
         if (r != null) {
             r.consumir(quantidade); 
         } else {
-            System.out.println("Recurso não encontrado ou insuficiente!");
+            System.out.println("Recurso nao encontrado ou insuficiente!");
         }
     }
     /*
@@ -422,9 +422,9 @@ public void Populacao_consumir() {
         if (comida.getQuantidade() >= consumoTotalPopulacao) {
             
             consumirRecurso(new Comida(0,0), consumoTotalPopulacao);
-            System.out.println("População consumiu " + consumoTotalPopulacao + " unidades de comida.");
+            System.out.println("Populacao consumiu " + consumoTotalPopulacao + " unidades de comida.");
         } else {
-            System.out.println("Recursos de comida insuficientes! Apenas " + comida.getQuantidade() + " disponíveis.");
+            System.out.println("Recursos de comida insuficientes! Apenas " + comida.getQuantidade() + " disponiveis.");
         }
     } else {
         System.out.println("Recurso de comida nao encontrado!");
@@ -555,7 +555,7 @@ public void aumentar_populacao() {
 
 public void removerTodasUnidades() {
     if (un.isEmpty()) {
-        System.out.println("Não há unidades para remover.");
+        System.out.println("Nao ha unidades para remover.");
     } else {
         int quantidadeRemovida = un.size();
         un.clear(); 
@@ -567,7 +567,7 @@ public void removerTodasUnidades() {
     */
 public void remover_pessoa_aleatoria() {
     if (p.isEmpty()) {
-        System.out.println("Não há pessoas para remover.");
+        System.out.println("Nao ha pessoas para remover.");
         return;
     }
     int indiceAleatorio = random.nextInt(p.size()); 
@@ -585,7 +585,7 @@ public void verifica_reserva() {
     if (getReserva() == 0) {
         if (p.isEmpty()|| p.size()==0) {
             setPopulacao(getPopulacao() - 1);
-            System.out.println("População total da cidade foi reduzida para: " + getPopulacao());
+            System.out.println("Populacao total da cidade foi reduzida para: " + getPopulacao());
         } else {
             remover_pessoa_aleatoria(); 
         }

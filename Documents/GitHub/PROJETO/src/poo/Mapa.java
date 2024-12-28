@@ -119,6 +119,7 @@ public class Mapa {
      */
 
     public void imprimirMapa() {
+        System.out.println("");
         for (String[] linha : mapa) {
             for (String celula : linha) {
                 
@@ -416,7 +417,7 @@ public class Mapa {
             }
            
         }
-        System.out.println(""+idCivilizacao);
+        
         return null;  
     }
     /*

@@ -2,8 +2,8 @@ package poo;
 
 
 public class Planicie extends Acessivel {
-    public static final String CASTANHO = "\033[33m";
-    public static final String RESET = "\033[0m";
+    private static final String CASTANHO = "\033[33m";
+    private static final String RESET = "\033[0m";
     public Planicie(){
         super(CASTANHO+"P "+RESET);
 
