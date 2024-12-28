@@ -16,11 +16,15 @@ public Populacao(int posX,int posY,Mapa map)
     this.comidaTotalProduzida = 0;
     this.totaldeOuroProduzido=0;
 }
+//Getrs setrs
 public int getPox(){return posX;}
 public int getPoy(){return posY;}
 public void setPox(int x){this.posX=x;}
 public void setPoy(int y){this.posY=y;}
 
+/*
+ * recebe a letra atribuida e produz de acordo com essa letra do mapa produzindo ou ouro ou comida,para isso recebe o mapa para obter essas letras 
+ */
 
 public void letraAtribuida(Cidade city, String letra, Mapa map) {
     if (letra.equalsIgnoreCase(map.obterLetraTerra())) {
@@ -47,7 +51,7 @@ public void letraAtribuida(Cidade city, String letra, Mapa map) {
         this.comidaTotalProduzida += 100;
     }
 }
-
+//Getrs setrs
 
 public int getComidaTotalProduzida() {
     return comidaTotalProduzida;

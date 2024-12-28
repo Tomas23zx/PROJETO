@@ -16,7 +16,11 @@ public class Acessivel extends Terrenos {
     }
 
 
-    
+    /*
+     * criarArray cria um array de terrenos acessiveis,para ser colocaddo incialmente no mapa de modo que fique junto
+     * vantagem a unidade recebe um beneficio
+     * custo_para_mover ao mover para uma celula custa tem um certo custo de ouro
+     */
 
     @Override
     public char[] criarArray(int tamanho) {

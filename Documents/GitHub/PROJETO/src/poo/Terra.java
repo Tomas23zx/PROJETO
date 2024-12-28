@@ -4,7 +4,11 @@ public class Terra extends Acessivel{
     public Terra(String letra) {
         super("X");
     }
-
+ /*
+     * criarArray cria um array de terrenos acessiveis,para ser colocaddo incialmente no mapa de modo que fique junto
+     * vantagem nao aplica nenhuma neste caso apresentando aquela informação
+     * custo_para_mover ao mover para uma celula custa tem um certo custo de ouro,nestte caso 5
+     */
     
 
     @Override

@@ -28,16 +28,24 @@ public class Colono extends Unidades {
         this.mapa = mapa;
         conta++;
     }
+    /*
+     * retorna a conta(valor estatico,faz aoarecer exmplo H1,H2)
+    */
       public static int getConta(){return conta;}
-
+/*
+     * retorna a conta(valor estatico,faz aoarecer exmplo H1,H2)
+    */
      @Override
     public String getCodigo(){
         return getLetra()+getConta();
     }
-    
+   /*
+     * recebe a direçao,o mapa,a unidade escolhida no menu,o codigo dessa,e a cidade,e move para N norte,S Sul ...,
+     * depois chama o mapa para verificar se pode ser deslocado para la, e os custos dos terrenos
+    */ 
      
     @Override
-    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo,Cidade cidadeEscolhida) {
+    public void mover(char direcao, Mapa map,String codigo,Cidade cidadeEscolhida) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -52,17 +60,20 @@ public class Colono extends Unidades {
             }
         }
 
-        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo,cidadeEscolhida);
+        map.moverUnidade(this, novaLinha, novaColuna,codigo,cidadeEscolhida);
     }
+    /*
+     * a funcao de cada
+    */
      @Override
     public  void funcionalidade(Civilizacao civi,Mapa map)
     {
         mapa.meterCidade(civi,getLinha(),getColuna());
         
-
-        
-        
     }
+     /*
+     * se a sua vida for 0,e removido do mapa e do tremap da cidade,e do array de unidades do mapa
+    */
     @Override
     public void morrer(Cidade city, Mapa map) {
         if (this.getVida() == 0) {
@@ -85,5 +96,19 @@ public class Colono extends Unidades {
             map.removerUnidadePorPosicao(getLinha(), getColuna());  
             System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
         }
+    }
+     /*
+     * diminui a vida
+    */
+    @Override
+    public void Perder_Vida(int x){
+        setVida(getVida()-x);
+    }
+     /*
+     * ganha vida
+    */
+    @Override
+    public void Ganhar_vida(int x){
+        setVida(getVida()+x);
     }
 }

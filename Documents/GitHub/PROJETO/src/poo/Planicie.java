@@ -9,6 +9,11 @@ public class Planicie extends Acessivel {
 
 
     }
+     /*
+     * criarArray cria um array de terrenos de planicies,para ser colocaddo incialmente no mapa de modo que fique junto
+     * vantagem a unidade recebe um beneficio,os Militares ganham o dobro da força
+     * custo_para_mover ao mover para uma celula custa tem um certo custo de ouro,neste caso 1
+     */
 
     @Override
     public char[] criarArray(int tamanho) {

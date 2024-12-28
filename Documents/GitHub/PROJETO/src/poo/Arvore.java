@@ -15,7 +15,11 @@ public class Arvore extends Acessivel {
     public Arvore(){
         super(VERDE +"F "+RESET);
     }
-    
+     /*
+     * criarArray cria um array de terrenos Arvores,para ser colocaddo incialmente no mapa de modo que fique junto
+     * vantagem a unidade recebe um beneficio,neste caso ganho 1 de vida
+     * custo_para_mover ao mover para uma celula custa tem um certo custo de ouro,neste caso per 2 de ouro
+     */
    
     //
      @Override
@@ -28,8 +32,19 @@ public class Arvore extends Acessivel {
         return array;
     }
     public  boolean vantagem(Unidades un){
-        un.setVida(un.getVida()+1);
+        un.Ganhar_vida(1);
         return true;
     }
+    public  void custo_para_mover(Cidade cidade){
+        Recursos ouro = cidade.findRecurso(new Ouro(0));
+        if (ouro != null) {
+            cidade.consumirRecurso(new Ouro(0), 2);
+            System.out.println("Cidade " + cidade.getCodigo() + ",consumio "+ 2 +" para mover.");
+    }
+    else{
+        return ;
+    }
+
+}
     
 }

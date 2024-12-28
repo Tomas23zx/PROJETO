@@ -63,84 +63,101 @@ public class Cidade {
     public Cidade(String letra, int idCivilizacao,int populacaoInicial) {
         this(letra, 0, 0, idCivilizacao,populacaoInicial);
     }
+    /*
+    *  retorna todas as ligações entre cidades num array
+    */
     public ArrayList<String> getLigacoes() {
         return ligacoes;
     }
+     /*
+    *  retorna todas a letra da cidade com a respetiva cor
+    */
     public String getLetra() {
         return NEGRITO + letra + RESET;
     }
+
+      /*
+    *  adiciona uma ligação
+    */
     public void addLigacao(String codigo){
         ligacoes.add(codigo);
     }
-    public void Atacar(Cidade c){
-        int probGanhar = random.nextInt(3);
-        System.out.println(" ");
-        switch(probGanhar){
-            case 0: 
-                System.out.println("Ganhaste esta batalha!");
-                
-                break;
-            case 1:
-                Recursos o =c.findRecurso(new Ouro(0));
-                int qnt=o.getQuantidade()/2;
-                c.consumirRecurso(new Ouro(0),qnt);
-                
-                Recursos producao =c.findRecurso(new Producao(0));
-                int qnt1=producao.getQuantidade()/2;
-                c.consumirRecurso(new Producao(0),qnt1);
-                
-                Recursos comida =c.findRecurso(new Comida(0,0));
-                int qnt2=comida.getQuantidade()/2;
-                c.consumirRecurso(new Comida(0,0),qnt2);
-                
-                System.out.println("Conseguiste escapar a tempo!");
-                
-                break;
-            case 2:
-                System.out.println("Perdeste esta batalha!");
-                
-                break;
-        } 
-    }
+      /*
+    *  retorna o valor de reserva
+    */
+   
     public int getReserva(){
         return reserva;
     }
+      /*
+    *  permite mudar o valor da reserva
+    */
     public void setReserva(int x){
         this.reserva=x;
     }
+     /*
+    *  retorna  o valor da posição X
+    */
     
     public int getPosX() {
         return posX;
     }
+     /*
+    *  retorna  o valor da posição Y
+    */
 
     public int getPosY() {
         return posY;
     }
+     /*
+    *  permite mudar o valor da posicao Y
+    */
 
     public void setColuna(int y) {
         this.posY = y;
     }
+     /*
+    *  permite mudar o valor da posicao x
+    */
 
     public void setLinha(int x) {
         this.posX = x;
     }
+     /*
+    *  retorn o valor da populacao
+    */
     public int getPopulacao(){
         return populacaoInicial;
     }
+     /*
+    *  muda o valor da populacao
+    */
     public void  setPopulacao(int x){
         this.populacaoInicial=x;
     }
+     /*
+    *  retorna uma copia do treeMap de unidades
+    */
     public TreeMap<String, Unidades> getUnidades() {
         return new TreeMap<>(un);
     }
+     /*
+    *  insere unidades no treemap
+    */
 
     public void insereUnidade(Unidades e) {
         un.put(e.getCodigo(), e);
     }
+     /*
+    *  remove unidades no treemap
+    */
 
     public void removerUnidade(Unidades e) {
         un.remove(e.getCodigo());
     }
+     /*
+    *  retorna o tamanhanho do treemap de unidades
+    */
 
     public int numdeUnid() {
         if(un!=null){
@@ -148,27 +165,46 @@ public class Cidade {
         }
         return 0;
     }
+     /*
+    * retorna o numero de defesa da cidade
+    */
     public int getDefesa(){
         return defesa;
     }
+     /*
+    * mudar o valor da defesa
+    */
+    
     public void setDefesa(int x){
         this.defesa=defesa;
     }
+     /*
+    * calcula o valor da defesa apartir de um random
+    */
     public void CalcularDefesa() {
         Random rand = new Random();
         int x = rand.nextInt(50);
         defesa = x; 
     }
 
-
+ /*
+    * retorna o codigo
+    */
 
     public String getCodigo() {
         
         return  getLetra() + idCivilizacao;
     }
+     /*
+    * retorna o id
+    */
 public int getId(){
     return idCivilizacao;
 }
+
+ /*
+    * retorna o o numero de unidades por unidade
+    */
     public int quantidade_por_unidade() {
         int contador = 0;
         for (Unidades uni : un.values()) {
@@ -176,25 +212,37 @@ public int getId(){
         }
         return contador;
     }
-
+ /*
+    * verifica se uma determinada tropa existe no treemap apartir  da letra(ex:M1)
+    */
     public boolean existeTropa(String letra) {
         return un.containsKey(letra);
     }
-    
+ /*
+    * retorna uma copia das chaves do treemap de unidades
+    */   
     
     public List<String> listarCodigosUnidades() {
         return new ArrayList<>(un.keySet());
     }
+ /*
+    * retorna uma copia ordenada do treemap de unidades
+    */ 
 
     public TreeMap<String, Unidades> unidadesOrdenadas() {
         return new TreeMap<>(un);
     }
+    /*
+    * retorna a unidade pelo seu codigo
+    */ 
 
     public Unidades buscarUnidadePorCodigo(String codigo) {
         return un.getOrDefault(codigo, null);
     }
     
-
+ /*
+    * aparece as informações do treemap de unidades como seu codigo e posicoes
+    */ 
 
     public void listarDetalhesUnidades() {
         for (var entry : un.entrySet()) {
@@ -202,14 +250,23 @@ public int getId(){
                     " (Posição: " + entry.getValue().getLinha() + ", " + entry.getValue().getColuna() + ")");
         }
     }
+    /*
+    * retorna o primeiro codigo
+    */ 
 
     public String unidadeComCodigoMin() {
         return un.firstKey();
     }
+    /*
+    * retorna o ultimo codigo
+    */ 
 
     public String unidadeComCodigoMax() {
         return un.lastKey();
     }
+    /*
+    * cria uma lista com as letras de cada unidade no treemap
+    */ 
 
     public List<String> listarLetrasUnidades() {
         List<String> letras = new ArrayList<>();
@@ -223,13 +280,18 @@ public int getId(){
         this.nivel++;
         System.out.println("A cidade " + letra + " foi atualizada para o nível " + nivel);
     }
-
+/*
+    * da print dos valores dos recursso do array
+    */ 
     public Recursos getRecursos() {
         for (Recursos r : re) {
             System.out.println(r);
         }
         return null; 
     }
+    /*
+    * procura um determinado tipo de recurso
+    */ 
     
     public Recursos findRecurso(Recursos recurso) {
         for (Recursos r : re) {
@@ -239,6 +301,9 @@ public int getId(){
         }
         return null; 
     }
+    /*
+    * adiciona recursos
+    */ 
     
     public void adicionarRecurso(Recursos recurso, int quantidade) {
     Recursos r = findRecurso(recurso);
@@ -248,6 +313,10 @@ public int getId(){
             System.out.println("Recurso não encontrado!");
         }
     }
+    /*
+    * tira uma certa quantidade de um tipo de recurso
+    */ 
+    
 
     public void consumirRecurso(Recursos recurso, int quantidade) {
         Recursos r = findRecurso(recurso); 
@@ -257,29 +326,44 @@ public int getId(){
             System.out.println("Recurso não encontrado ou insuficiente!");
         }
     }
+    /*
+    * atualiza os valores do recurso
+    */ 
+    
 
     public void atualizarRecursos() {
         for (Recursos recurso : re) {
             recurso.atualizar();
         }
     }
-
+    /*
+    * adiciona pessoas
+    */ 
+    
     public void meterPessoas(Populacao po)
     {
         p.add(po);
 
     }
+      /*
+    * remove pessoas
+    */
 
     public void removerPessoas(int pox)
     {
         p.remove(pox);
 
     }
-
+  /*
+    * retorna uma copia do array de populacoes
+    */
     
     public List<Populacao> getPopulacoes() {
         return new ArrayList<>(this.p);
     }
+    /*
+    * procura unidade no treemap a partir da sua posicao no mapa
+    */
     
 
     public Unidades buscarUnidadePorPosicao(int posX, int posY) {
@@ -291,7 +375,9 @@ public int getId(){
         return null;  
     }
     
-
+    /*
+    * remove unidade no treemap a partir da sua posicao no mapa
+    */
 
     public Unidades removerUnidadePorPosicao(int posX, int posY) {
         for (var entry : un.entrySet()) {
@@ -304,10 +390,15 @@ public int getId(){
         return null;  
     }
     
-
+    /*
+    * retorna o tanho da populaçao
+    */
 public int tamanho_da_populacao(){
     return p.size();
 }
+/*
+    * calcula um valor fixo de acordo com o tamanho dos militares,por explo se tiver apenas duas tropas de militares vai me retornar 20,que depois ira mais a frente pagar 20 de ouro
+    */
 
 public int manutencao_das_unidades() {
     int conta = 0;
@@ -323,7 +414,9 @@ public int manutencao_das_unidades() {
     }
 }
 
-
+/*
+    * cada pessoa na cidade consumo 5 de comida
+    */
 
 public void Populacao_consumir() {
     Recursos comida = findRecurso(new Comida(0, 0));
@@ -344,16 +437,24 @@ public void Populacao_consumir() {
         System.out.println("Recurso de comida nao encontrado!");
     }
 }
+/*
+    * retorna o consumo total
+    */
 
 public int getConsumoTotalPopulacao() {
     return consumoTotalPopulacao;
 }
+    /*
+    * muda o valor
+    */
 public void setConsumoTotalPopulacao(int x){
     this.consumoTotalPopulacao=x;
 }
 
 
-
+/*
+    *a cada pessoa alocada no array e  no mapa ira prodizir de acordo com a letra no mapa
+    */
 
 public void produzir(Mapa mapa) {
     if (this.getPopulacoes().isEmpty()) {
@@ -393,7 +494,9 @@ public void produzir(Mapa mapa) {
     comida_produzida=0;
     ouro_produzido=0;
 }
-
+    /*
+    *as pessoas gastao comida e guard uma copia na variavel globas valor_consumido_reserva, e reinicia a a variavel comida_consumida
+    */
 
 public void consumir_pessoas() {
     
@@ -412,7 +515,9 @@ public void consumir_pessoas() {
 
 }
 
-
+    /*
+    *Calcula o valor da reserva, muda seu valor,caso seja 0 mantem
+    */
 
 
 public void meter_reserva() {
@@ -433,7 +538,9 @@ public void meter_reserva() {
     valor_consumido_reserva=0;
 }
 
-
+     /*
+    *faz o aumento da população  ao ultrapassar certo limite coloca o resto que sobrou na reserva e aumenta a população em um
+    */
 
 public void aumentar_populacao() {    
     int limiteSuperior =500;   
@@ -449,6 +556,9 @@ public void aumentar_populacao() {
        
     }
 }
+    /*
+    *remove todas as unidades da cidade
+    */
 
 public void removerTodasUnidades() {
     if (un.isEmpty()) {
@@ -459,7 +569,9 @@ public void removerTodasUnidades() {
         System.out.println("Todas as " + quantidadeRemovida + " unidades foram removidas da cidade " + getCodigo() + ".");
     }
 }
-
+    /*
+    *remove uma pessoa aleatoria do array ou da populacao inicial,qquandoa reserva é 0
+    */
 public void remover_pessoa_aleatoria() {
     if (p.isEmpty()) {
         System.out.println("Não há pessoas para remover.");
@@ -472,7 +584,9 @@ public void remover_pessoa_aleatoria() {
 
 
 
-
+    /*
+    *verifica a reserva se for 0 e nao houver pessoas alocadas tira da populacao se ouver tira do array
+    */
 
 public void verifica_reserva() {
     if (getReserva() == 0) {

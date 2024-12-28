@@ -7,14 +7,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Menu {
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
     private String[][] matriz; 
     private Unidades un;
     private Civilizacao civi;
     private Mapa mapa; 
-    private int dia=0;
+    private int dia;
     private int criar;
-    private int horasgastas=24;
+    private int horasgastas;
     private Cidade esc;
     private int us;
     private String codigo;
@@ -27,57 +27,14 @@ public class Menu {
             throw new IllegalArgumentException("A matriz do mapa nao pode ser nula.");
         }
         this.matriz = matriz;
+        this.horasgastas=24;
+        this.dia=0;
         this.mapa = mapa;
+        this.scanner= new Scanner(System.in);
         this.civi=civi;
     }
 
-public String menCiv() {
-    boolean continuar = true;
-    String escolha = "";
 
-    while (continuar) {
-        System.out.println("Escolha uma civilização:");
-        System.out.println("1. Bárbaros");
-        System.out.println("2. Romanos");
-        System.out.println("3. Persas");
-        System.out.println("4. Espartanos");
-        System.out.println("5. Sair");
-
-        int opcao = scanner.nextInt();
-
-        switch (opcao) {
-            case 1 -> {
-                escolha = "Bárbaros";
-                System.out.println("Você escolheu Bárbaros.");
-                continuar = false;
-            }
-            case 2 -> {
-                escolha = "Romanos";
-                System.out.println("Você escolheu Romanos.");
-                continuar = false;
-            }
-            case 3 -> {
-                escolha = "Persas";
-                System.out.println("Você escolheu Persas.");
-                continuar = false;
-            }
-            case 4 -> {
-                escolha = "Espartanos";
-                System.out.println("Você escolheu Espartanos.");
-                continuar = false;
-            }
-            case 5 -> {
-                System.out.println("Saindo do programa. Até mais!");
-                escolha = "Sair";
-                continuar = false;
-            }
-            default -> System.out.println("Opção inválida. Tente novamente.");
-        }
-        System.out.println();
-    }
-
-    return escolha;
-}
     public void menus(Civilizacao civi,Mapa map) {
         boolean continuar = true;
         verificar_aumento_da_populacao(civi);
@@ -87,18 +44,17 @@ public String menCiv() {
             System.out.println("Horas Gastas:"+horasgastas);
             System.out.println("Escolha uma opcao:");
             System.out.println("1. Mover uma unidade");
-            System.out.println("2. Alocar ");
+            System.out.println("2. Alocar Pessoas nas celulas");
             System.out.println("3. Funcionalidades");
             System.out.println("4. Ver o mapa");
             System.out.println("5. Criar unidades");
-            System.out.println("6. Atacar uma cidade");
-            System.out.println("7. Exibir informacoes da cidade");
-            System.out.println("8. Exibir informacoes da civilizacao");
-            System.out.println("9. Produzir");
-            System.out.println("10. Dia Seguinte");
-            System.out.println("11.Atacar");
-            System.out.println("12.Trocas");
-            System.out.println("13.Sair");
+            System.out.println("6. Exibir informacoes da cidade");
+            System.out.println("7. Exibir informacoes da civilizacao");
+            System.out.println("8. Produzir");
+            System.out.println("9. Dia Seguinte");
+            System.out.println("10.Atacar unidades ou cidades");
+            System.out.println("11.Trocas");
+            System.out.println("12.Sair");
     
             int opcao = scanner.nextInt();
             
@@ -159,30 +115,28 @@ public String menCiv() {
                     }
                   
                 }
-                case 6 -> {
-                    Atacar();
-                    horasgastas-=6;
-                }
-                case 7 -> exibircidade(civi);
-                case 8 -> {
+               
+                case 6 -> exibircidade(civi);
+                case 7 -> {
                     System.out.println("Informacoes da Civilizacao:");
                     System.out.println(civi.toString()); 
                 }
-                case 9 -> {
+                case 8 -> {
                     manutecao( civi,mapa);
                     horasgastas-=3;
                 }
-                case 10 -> {
+                case 9 -> {
                     jacriou=false;
                     SkipDay();
                 }
-                case 11 ->{
+                case 10 ->{
                     atacares( civi,  map);
+                    horasgastas-=3;
                 }
-                case 12 ->{
+                case 11 ->{
                     Trocas(civi);
                 }
-                case 13  ->{
+                case 12  ->{
                     dia++;
                     System.out.println("Saindo do programa. Ate mais!");
                     continuar = false;
@@ -205,6 +159,9 @@ public String menCiv() {
         
     }
 public int condicoesdevitoria(Civilizacao civi){
+    if (civi.getCidades().isEmpty()) {
+        return 1; 
+    }
    
     for(Cidade cidade : civi.getCidades()){
         if(cidade.findRecurso(new Ouro(0)).getQuantidade()==10000){
@@ -299,12 +256,7 @@ public void verifica_dia(Cidade cidade,Mapa map,int tipoUnidade){
         criar=0;
     }
 }
-public void Atacar(){
-        Cidade c = selecionarCidade(civi);
-        Cidade atacada = selecionarCidade(civi);
-        c.Atacar(atacada);
-        exibircidade(civi);
-}
+
 public void atacares(Civilizacao civi, Mapa map) {
     Cidade cityCidade = selecionarCidade(civi);
     if (cityCidade == null) {
@@ -322,8 +274,8 @@ public void atacares(Civilizacao civi, Mapa map) {
         Militares unidadeMilitar = (Militares) un;
 
         
-        Unidades unidadesAoRedor = unidadeMilitar.verificarInimigoAoRedorDeTodasAsUnidades(unidadeMilitar, map);
-        Cidade cidadeInimiga = unidadeMilitar.verificar_cidade_inimiga(unidadeMilitar, map);
+        Unidades unidadesAoRedor = unidadeMilitar.verificarInimigoAoRedorDeTodasAsUnidades( map);
+        Cidade cidadeInimiga = unidadeMilitar.verificar_cidade_inimiga( map);
 
         if (unidadesAoRedor != null && cidadeInimiga != null) {
            
@@ -407,12 +359,6 @@ private void atacarCidade(Militares atacante, Cidade cidadeAlvo, Cidade cit, Map
 
 
 public void Interface(Civilizacao civi) {
-    int comidaMax = 150;
-    int populacao = 0;
-    int gemas = 0;
-    int tesouros = 0;
-    int dia = 0;
-    int energia = 3; 
 
     Recursos tipoComida = new Comida(0,  0); 
     Recursos tipoOuro = new Ouro(0);           
@@ -422,8 +368,7 @@ public void Interface(Civilizacao civi) {
 
     
     System.out.println("Total das civilizacoes: ");
-    System.out.println("    Comida: " + totalComida + " / " + comidaMax);
-    System.out.println("    Populacao: " + populacao);
+    System.out.println("    Comida total: " + totalComida);
     System.out.println("    Tesouro " + totalOuro);
     
     
@@ -478,7 +423,7 @@ public void Interface(Civilizacao civi) {
         int colunaAnterior = unidadeEscolhida.getColuna();
     
         for (int i = 0; i < numCasas; i++) {
-            unidadeEscolhida.mover(direcao, mapa,unidadeEscolhida,codigo, cidadeEscolhida);
+            unidadeEscolhida.mover(direcao, mapa,codigo, cidadeEscolhida);
         }
     
         int novaLinha = unidadeEscolhida.getLinha();
@@ -519,43 +464,6 @@ public void Interface(Civilizacao civi) {
     
   }
   
-public void atualizarCidades(Civilizacao civi){
-ArrayList<Cidade> cidades = civi.getCidades();
-    for (int i = 0; i < cidades.size(); i++) {
-        Recursos ouro = cidades.get(i).findRecurso(new Ouro(0));
-        Recursos comida = cidades.get(i).findRecurso(new Comida(0,0));
-        Recursos producao = cidades.get(i).findRecurso(new Producao(0));
-        Random random = new Random();
-        
-        //Atualizar Ouro
-        int somaousub = random.nextInt(2);
-        int qnt=ouro.getQuantidade();
-        int novoouro = random.nextInt(50);
-        if(somaousub==1){
-            ouro.adicionar(novoouro);
-        }
-        else{ if(ouro.getQuantidade()>50){
-            ouro.consumir(novoouro);
-        }}
-        
-        
-        
-        int somaousub1 = random.nextInt(2);
-        int qntC=comida.getQuantidade();
-        int novacomida = random.nextInt(50);
-        if(somaousub1==1){
-            comida.adicionar(novacomida);
-        }
-        else{ if(comida.getQuantidade()>50){
-            comida.consumir(novacomida);
-        }}
-        
-        
-       
-        
-        
-    }
-}
 
 public Cidade selecionarCidade(Civilizacao civi) {
     Scanner scanner = new Scanner(System.in);
@@ -567,20 +475,20 @@ public Cidade selecionarCidade(Civilizacao civi) {
     ArrayList<Cidade> cidades = civi.getCidades();
     ArrayList<Cidade> cidadesValidas = new ArrayList<>();
 
-    // Filtra apenas as cidades não nulas
+    
     for (Cidade cidade : cidades) {
         if (cidade != null) {
             cidadesValidas.add(cidade);
         }
     }
 
-    // Verifica se há cidades válidas disponíveis
+    
     if (cidadesValidas.isEmpty()) {
         System.out.println("Nenhuma cidade disponivel.");
         return null;
     }
 
-    // Exibe as cidades válidas
+    
     for (int i = 0; i < cidadesValidas.size(); i++) {
         Cidade cidade = cidadesValidas.get(i);
         System.out.print(i + " - " + cidade.getCodigo() + " (" + cidade.getPosX() + "," + cidade.getPosY() + ") ");
@@ -601,7 +509,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
         System.out.println();  
     }
 
-    // Solicita ao usuário que escolha uma cidade
+    
     System.out.print("Escolha o indice da cidade: ");
     int indiceCidade;
     try {
@@ -611,7 +519,7 @@ public Cidade selecionarCidade(Civilizacao civi) {
         return null;
     }
 
-    // Verifica se o índice é válido
+   
     if (indiceCidade < 0 || indiceCidade >= cidadesValidas.size()) {
         System.out.println("Indice invalido.");
         return null;
@@ -622,12 +530,9 @@ public Cidade selecionarCidade(Civilizacao civi) {
     return cidadeEscolhida;
 }
 
+
 public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
-    
-    
 
-
-   
     int tipoUnidade = unidade;
     Unidades unidadeCriada;
 
@@ -722,6 +627,7 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
 
    
     if (un instanceof Colono && map.podeConstruirCidade(civi, un.getLinha(), un.getColuna())) {
+        System.out.println("Construindo uma cidade...");
         un.funcionalidade(civi, map);
         cidadeEscolhida.removerUnidade(un);
         map.removerUnidadePorPosicao(un.getLinha(), un.getColuna());
@@ -856,7 +762,7 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
     
     else if (un instanceof Goblin) {
         Goblin unidadeGoblin = (Goblin) un;
-        Cidade cidadeInimiga = unidadeGoblin.verificar_cidade_inimiga(unidadeGoblin, map);
+        Cidade cidadeInimiga = unidadeGoblin.verificar_cidade_inimiga(map);
         
         if (cidadeInimiga != null) {
             
@@ -868,11 +774,9 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
     }
     
     else if (un instanceof Militares) {
+        System.out.println("Atacando...");
         atacares(civi, map);
-    } else {
-        
-        System.out.println("Erro: unidade não reconhecida.");
-    }
+    } 
 }
 
 

@@ -27,16 +27,20 @@ public class Construtor extends Unidades {
         this.mapa = mapa;
         conta++;
     }
-      public static int getConta(){return conta;}
 
+      public static int getConta(){return conta;}
+// gets 
      @Override
     public String getCodigo(){
         return getLetra()+getConta();
     }
     
-     
+     /*
+        * recebe a direçao,o mapa,a unidade escolhida no menu,o codigo dessa,e a cidade,e move para N norte,S Sul ...,
+     * depois chama o mapa para verificar se pode ser deslocado para la, e os custos dos terrenos
+      */
     @Override
-    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo,Cidade cidadeEscolhida) {
+    public void mover(char direcao, Mapa map,String codigo,Cidade cidadeEscolhida) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -51,15 +55,20 @@ public class Construtor extends Unidades {
             }
         }
 
-        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo, cidadeEscolhida);
+        map.moverUnidade(this, novaLinha, novaColuna,codigo, cidadeEscolhida);
     }
+    /*
+     * a funcao de cada(não foi preciso)
+    */
 
 @Override
 public void funcionalidade(Civilizacao civi,Mapa map) {
 
 
 }
-   
+    /*
+     * se a sua vida for 0,e removido do mapa e do tremap da cidade,e do array de unidades do mapa
+    */
 
     @Override
     public void morrer(Cidade city, Mapa map) {
@@ -83,6 +92,19 @@ public void funcionalidade(Civilizacao civi,Mapa map) {
             System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
         }
     }
-    
+     /*
+     * diminui a vida
+    */
+    @Override
+    public void Perder_Vida(int x){
+        setVida(getVida()-x);
+    }
+      /*
+     * ganha vida
+    */
+    @Override
+    public void Ganhar_vida(int x){
+        setVida(getVida()+x);
+    }
     
 }

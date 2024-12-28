@@ -49,11 +49,10 @@ public class POO {
         boolean continuarJogo = true;
 
         while (continuarJogo) {
-            // Seleciona a civilização atual
             Civilizacao civilizacaoAtual = civilizacoes.get(turnoAtual);
             System.out.println("É o turno de: " + civilizacaoAtual.getNome());
         
-            // Ajusta a produção das cidades da civilização atual
+          
             for (Cidade cidade : civilizacaoAtual.getCidades()) {
                 if (cidade != null) {
                     Recursos producao = cidade.findRecurso(new Producao(0));
@@ -64,11 +63,11 @@ public class POO {
                 }
             }
         
-            // Mostra a interface e menus para o jogador atual
+           
             menu.Interface(civilizacaoAtual);
             menu.menus(civilizacaoAtual, mapa);
         
-            // Troca de jogador
+          
             int conta = 0;
             System.out.println(" ");
             System.out.println("Mudar de Player");

@@ -6,7 +6,7 @@ public abstract class Recursos {
     public Recursos(int quantidadeInicial) {
         this.quantidade = quantidadeInicial;
     }
-
+//Getrs seters
     public int getQuantidade() {
         return quantidade;
     }
@@ -14,6 +14,9 @@ public abstract class Recursos {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+    /*
+     * funcoes explicadas nas subclasses
+     */
 
     public abstract void adicionar(int quantidade);
 

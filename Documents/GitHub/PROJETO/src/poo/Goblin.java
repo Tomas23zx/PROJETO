@@ -22,6 +22,9 @@ public class Goblin extends Unidades {
         this.mapa = mapa;  
         conta++;
     }
+     /*
+     *Getrs 
+    */
 
     public static int getConta(){return conta;}
 
@@ -29,10 +32,13 @@ public class Goblin extends Unidades {
         return getLetra()+getConta();
     }
 
-   
+     /*
+     * recebe a direçao,o mapa,a unidade escolhida no menu,o codigo dessa,e a cidade,e move para N norte,S Sul ...,
+     * depois chama o mapa para verificar se pode ser deslocado para la, e os custos dos terrenos
+    */ 
 
     @Override
-    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo,Cidade cidadeEscolhida) {
+    public void mover(char direcao, Mapa map,String codigo,Cidade cidadeEscolhida) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -47,8 +53,11 @@ public class Goblin extends Unidades {
             }
         }
 
-        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo, cidadeEscolhida);
+        map.moverUnidade(this, novaLinha, novaColuna,codigo, cidadeEscolhida);
     }
+ /*
+     * a funcao de cada(não foi preciso)
+    */
 
     @Override
     public void funcionalidade(Civilizacao civi,Mapa map) {
@@ -56,6 +65,9 @@ public class Goblin extends Unidades {
         
         
     }
+    /*
+     * recebe a cidade do goblin e a cidade inimiga e calcula as probabilidades de roubar a cidade, se roubar pode ficar para ele ou envia a sua cidade de origem
+     */
     public void roubar(Cidade cidadeOrigem, Cidade cidadeInimiga) {
         Random random = new Random();
         int chance = random.nextInt(2);
@@ -77,6 +89,7 @@ public class Goblin extends Unidades {
                     System.out.println("O Goblin roubou " + quantidadeParaRoubar + " unidades de ouro da cidade inimiga " +
                             cidadeInimiga.getCodigo() + " e revelou sua origem: Cidade de ID " + cidadeOrigem.getCodigo());
                             cidadeOrigem.adicionarRecurso(new Ouro(0), quantidadeParaRoubar);
+                            
                 }
             } else {
                 System.out.println("A cidade inimiga " + cidadeInimiga.getCodigo() + " não possui ouro suficiente para ser roubado.");
@@ -85,6 +98,9 @@ public class Goblin extends Unidades {
             System.out.println("A cidade inimiga " + cidadeInimiga.getCodigo() + " não possui ouro!");
         }
     }
+    /*
+     * se a sua vida for 0,e removido do mapa e do tremap da cidade,e do array de unidades do mapa
+    */
     @Override
     public void morrer(Cidade city, Mapa map) {
         if (this.getVida() == 0) {
@@ -107,10 +123,13 @@ public class Goblin extends Unidades {
             System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
         }
     }
+       /*
+        * verifica se existe uma cidade com id diferente ao redor da unidade, se houver retorna true
+       */
     
-    public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
-        int linhaUnidade = unidade.getLinha();
-        int colunaUnidade = unidade.getColuna();
+    public Cidade verificar_cidade_inimiga(Mapa map){
+        int linhaUnidade = this.getLinha();
+        int colunaUnidade = this.getColuna();
     
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -128,7 +147,7 @@ public class Goblin extends Unidades {
                        
     
                         
-                        Cidade enimigoCidade =map.buscarCidadePorposicao(novaLinha, novaColuna, unidade.getId());
+                        Cidade enimigoCidade =map.buscarCidadePorposicao(novaLinha, novaColuna, this.getId());
                         
     
                         if (enimigoCidade != null) {
@@ -141,4 +160,19 @@ public class Goblin extends Unidades {
     
         return null; 
     }
+     /*
+     * diminui a vida
+    */
+    @Override
+    public void Perder_Vida(int x){
+        setVida(getVida()-x);
+    }
+     /*
+     * ganha vida
+    */
+    @Override
+    public void Ganhar_vida(int x){
+        setVida(getVida()+x);
+    }
+
 }

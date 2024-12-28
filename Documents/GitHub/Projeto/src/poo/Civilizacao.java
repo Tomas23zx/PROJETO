@@ -15,7 +15,7 @@ public class Civilizacao {
         this.estt=new ArrayList<Estrutura>();
         citys = new ArrayList<>();
     }
-//
+//GETRS SETRS
     public String getNome() {
         return nome;
     }
@@ -32,18 +32,28 @@ public class Civilizacao {
     public int getId(){
         return idCivilizacao;
     }
-
+    /*
+     * remove uma cidade do array de cidades da civilização
+    */
     public void removerCidade(Cidade c) {
         citys.remove(c);
     }
+    /*
+     * retorna uma copia do array de cidades
+    */
     
     public ArrayList<Cidade> getCidades(){
         return new ArrayList<Cidade>(citys);
     }
+     /*
+     *vai biscar a cidade ao array com aquele indice
+    */
    public Cidade getCidade(int i) {
     return citys.get(i); 
 }
-
+    /*
+     * soma todos os recurssos das cidades,se receber o ouro forma o tesouro da civilização
+    */
 
 public int Total_Recurssos(Recursos tipoRecurso, Civilizacao civ) { 
     int totalRecursos = 0;
@@ -55,6 +65,9 @@ public int Total_Recurssos(Recursos tipoRecurso, Civilizacao civ) {
     }
     return totalRecursos;
 }
+/*
+     * adiciona 5 a todas as cidades da civilização
+    */
 public void atualizarRecurssos(Recursos tipoRecurso, Civilizacao civ) { 
     
     for (Cidade cidade : civ.getCidades()) {
@@ -63,16 +76,24 @@ public void atualizarRecurssos(Recursos tipoRecurso, Civilizacao civ) {
         
     }
 }
-
-    ///
+/*
+     * toString
+    */
+    
     @Override
     public String toString() {
         StringBuilder texto = new StringBuilder("Civilização: " + nome + "\nCidades:\n");
-        for (Cidade c : citys) {
-            texto.append(c.toString()).append("\n");
-        }
+        for (Cidade c : citys) { 
+        texto.append(c.toString()) 
+             .append(" (PosX: ").append(c.getPosX())
+             .append(", PosY: ").append(c.getPosY())
+             .append(")\n"); 
+    }
         return texto.toString();
     }
+    /*
+     * retorna a cidade que esta naquela posição
+    */
 
     public Cidade buscarCidadePorCoordenada(int x, int y) {
         for (Cidade cidade : citys) {
@@ -82,14 +103,22 @@ public void atualizarRecurssos(Recursos tipoRecurso, Civilizacao civ) {
         }
         return null;
     }
+    /*
+     * verifica se esxiste uma cidade naquela posição
+    */
     public boolean existeCidadeNaCoordenada(int x, int y) {
         return buscarCidadePorCoordenada(x, y) != null;
     }
+    /*
+     * retorna o tamanho do array de cidades
+    */
 
     public int numero_de_cidade(){
         return citys.size();
     }
-
+/*
+     * pede ao utilizador para escolher uma cidade
+    */
     public void escolherCidades() {
         Scanner scanner = new Scanner(System.in);
         

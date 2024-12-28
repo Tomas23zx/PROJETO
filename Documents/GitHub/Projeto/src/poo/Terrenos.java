@@ -42,11 +42,12 @@ public abstract class Terrenos {
         this.tamanho = tamanho;
     }
 
-    
-
+ 
+    /*
+     * funções abstratas explicadas no codigo dasa subclasses
+     */
 
     public abstract char[] criarArray(int tamanho);
-    //public abstract void permiteandar();
     public abstract boolean vantagem(Unidades un);
     public abstract void custo_para_mover(Cidade cidade);
 

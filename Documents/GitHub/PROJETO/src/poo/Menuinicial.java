@@ -9,7 +9,9 @@ public class Menuinicial {
 
 
  }   
-
+/*
+ * escolher qual nome de civilização quer usar
+ */
  public String menCiv() {
     boolean continuar = true;
     String escolha = "";

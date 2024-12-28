@@ -34,6 +34,7 @@ public class Militares extends Unidades {
         this.mapa = mapa;  
         conta++;
     }
+    //Getrs setters
 
     public static int getConta(){return conta;}
 
@@ -47,9 +48,12 @@ public class Militares extends Unidades {
     public void setForca(int x){
         this.forca=x;
     }
-    
+     /*
+     * recebe a direçao,o mapa,a unidade escolhida no menu,o codigo dessa,e a cidade,e move para N norte,S Sul ...,
+     * depois chama o mapa para verificar se pode ser deslocado para la, e os custos dos terrenos
+    */ 
     @Override
-    public void mover(char direcao, Mapa map,Unidades escolhida,String codigo,Cidade cidadeEscolhida) {
+    public void mover(char direcao, Mapa map,String codigo,Cidade cidadeEscolhida) {
         int novaLinha = getLinha();
         int novaColuna = getColuna();
 
@@ -64,19 +68,23 @@ public class Militares extends Unidades {
             }
         }
 
-        map.moverUnidade(escolhida, novaLinha, novaColuna,codigo, cidadeEscolhida);
+        map.moverUnidade(this, novaLinha, novaColuna,codigo, cidadeEscolhida);
     }
-
+    /*
+     * a funcao de cada(não foi preciso)
+    */
     @Override
     public void funcionalidade(Civilizacao civi,Mapa map) {
         
         
     }
 
-
-    public Unidades verificarInimigoAoRedorDeTodasAsUnidades(Unidades unidade, Mapa map) {
-        int linhaUnidade = unidade.getLinha();
-        int colunaUnidade = unidade.getColuna();
+    /*
+     * verifica se existe inimigos ao redor desta unidade
+     */
+    public Unidades verificarInimigoAoRedorDeTodasAsUnidades( Mapa map) {
+        int linhaUnidade = this.getLinha();
+        int colunaUnidade = this.getColuna();
     
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -94,7 +102,7 @@ public class Militares extends Unidades {
                        
     
                         
-                        Unidades unidadeAdjacente = map.buscarUnidadePorCodigo(novaLinha,novaColuna,unidade.getId());
+                        Unidades unidadeAdjacente = map.buscarUnidadePorCodigo(novaLinha,novaColuna,this.getId());
                         
 
                         if (unidadeAdjacente != null) {
@@ -109,7 +117,9 @@ public class Militares extends Unidades {
     }
     
     
-    
+    /*
+     * calcula a probabilidade de vitoria entre esta unidade e o inimigo apratir da força e da vida
+     */
     
     
     public double calcularProbabilidadeDeVitoria(Militares unidadeAdversaria) {
@@ -117,7 +127,9 @@ public class Militares extends Unidades {
         double probabilidade = (this.forca * this.getVida()) / (double) (unidadeAdversaria.getForca() * unidadeAdversaria.getVida());
         return probabilidade;
     }
-
+/*
+ * ataca a unidadeAdversaria detectada ao redor desta unidade atraves de probabilidades,esta podera falhar e perder vida ou ganhar 
+ */
     public void atacar(Unidades unidadeAdversaria) {
         double probabilidadeDeVitoria;
     
@@ -135,11 +147,11 @@ public class Militares extends Unidades {
                 
                 int dano = (unidadeAdversaria instanceof Militares) ? 10 : 20; 
     
-                unidadeAdversaria.setVida(unidadeAdversaria.getVida() - dano);
+                unidadeAdversaria.Perder_Vida(dano);
                 System.out.println("A unidade " + getCodigo() + " atacou com sucesso! A vida da unidade adversária agora é " + unidadeAdversaria.getVida());
             } else {
              
-                this.setVida(this.getVida() - 10);
+                this.Perder_Vida(10);
                 System.out.println("A unidade " + getCodigo() + " falhou no ataque. Sua vida agora é " + this.getVida());
             }
     
@@ -158,10 +170,12 @@ public class Militares extends Unidades {
             System.out.println("Apenas unidades militares podem calcular probabilidade de vitória!");
         }
     }
-
-public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
-    int linhaUnidade = unidade.getLinha();
-    int colunaUnidade = unidade.getColuna();
+/*
+ * verifica se existe cidade inimiga ao rodor do militar escolhido
+ */
+public Cidade verificar_cidade_inimiga(Mapa map){
+    int linhaUnidade = this.getLinha();
+    int colunaUnidade = this.getColuna();
 
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
@@ -179,7 +193,7 @@ public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
                    
 
                     
-                    Cidade enimigoCidade =map.buscarCidadePorposicao(novaLinha, novaColuna, unidade.getId());
+                    Cidade enimigoCidade =map.buscarCidadePorposicao(novaLinha, novaColuna, this.getId());
                     
 
                     if (enimigoCidade != null) {
@@ -192,7 +206,9 @@ public Cidade verificar_cidade_inimiga(Unidades unidade,Mapa map){
 
     return null; 
 }
- 
+ /*
+ * ataca a cidade_inimiga detectada ao redor desta unidade atraves de probabilidades,esta podera falhar e perder vida ou ganhar e destruir a cidade
+ */
 public boolean atacar_cidade(Cidade cidade_inimiga,Cidade cidade_origem) {
     
     if (cidade_inimiga == null) {
@@ -217,7 +233,7 @@ public boolean atacar_cidade(Cidade cidade_inimiga,Cidade cidade_origem) {
             return false;
         } else {
             
-            this.setVida(this.getVida() - 20);
+            this.Perder_Vida(20);
             System.out.println("O ataque falhou. A unidade " + getCodigo() + " perdeu 20 de vida e agora tem " + this.getVida() + " de vida.");
             return false;
         }
@@ -227,6 +243,9 @@ public boolean atacar_cidade(Cidade cidade_inimiga,Cidade cidade_origem) {
     }
         
 }
+ /*
+     * se a sua vida for 0,e removido do mapa e do tremap da cidade,e do array de unidades do mapa
+    */
 
     @Override
     public void morrer(Cidade city, Mapa map) {
@@ -250,9 +269,20 @@ public boolean atacar_cidade(Cidade cidade_inimiga,Cidade cidade_origem) {
             System.out.println("A unidade " + this.getCodigo() + " foi removida do mapa.");
         }
     }
-    
-    
-    
+    /*
+     * diminui a vida
+    */
+    @Override
+    public void Perder_Vida(int x){
+        setVida(getVida()-x);
+    }
+    /*
+     * ganha vida
+    */
+    @Override
+    public void Ganhar_vida(int x){
+        setVida(getVida()+x);
+    }
 
 }
  

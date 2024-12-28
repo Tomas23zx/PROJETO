@@ -286,7 +286,6 @@ public class Mapa {
         String letraDestino = mapa[novaLinha][novaColuna];
     
             if (buscarUnidades(novaLinha,novaColuna)!=null || buscar_estrutura_letra(letraDestino)) {
-                System.out.println("Não é possível mover para a posição (" + novaLinha + ", " + novaColuna + "). Ja esta a ser ocupada.");
                 return;
             }
 

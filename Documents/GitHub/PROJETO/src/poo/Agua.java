@@ -15,6 +15,10 @@ public class Agua extends Inacessivel {
         public Agua() {
             super(AZUL+"~ "+RESET); 
         }
+         /*
+     * criarArray cria um array de terrenos de Agua,para ser colocaddo incialmente no mapa de modo que fique junto
+     * vantagem a unidade recebe um beneficio
+     */
     
         @Override
         public char[] criarArray(int tamanho) {
@@ -25,6 +29,7 @@ public class Agua extends Inacessivel {
             }
             return array;
         }
+        @Override
         public  boolean  vantagem(Unidades un){
             return true;
     

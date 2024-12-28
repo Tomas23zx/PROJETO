@@ -9,17 +9,24 @@ public class Comida extends Recursos {
     
         this.populacao = populacaoInicial;
     }
-
+ /*
+     * retorna a populacao
+    */
 
 //
     public int getPopulacao() {
         return populacao;
     }
-
+     /*
+     * adiciona comida
+    */
     @Override
     public void adicionar(int quantidade) {
         setQuantidade(getQuantidade() + quantidade);
     }
+     /*
+     * consome comida
+    */
 
     @Override
     public void consumir(int quantidade) {
@@ -31,9 +38,13 @@ public class Comida extends Recursos {
     }
 
     @Override
-    public void atualizar() { //ainda falta
+    public void atualizar() { //nao atualiza
        
+
 }
+ /*
+     * toString
+    */
     @Override
     public String toString(){
           return "Quantidade de comida: "+getQuantidade()+ "\n";

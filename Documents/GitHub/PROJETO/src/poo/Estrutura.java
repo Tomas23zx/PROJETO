@@ -1,7 +1,5 @@
 package poo;
 
-import static poo.Unidades.getConta;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -34,9 +32,15 @@ public class Estrutura {
         this.idCivilizacao=idCivilizacao;
         this.tipo=tipo;
     }
+      /*
+     * retorna a letra da estrutura
+    */
     public String getLetra() {
         return VERMELHO +letra + "" + RESET ;
     }
+     /*
+     * mete mais ouro ou comida nas cidades
+    */
     public void funcionalidade(Civilizacao civi){
         if(tipo!=null){
         
@@ -55,6 +59,9 @@ public class Estrutura {
         }
     
     }
+     /*
+     * Geters seters
+    */
     public int getId(){
         return idCivilizacao;
     }

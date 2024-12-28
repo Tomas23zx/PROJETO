@@ -37,11 +37,11 @@ public abstract class Unidades {
         conta++;
     }
 
+    //Getrs e seters
+
     public static int getConta(){return conta;}
 
-   
 
-    
     public String getLetra() {
         return letra;
     }
@@ -77,12 +77,15 @@ public abstract class Unidades {
         this.coluna = coluna;
     }
 
+    /*
+     * funções abstratas explicadas no codigo das subclasses
+     */
     
-    public abstract  void mover(char direcao, Mapa mapa,Unidades escolhida,String codigo,Cidade cidadeEscolhida);
+    public abstract  void mover(char direcao, Mapa mapa,String codigo,Cidade cidadeEscolhida);
     public abstract void morrer(Cidade city,Mapa map);
-    //public abstract void perderVida(); // ainda ns como vai ficar
-   // public abstract void recuperarVida();// ainda ns tbm
-    public abstract void funcionalidade(Civilizacao civi,Mapa map);// militar atacar,construtor construir,coluno construir cidade, --
-   // public abstract void renascer();// provavemente nao será preciso
+    public abstract void Perder_Vida(int x);
+    public abstract void Ganhar_vida(int x);   
+    public abstract void funcionalidade(Civilizacao civi,Mapa map);
+   
 
 }
