@@ -14,7 +14,6 @@ public class Cidade {
     private TreeMap<String, Unidades> un;
     private ArrayList<Recursos> re;
     private ArrayList<String> ligacoes;
-    private int nivel;
     private int idCivilizacao; 
     private int populacaoInicial;
     private int reserva;
@@ -27,8 +26,8 @@ public class Cidade {
     private int valor_consumido_reserva;
     private int defesa;
 
-    public static final String NEGRITO = "\033[1m";
-    public static final String RESET = "\033[0m"; 
+    private static final String NEGRITO = "\033[1m";
+    private static final String RESET = "\033[0m"; 
     public Cidade(String letra, int posX, int posY, int idCivilizacao,int populacaoInicial) {
         this.letra = letra;
         this.posX = posX;
@@ -38,7 +37,6 @@ public class Cidade {
         this.populacaoInicial=populacaoInicial;
         this.un = new TreeMap<>();
         this.re = new ArrayList<>();
-        this.nivel = 1;
         this.reserva=0;
         this.comida_consumida=0;
         this.comida_produzida=0;
@@ -275,11 +273,6 @@ public int getId(){
         }
         return letras;
     }
-
-    public void upgrade() {
-        this.nivel++;
-        System.out.println("A cidade " + letra + " foi atualizada para o nível " + nivel);
-    }
 /*
     * da print dos valores dos recursso do array
     */ 
@@ -495,7 +488,7 @@ public void produzir(Mapa mapa) {
     ouro_produzido=0;
 }
     /*
-    *as pessoas gastao comida e guard uma copia na variavel globas valor_consumido_reserva, e reinicia a a variavel comida_consumida
+    *as pessoas comem comida e guarda uma copia na variavel globas valor_consumido_reserva, e reinicia a a variavel comida_consumida
     */
 
 public void consumir_pessoas() {
@@ -599,22 +592,9 @@ public void verifica_reserva() {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
+ * toString
+ */
 
     
     @Override

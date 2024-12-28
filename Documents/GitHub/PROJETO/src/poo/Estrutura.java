@@ -10,8 +10,8 @@ package poo;
  * @author ramnu
  */
 public class Estrutura {
-    public static final String VERMELHO = "\033[31m";
-    public static final String RESET = "\033[0m";
+    private static final String VERMELHO = "\033[31m";
+    private static final String RESET = "\033[0m";
     private String letra;
     private int linha;
     private int coluna;

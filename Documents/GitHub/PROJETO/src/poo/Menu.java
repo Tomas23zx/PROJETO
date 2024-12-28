@@ -34,7 +34,9 @@ public class Menu {
         this.civi=civi;
     }
 
-
+/*
+ * funcao principal que chama os metodos todos
+ */
     public void menus(Civilizacao civi,Mapa map) {
         boolean continuar = true;
         verificar_aumento_da_populacao(civi);
@@ -158,6 +160,10 @@ public class Menu {
         
         
     }
+/*
+ * condicoes de vitoria,primeiro caso se uma civilizacao nao tiver cidades,segundo se alguma cidade de uma civilizacao tiver 10000 de ouro,e o 3 e se caso alguma cidade tenha populaçao
+ * negativa ou 0 a outra civilização ganha.
+ */
 public int condicoesdevitoria(Civilizacao civi){
     if (civi.getCidades().isEmpty()) {
         return 1; 
@@ -173,6 +179,9 @@ public int condicoesdevitoria(Civilizacao civi){
     }
     return 2;
 }
+/*
+ * esta verificação e feita em cda turno e verifica se houver estruturas esta ira produzir algo para todas as cidades
+ */
 public void verificaeAtualiza(Civilizacao civi){
     if(civi.getEstruturas()!=null){
         for(Estrutura est : civi.getEstruturas()){
@@ -180,6 +189,9 @@ public void verificaeAtualiza(Civilizacao civi){
         }
     }
 }
+/*
+ * faz as trocas entre 2 cidades,podendo trocar comida ou ouro
+ */
 public void Trocas(Civilizacao civi) {
     Cidade cidadeEscolhida = selecionarCidade(civi);
     System.out.println(" ");
@@ -233,18 +245,27 @@ public void Trocas(Civilizacao civi) {
         }
     }
 }
+/*
+ * mudar de dia
+ */
 
 public void SkipDay(){
     dia++;
     horasgastas=24;
     
 }
+/*
+ * permite criar a unidade apenas no dia seguinte
+ */
 public int Data_de_criacao(int dia){
    criar=dia+1;
    
 return criar;
 
 }
+/*
+ * cria a tal unidade escolhida
+ */
 
 public void verifica_dia(Cidade cidade,Mapa map,int tipoUnidade){
     if(criar==0){
@@ -256,7 +277,9 @@ public void verifica_dia(Cidade cidade,Mapa map,int tipoUnidade){
         criar=0;
     }
 }
-
+/*
+ * menu para atacar unidades ou cidades
+ */
 public void atacares(Civilizacao civi, Mapa map) {
     Cidade cityCidade = selecionarCidade(civi);
     if (cityCidade == null) {
@@ -308,7 +331,9 @@ public void atacares(Civilizacao civi, Mapa map) {
         System.out.println("A unidade selecionada não é militar.");
     }
 }
-
+/*
+ * funções de apoio em que um e para atacar unidade se for detectado e o outro a cidade se for detectado
+ */
 
 private void atacarUnidade(Militares atacante, Unidades alvo, Cidade cidadeOrigem, Mapa mapa) {
     atacante.atacar(alvo);
@@ -354,7 +379,9 @@ private void atacarCidade(Militares atacante, Cidade cidadeAlvo, Cidade cit, Map
 }
 
 
-
+/*
+ * menu da civilizacao aparecendo o tesouro da civilizacao e a comida total
+ */
 
 
 
@@ -386,7 +413,9 @@ public void Interface(Civilizacao civi) {
     
 }
 
-
+/*
+ * menu para o movimento das unidades
+ */
     public void menuMover(Civilizacao civi) {
 
         Cidade cidadeEscolhida = selecionarCidade(civi);
@@ -437,7 +466,9 @@ public void Interface(Civilizacao civi) {
         }
         codigo="";
     }
-    
+/*
+ * metodo de apoio para escolher a unidade de uma cidade
+ */
     
     private Unidades selecionarUnidade(Cidade cidade) {
         System.out.println("Unidades disponíveis na cidade:");
@@ -455,6 +486,9 @@ public void Interface(Civilizacao civi) {
     
         return unidadeEscolhida;
     }
+/*
+ * menu para mostratar dados da civilização
+ */
     
   public void exibircidade(Civilizacao civi){
     Cidade c = selecionarCidade(civi);
@@ -463,7 +497,9 @@ public void Interface(Civilizacao civi) {
     System.out.println("Populacao: "+c.getPopulacao());
     
   }
-  
+  /*
+ * menu para selecionar cidade da civilização
+ */
 
 public Cidade selecionarCidade(Civilizacao civi) {
     Scanner scanner = new Scanner(System.in);
@@ -529,6 +565,9 @@ public Cidade selecionarCidade(Civilizacao civi) {
     System.out.println("Você escolheu a cidade: " + cidadeEscolhida.getCodigo());
     return cidadeEscolhida;
 }
+/*
+ * menu para criação de unidades
+ */
 
 
 public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
@@ -587,7 +626,9 @@ public void menuUnidades(Cidade cidadeEscolhida,Mapa mapa,int unidade) {
         System.out.println("Não há produção suficiente para criar a unidade. Produção necessária: 5 pontos.");
     }
 }
-
+/*
+ * verifica se no mapa tem essas letras,nessas posições
+ */
 
 public boolean verificaPosicao(int x,int y){
     String[][] map = mapa.getMapa();
@@ -598,6 +639,9 @@ public boolean verificaPosicao(int x,int y){
         return true;
     }
 }
+/*
+ * verifica se no mapa tem essas letras,nessas posições,recebendo um string
+ */
 public boolean verificaPosicao(int x,int y,String tipo){
     String[][] map = mapa.getMapa();
     if(!map[x][y].equals("X") && !map[x][y].equals("P") && !map[x][y].equals("F") && !map[x][y].equals("~")){
@@ -607,6 +651,9 @@ public boolean verificaPosicao(int x,int y,String tipo){
         return true;
     }
 }
+/*
+ * verifica se o numero de cidades e sufeciente para construir uma estrada
+ */
 public boolean verifica(Civilizacao civi){
 if(civi.numero_de_cidade()==0 || civi.numero_de_cidade()==1){
     
@@ -618,7 +665,9 @@ else{
 }
 }
 
-
+/*
+ * menu das funcionalidades
+ */
 
 public void menuFuncionalidades(Civilizacao civi, Mapa map) {
     Cidade cidadeEscolhida = selecionarCidade(civi); 
@@ -779,7 +828,9 @@ public void menuFuncionalidades(Civilizacao civi, Mapa map) {
     } 
 }
 
-
+/*
+ * menu para alocar a populacao nas celulas
+ */
 
 public void alocarPopulacao(Civilizacao civi) {
     Scanner scanner = new Scanner(System.in);
@@ -811,7 +862,10 @@ public void alocarPopulacao(Civilizacao civi) {
     System.out.println("Alocação concluída. Total de pessoas alocadas: " + posicoesAlocadas.size());
 }
 
-
+/*
+ * metodo suporte que calcula as posicoes disponives num raio que conrresponde o tamanho da população ainda não alocada
+ * se nao tiver população alocada usa o tamanho da populacao apenas
+ */
 private List<int[]> calcularPosicoesDisponiveis(int cidadeX, int cidadeY, int raio) {
     List<int[]> posicoesDisponiveis = new ArrayList<>();
     for (int i = Math.max(0, cidadeX - raio); i <= Math.min(mapa.getMapa().length - 1, cidadeX + raio); i++) {
@@ -824,7 +878,9 @@ private List<int[]> calcularPosicoesDisponiveis(int cidadeX, int cidadeY, int ra
     }
     return posicoesDisponiveis;
 }
-
+/*
+ * menu que mostra apenas as posições disponiveis
+ */
 
 private void exibirPosicoesDisponiveis(List<int[]> posicoesDisponiveis) {
     System.out.println("Posições disponíveis para alocar população:");
@@ -833,7 +889,9 @@ private void exibirPosicoesDisponiveis(List<int[]> posicoesDisponiveis) {
         System.out.println(i + ": (" + pos[0] + ", " + pos[1] + ")");
     }
 }
-
+/*
+ * menu que mostra o numero de pessoas que podes alocar
+ */
 
 private int determinarQuantidadeDePessoas(Scanner scanner, int maxPessoas) {
     int pessoasParaAlocar;
@@ -851,7 +909,9 @@ private int determinarQuantidadeDePessoas(Scanner scanner, int maxPessoas) {
     return pessoasParaAlocar;
 }
 
-
+/*
+ * metodo que colaca no array de pessoas na cidades essas pessoas
+ */
 private void alocarPessoas(Scanner scanner, Cidade cidadeEscolhida, List<int[]> posicoesDisponiveis, int pessoasParaAlocar, List<int[]> posicoesAlocadas) {
     for (int i = 0; i < pessoasParaAlocar; i++) {
         int posicaoEscolhida;
@@ -878,19 +938,25 @@ private void alocarPessoas(Scanner scanner, Cidade cidadeEscolhida, List<int[]> 
         System.out.println("Pessoa alocada na posição: (" + posX + ", " + posY + ")");
     }
 }
-
+/*
+ * menu da produção,apatir das pessoas alocadas
+ */
 
 public void manutencaoPopulacao(Cidade cidade, Mapa mapa) {
    cidade.produzir(mapa);
 }
 
-
+/*
+ * metodo manual para produzir
+ */
 
 public void manutecao(Civilizacao civi,Mapa mapa){
     Cidade city = selecionarCidade(civi);
     manutencaoPopulacao(city,mapa);
 }
-
+/*
+ * menu para produzir que passa as cidades vazias
+ */
 public void produzir_populacao_alocada(Civilizacao civi,Mapa mapa){
     for (Cidade cidade : civi.getCidades()) {
         if (cidade == null) {
@@ -900,6 +966,9 @@ public void produzir_populacao_alocada(Civilizacao civi,Mapa mapa){
     }
 
 }
+/*
+ * menu que paga aos militares criados,por ronda
+ */
 
 public void pagarMilitares(Civilizacao civi) {
     for (Cidade cidade : civi.getCidades()) {
@@ -925,7 +994,9 @@ public void pagarMilitares(Civilizacao civi) {
         }
     }
 }
-
+/*
+ * menu para consumo das pessoas
+ */
 
 public void consumir(Civilizacao civi) {
     for (Cidade cidade : civi.getCidades()) {
@@ -935,6 +1006,9 @@ public void consumir(Civilizacao civi) {
         cidade.consumir_pessoas();
     }
 }
+/*
+ * menu calcular a reserva
+ */
 public void valor_da_Reserva(Civilizacao civi) {
     for (Cidade cidade : civi.getCidades()) {
         if (cidade == null) {
@@ -943,6 +1017,9 @@ public void valor_da_Reserva(Civilizacao civi) {
         cidade.meter_reserva();
     }
 }
+/*
+ * menu que verifica se ta vazia,se for uma pessoa morre
+ */
 public void verificar_reserva_vazia(Civilizacao civi){
     for (Cidade cidade : civi.getCidades()) {
         if (cidade == null) {
@@ -951,7 +1028,9 @@ public void verificar_reserva_vazia(Civilizacao civi){
         cidade.verifica_reserva();
     }
 }
-
+/*
+ * menu para o aumento da população, se ultrapassar certo limite,a população aumenta
+ */
 public void verificar_aumento_da_populacao(Civilizacao civi) {
     for (Cidade cidade : civi.getCidades()) {
         if (cidade == null) {

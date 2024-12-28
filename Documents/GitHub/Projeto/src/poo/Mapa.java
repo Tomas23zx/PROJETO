@@ -13,9 +13,9 @@ public class Mapa {
     private ArrayList<Terrenos> ter;
     private ArrayList<Civilizacao> civa;
     
-    public static final String VERMELHO = "\033[31m";
-    public static final String AZUL = "\033[34m";
-    public static final String RESET = "\033[0m";
+    private static final String VERMELHO = "\033[31m";
+    private static final String AZUL = "\033[34m";
+    private static final String RESET = "\033[0m";
     
     
     private String[][] mapa;
@@ -35,7 +35,10 @@ public class Mapa {
         this.estadoAnterior = copiarMapa(mapa);
         
     }
-//
+/*
+ * esta função preenche o mapa incialmente com a terra para ter mais terra no mapa, e depois chama um função de apoio para preencher o resto do mapa
+ * de modo que fiquem todas juntas
+ */
     private String[][] criarMapa() {
         String[][] mapa = new String[tamanhoX][tamanhoY];
         Terrenos ass=new Terra("X");
@@ -68,6 +71,9 @@ public class Mapa {
 
         return mapa;
     }
+    /*
+     * esta função preenche o mapa com os tipos de terrenos que existem, de acordo com a quantidade desejada
+     */
 
     private void preencherTerrenos(String[][] mapa, Terrenos tipo, int quantidade) {
         Random random = new Random();
@@ -93,6 +99,10 @@ public class Mapa {
             }
         }
     }
+    /*
+     * esta função é privada pois e um metodo de apoio,em que copia este mapa de modo que depois do movimento da unidade,mete a celula que tava inicialmente
+     */
+    
     private String[][] copiarMapa(String[][] mapa) {
         String[][] copia = new String[tamanhoX][tamanhoY];
         for (int i = 0; i < tamanhoX; i++) {
@@ -100,10 +110,13 @@ public class Mapa {
         }
         return copia;
     }
-
+//get
     public String[][] getMapa() {
         return this.mapa;
     }
+    /*
+     * esta função imprime o mapa,com o devido espaçamento
+     */
 
     public void imprimirMapa() {
         for (String[] linha : mapa) {
@@ -125,6 +138,9 @@ public class Mapa {
             System.out.println();
         }
     }
+    /*
+     * mete o codigo da unidade no mapa e coloca no array, de todas as unidades do jogo(un)
+     */
 
     public void meterUnidade(Unidades en, int x, int y) {
         en.setColuna(y);
@@ -134,6 +150,9 @@ public class Mapa {
         
         System.out.println("Unidade adicionada: " + en.getCodigo());
     }
+    /*
+     * mete o codigo da estrutura no mapa e coloca no array, de todas as estruturas do jogo
+     */
     public void meterEstrutura(Estrutura en, int x, int y) {
         en.setColuna(y);
         en.setLinha(x);
@@ -142,7 +161,9 @@ public class Mapa {
         
         System.out.println("Estrutura adicionada: " + en.getCodigo());
     }
-    
+    /*
+     * mete o codigo da cidade no mapa e coloca no array, de todas as cidades do jogo,verificando se pode construir naquele local
+     */
     public void meterCidade(Civilizacao civi, int x, int y) {
         if (!podeConstruirCidade(civi,x, y)) {
             System.out.println("Não é possível construir uma cidade aqui. Existe outra cidade próxima.");
@@ -154,7 +175,9 @@ public class Mapa {
         mapa[x][y] = citys.getCodigo();
         city.add(citys);
     }
-
+    /*
+     * boolean que verifica se pode construir nas posições adjacentes,ou com a distância de duas células
+     */
     public boolean podeConstruirCidade(Civilizacao civi, int x, int y) {
 
         
@@ -190,6 +213,7 @@ public class Mapa {
       
         return true;
     }
+    //metodos de inserir e remover dos arrays
     
     public void adicionarUnidades(Unidades e){
         un.add(e);
@@ -207,6 +231,9 @@ public class Mapa {
     public void removerTerrenos(int capa){
         ter.remove(capa);
     }
+    /*
+     * remove do array a unidade que ta naquele posição,independentemente da civilização,pois o mapa é criado uma vez
+     */
     public void removerUnidadePorPosicao(int x, int y) {
        
         for (int i = 0; i < un.size(); i++) {
@@ -220,7 +247,9 @@ public class Mapa {
         }
         System.out.println("Nenhuma unidade encontrada na posição (" + x + ", " + y + ").");
     }
-
+    /*
+     * remove do array a cidade que ta naquele posição,independentemente da civilização,pois o mapa é criado uma vez
+     */
     public void removerCidadeDaposicao(int x,int y){
         for (int i = 0; i < city.size(); i++) {
             Cidade cit = city.get(i);
@@ -233,7 +262,7 @@ public class Mapa {
         }
         System.out.println("Nenhuma unidade encontrada na posição (" + x + ", " + y + ").");
     }
-
+    //adiciona e remover do array
     public void adicionaCidadees(Cidade citys){
         city.add(citys);
     }
@@ -249,6 +278,9 @@ public class Mapa {
         civa.remove(x);
 
     }
+    /*
+     * procura no array de todas as civilizacoes do jogo, a civilização com aquele id
+     */
     public Civilizacao buscarcivilizacao_por_id(int id) {
         for (Civilizacao c : civa) {  
             if (c.getId() == id) {    
@@ -258,6 +290,7 @@ public class Mapa {
         return null;  
     }
     
+    //metodos para retornar objetos do array
     
     public ArrayList<Cidade> getCidades() {
         return city; 
@@ -271,7 +304,9 @@ public class Mapa {
     public void meter_estrutura_no_array(Estrutura e){
         es.add(e);
     }
-    
+    /*
+     * realiza verificações se a unidade pode se remover para aquela posição,e realiza os tais custos de movimento
+     */
     public void moverUnidade(Unidades en, int novaLinha, int novaColuna,String codigo,Cidade cidades) {
         int linhaAtual = en.getLinha();
         int colunaAtual = en.getColuna();
@@ -347,6 +382,9 @@ public class Mapa {
         mapa[novaLinha][novaColuna] = codigo;
         }
     }
+    /*
+     * retorna o id da unidade que esta naquela posição
+     */
     
     public int obterUnidadePorPosicao(int x, int y, List<Unidades> unidades) {
         
@@ -367,7 +405,9 @@ public class Mapa {
        
         return 0;
     }
-    
+    /*
+     * retorna a unidade que esta naquela posição em que o id é diferente
+     */
     public Unidades buscarUnidadePorCodigo(int x,int y, int idCivilizacao) {
         for (Unidades unidade : un) {
            
@@ -379,7 +419,9 @@ public class Mapa {
         System.out.println(""+idCivilizacao);
         return null;  
     }
-
+    /*
+    * retorna unidade que esta apenas naquela posição,um pouco diferente do de cima
+    */
     public Unidades buscarUnidades(int x,int y) {
         for (Unidades unidade : un) {
            
@@ -391,6 +433,9 @@ public class Mapa {
        
         return null;  
     }
+    /*
+    * retorna cidade que esta apenas naquela posição,em que o id é diferente
+    */
 
     public Cidade buscarCidadePorposicao(int x,int y,int idCivilizacao){
 
@@ -401,12 +446,16 @@ public class Mapa {
         }
         return null;
     }
-    
+    /*
+    * remover qualquer String do mapa
+    */
     
     public void remover_do_mapa(int x,int y){
         mapa[x][y]=estadoAnterior[x][y];
     }
-
+    /*
+    * remover qualquer String do mapa
+    */
     public String[] obterLetrasDosTerrenos() {
         String[] letrasTerrenos = new String[ter.size()];
     
@@ -416,6 +465,9 @@ public class Mapa {
     
         return letrasTerrenos;
     }
+    /*
+     * obtem a letra conrrespondente a agua,apartir do array
+     */
 
     public String obterLetraAgua() {
         for (Terrenos terreno : ter) {
@@ -425,6 +477,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Agua nao encontrado no array.");
     }
+    /*
+     * obter o terreno que conrresponde a agua
+     */
 
     public Terrenos obterAgua() {
         for (Terrenos terreno : ter) {
@@ -434,6 +489,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Agua nao encontrado no array.");
     }
+    /*
+     * obtem a letra conrrespondente a Arvore,apartir do array
+     */
     public String obterLetraArvore() {
         for (Terrenos terreno : ter) {
             if (terreno instanceof Arvore) {
@@ -442,6 +500,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Arvore nao encontrado no array.");
     }
+     /*
+     * obter o terreno que conrresponde a Arvore
+     */
     public Terrenos obterArvore() {
         for (Terrenos terreno : ter) {
             if (terreno instanceof Arvore) {
@@ -450,6 +511,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Arvore nao encontrado no array.");
     }
+    /*
+     * obtem a letra conrrespondente a Terra,apartir do array
+     */
     public String obterLetraTerra() {
         for (Terrenos terreno : ter) {
             if (terreno instanceof Terra) {
@@ -458,6 +522,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Terra nao encontrado no array.");
     }
+    /*
+     * obtem a letra conrrespondente a Planicie,apartir do array
+     */
     public String obterLetraPlanicie() {
         for (Terrenos terreno : ter) {
             if (terreno instanceof Planicie) {
@@ -466,6 +533,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
     }
+     /*
+     * obter o terreno que conrresponde a Planicie
+     */
     public Terrenos obterPlanicie() {
         for (Terrenos terreno : ter) {
             if (terreno instanceof Planicie) {
@@ -474,6 +544,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
     }
+     /*
+     * obter o terreno que conrresponde a Terra
+     */
     public Terrenos obterTerra() {
         for (Terrenos terreno : ter) {
             if (terreno instanceof Terra) {
@@ -482,7 +555,9 @@ public class Mapa {
         }
         throw new IllegalStateException("Terreno do tipo Planicie nao encontrado no array.");
     }
-    
+    /*
+     * obtem a letra conrrespondente a estrutura,apartir do array
+     */
     public boolean buscar_estrutura_letra(String letra){
         for(Estrutura est: es){
             if(est.getLetra().equals(letra)){
