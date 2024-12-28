@@ -12,12 +12,9 @@ public class Mapa {
     private String[][] estadoAnterior;
     private ArrayList<Terrenos> ter;
     private ArrayList<Civilizacao> civa;
-    
     private static final String VERMELHO = "\033[31m";
     private static final String AZUL = "\033[34m";
     private static final String RESET = "\033[0m";
-    
-    
     private String[][] mapa;
 
     public Mapa(int tamanhoX, int tamanhoY) {
