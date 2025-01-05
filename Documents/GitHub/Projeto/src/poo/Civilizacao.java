@@ -82,7 +82,7 @@ public void atualizarRecurssos(Recursos tipoRecurso, Civilizacao civ) {
     
     @Override
     public String toString() {
-        StringBuilder texto = new StringBuilder("Civilização: " + nome + "\nCidades:\n");
+        StringBuilder texto = new StringBuilder("Civilizacao: " + nome + "\nCidades:\n");
         for (Cidade c : citys) { 
         texto.append(c.toString()) 
              .append(" (PosX: ").append(c.getPosX())

@@ -6,15 +6,24 @@ import java.util.List;
 import java.util.Scanner;
 
 public class POO {
+    private static final String AZUL = "\033[34m";
+    private static final String RESET = "\033[0m";
     public static void main(String[] args) {
         Menuinicial men = new Menuinicial();
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Bem-vindo ao jogo! Quantas civilizaçoes deseja jogar? (mínimo 2, máximo 3): ");
+        
+        System.out.println(AZUL +"               ---------------------"+RESET);
+        System.out.println(AZUL+"                 Bem vindo ao Jogo  "+RESET);
+        System.out.println(AZUL+"               ---------------------"+RESET);
+        System.out.println("");
+        System.out.println("Quantas civilizacoes deseja jogar? (minimo 2, maximo 3): ");
+        
         int numeroCivilizacoes;
         while (true) {
             try {
+                System.out.print("->");
                 numeroCivilizacoes = Integer.parseInt(scanner.nextLine());
+                System.out.println("");
                 if (numeroCivilizacoes >= 2 && numeroCivilizacoes <= 3) {
                     break;
                 } else {
@@ -30,7 +39,7 @@ public class POO {
 
        
         for (int i = 1; i <= numeroCivilizacoes; i++) {
-            System.out.println("Insira o nome da civilização " + i + ":");
+            System.out.println("Insira o nome da civilizacao " + i + ":");
             String nome = men.menCiv();
             Civilizacao civilizacao = new Civilizacao(nome, i);
             civilizacoes.add(civilizacao);
@@ -50,7 +59,7 @@ public class POO {
 
         while (continuarJogo) {
             Civilizacao civilizacaoAtual = civilizacoes.get(turnoAtual);
-            System.out.println("É o turno de: " + civilizacaoAtual.getNome());
+            System.out.println("E o turno de: " + civilizacaoAtual.getNome());
         
           
             for (Cidade cidade : civilizacaoAtual.getCidades()) {
@@ -58,7 +67,10 @@ public class POO {
                     Recursos producao = cidade.findRecurso(new Producao(0));
                     if (producao != null) {
                         producao.setQuantidade(10);
-                        System.out.println("A produção da cidade " + cidade.getCodigo() + " foi ajustada para 10.");
+                        System.out.println("---------------------------------------------------");
+                        System.out.println("   A producao da cidade " + cidade.getCodigo() + " foi ajustada para 10.");
+                        System.out.println("---------------------------------------------------");
+                        System.out.println("");
                     }
                 }
             }
